@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "All";
+}
+
+<div class="prod-section">
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $.ajax({
+        async: true,
+        url: "/item/get",
+        data: {
+            typeCount: 2,
+            itemCount: 2,
+        },
+        success: (data) => {
+            placeItems(data);
+        },
+        failure: (err) => {
+            console.log(err);
+        }
+    });
+
+    function placeItems(data) {
+        let id = 0;
+        for (let i = 0; i < data.length; i++) {
+            let html = `<div id="type-${id}" class="container" style="border: 1px solid gray"><div class="row title-bar">
+            <div class="col-8">標題</div>
+            <div class="col-3">更新時間</div>
+            <div class="col-1">售價</div>
+            </div></div>`;
+            $(".prod-section").append(html);
+
+            for (let j = 0; j < data[i].Items.length; j++) {
+                html =
+                    `<div class="row"><div class="col-8">${data[i].Items[j].Title}</div>
+                <div class="col-3">${data[i].Items[j].UpdatedTime}</div>
+                <div class="col-1">${data[i].Items[j].Price}</div></div>`;
+
+                $(`#type-${id}`).append(html);
+            }
+
+            id++;
+        }
+    }
+</script>
+
+<style>
+    .title-bar {
+        background-color: #eeeeee;
+    }
+
+    .prod-section .container {
+        margin-top: 5em;
+    }
+
+    .prod-section > .container > div{
+        padding: 0.5em;
+    }
+</style>

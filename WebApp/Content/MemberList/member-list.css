@@ -1,0 +1,50 @@
+﻿#msg {
+    font-size: 3em;
+    color: gray;
+    text-align: center;
+    display: none;
+}
+
+#search {
+    width: 310px;
+    float: right;
+}
+
+.input[type="checkbox"] {
+    height: 1.5em;
+    width: 1.5em;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.no-hl {
+    border-left: 5px solid #FFF;
+    background-color: #FFF;
+}
+
+.no-hl:hover {
+    border-left: 5px solid #FFF;
+    background-color: #FFF;
+}
+
+table {
+    width: 100%;
+    margin: auto;
+}
+
+th, td {
+    padding: 1em 3em;
+}
+
+tr {
+    border-bottom: 1px solid #EEE;
+}
+
+tr:hover {
+    border-left: 5px solid #2b8aff;
+    background-color: #EEE;
+}
+
+table a {
+    margin-right: 1em;
+}

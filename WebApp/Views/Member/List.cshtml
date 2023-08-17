@@ -1,0 +1,70 @@
+﻿@model IEnumerable<WebApp.Models.Member>
+
+@{
+    ViewBag.Title = "MemberList";
+}
+
+@section css {
+    <link rel="stylesheet" type="text/css" href="~/Content/MemberList/member-list.css" />
+}
+
+@section scripts {
+    <script src="~/Scripts/MemberList/list.js"></script>
+}
+
+<div class="content-div">
+    <div>
+        <h2>MemberList</h2>
+
+        <p>@Html.ActionLink("Create New", "Create")</p>
+
+        <div class="toolbar">
+            <input id="search" type="text" class="form-control" onkeyup="search()" placeholder="search" value="" />
+        </div>
+
+        <table>
+            <tr class="no-hl">
+                <th>
+                    @Html.DisplayNameFor(model => model.Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Password)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PasswordHash)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Password)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PasswordHash)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+            <tr id="msg" class="no-hl empty-show">
+                <td colspan="6">No matched result.</td>
+            </tr>
+        </table>
+    </div>
+</div>

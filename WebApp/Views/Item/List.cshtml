@@ -1,0 +1,68 @@
+﻿@model IEnumerable<WebApp.Models.Selling>
+
+@{
+    ViewBag.Title = "List";
+}
+
+@section scripts {
+    <script src="~/Scripts/ItemList/image-list.js"></script>
+}
+
+@section css {
+    <link rel="stylesheet" type="text/css" href="~/Content/ItemList/item-list.css"/>
+}
+
+<h2>@(ViewBag.Model)價格列表</h2>
+
+<div class="container">
+    <div class="row title-bar">
+        <div class="col-5 offset-2">
+            賣場標題
+        </div>
+        <div class="col-1">
+            來源
+        </div>
+        <div class="col-1">
+            售價
+        </div>
+        <div class="col-2">
+            更新時間
+        </div>
+        <div class="col-1">
+            <a href="top"></a>
+        </div>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="row align-items-center">
+            <div class="col-2">
+                <img src="@Url.Action("get", "image", new { id = item.Image })" id="img-@(item.Image)" class="image"
+                     style="max-width:150px" onclick="displayImage(@item.Image)" />
+            </div>
+            <div class="col-5">
+                @Html.DisplayFor(modelItem => item.Title)
+            </div>
+            <div class="col-1">
+                @item.Source1.SourceName
+            </div>
+            <div class="col-1">
+                @Html.DisplayFor(modelItem => item.Price)
+            </div>
+            <div class="col-2">
+                @Html.DisplayFor(modelItem => item.UpdatedTime)
+            </div>
+            <div class="col-1">
+                <a href="@(item.Source1.Domain + item.Link)" class="btn btn-info" target="_blank">前往購買</a>
+            </div>
+        </div>
+    }
+    <div class="top">
+        <a href="#top">&lt;回到最上方&gt;</a>
+    </div>
+</div>
+
+<div id="image-modal" class="display-modal">
+    <span id="close" class="unslectable">&times;</span>
+    <img class="modal-content" id="display">
+    <div id="caption"></div>
+</div>

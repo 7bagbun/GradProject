@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImageContent" Type="image" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="PasswordHash" Type="varbinary" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Brand" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Model" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="ProductType" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="RetailPrice" Type="int" Nullable="false" />
+          <Property Name="Token" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Selling">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product" Type="int" />
+          <Property Name="Source" Type="int" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Price" Type="int" />
+          <Property Name="Image" Type="int" />
+          <Property Name="UpdatedTime" Type="datetime" Nullable="false" />
+          <Property Name="Link" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Source">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SourceName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Domain" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Selling__Image__5CD6CB2B">
+          <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="Selling" Type="Self.Selling" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selling">
+              <PropertyRef Name="Image" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Selling__Product__03F0984C">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Selling" Type="Self.Selling" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selling">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Selling__Source__4AB81AF0">
+          <End Role="Source" Type="Self.Source" Multiplicity="0..1" />
+          <End Role="Selling" Type="Self.Selling" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selling">
+              <PropertyRef Name="Source" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestDbModelStoreContainer">
+          <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Selling" EntityType="Self.Selling" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Source" EntityType="Self.Source" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Selling__Image__5CD6CB2B" Association="Self.FK__Selling__Image__5CD6CB2B">
+            <End Role="Image" EntitySet="Image" />
+            <End Role="Selling" EntitySet="Selling" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Selling__Product__03F0984C" Association="Self.FK__Selling__Product__03F0984C">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Selling" EntitySet="Selling" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Selling__Source__4AB81AF0" Association="Self.FK__Selling__Source__4AB81AF0">
+            <End Role="Source" EntitySet="Source" />
+            <End Role="Selling" EntitySet="Selling" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageContent" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="Selling" Relationship="Self.FK__Selling__Image__5CD6CB2B" FromRole="Image" ToRole="Selling" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="PasswordHash" Type="Binary" MaxLength="64" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Brand" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductType" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RetailPrice" Type="Int32" Nullable="false" />
+          <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Selling" Relationship="Self.FK__Selling__Product__03F0984C" FromRole="Product" ToRole="Selling" />
+        </EntityType>
+        <EntityType Name="Selling">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product" Type="Int32" />
+          <Property Name="Source" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Int32" />
+          <Property Name="Image" Type="Int32" />
+          <Property Name="UpdatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Link" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Image1" Relationship="Self.FK__Selling__Image__5CD6CB2B" FromRole="Selling" ToRole="Image" />
+          <NavigationProperty Name="Product1" Relationship="Self.FK__Selling__Product__03F0984C" FromRole="Selling" ToRole="Product" />
+          <NavigationProperty Name="Source1" Relationship="Self.FK__Selling__Source__4AB81AF0" FromRole="Selling" ToRole="Source" />
+        </EntityType>
+        <EntityType Name="Source">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SourceName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Domain" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Selling" Relationship="Self.FK__Selling__Source__4AB81AF0" FromRole="Source" ToRole="Selling" />
+        </EntityType>
+        <Association Name="FK__Selling__Image__5CD6CB2B">
+          <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="Selling" Type="Self.Selling" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selling">
+              <PropertyRef Name="Image" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Selling__Product__03F0984C">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Selling" Type="Self.Selling" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selling">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Selling__Source__4AB81AF0">
+          <End Role="Source" Type="Self.Source" Multiplicity="0..1" />
+          <End Role="Selling" Type="Self.Selling" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Selling">
+              <PropertyRef Name="Source" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Image" EntityType="Self.Image" />
+          <EntitySet Name="Member" EntityType="Self.Member" />
+          <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="Selling" EntityType="Self.Selling" />
+          <EntitySet Name="Source" EntityType="Self.Source" />
+          <AssociationSet Name="FK__Selling__Image__5CD6CB2B" Association="Self.FK__Selling__Image__5CD6CB2B">
+            <End Role="Image" EntitySet="Image" />
+            <End Role="Selling" EntitySet="Selling" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Selling__Product__03F0984C" Association="Self.FK__Selling__Product__03F0984C">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Selling" EntitySet="Selling" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Selling__Source__4AB81AF0" Association="Self.FK__Selling__Source__4AB81AF0">
+            <End Role="Source" EntitySet="Source" />
+            <End Role="Selling" EntitySet="Selling" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestDbModelStoreContainer" CdmEntityContainer="TestDbEntities">
+          <EntitySetMapping Name="Image">
+            <EntityTypeMapping TypeName="TestDbModel.Image">
+              <MappingFragment StoreEntitySet="Image">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ImageContent" ColumnName="ImageContent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Member">
+            <EntityTypeMapping TypeName="TestDbModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="TestDbModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="RetailPrice" ColumnName="RetailPrice" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Selling">
+            <EntityTypeMapping TypeName="TestDbModel.Selling">
+              <MappingFragment StoreEntitySet="Selling">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="UpdatedTime" ColumnName="UpdatedTime" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Source">
+            <EntityTypeMapping TypeName="TestDbModel.Source">
+              <MappingFragment StoreEntitySet="Source">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
