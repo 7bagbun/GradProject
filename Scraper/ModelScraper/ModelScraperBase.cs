@@ -4,6 +4,7 @@ using AngleSharp;
 using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Scraper.ModelScraper;
 
 namespace Scraper
 {
@@ -18,21 +19,22 @@ namespace Scraper
     }
 
 
-    internal class ModelScraper
+    internal class ModelScraperBase
     {
         private readonly TestDb _db = new TestDb();
         private readonly IBrowsingContext _ctx;
 
         private readonly IModelScraper[] _modelScrapers;
 
-        public ModelScraper()
+        public ModelScraperBase()
         {
             var cfg = Configuration.Default.WithDefaultLoader();
             _ctx = BrowsingContext.New(cfg);
 
             _modelScrapers = new IModelScraper[]
             {
-                new DehumidModelScraper(_ctx),
+                new DehumidMs(_ctx),
+                new HairDryerMs(_ctx),
             };
         }
 

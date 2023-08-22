@@ -7,16 +7,15 @@ using Newtonsoft.Json.Linq;
 using AngleSharp;
 using AngleSharp.Dom;
 using Scraper.Model;
-using System;
 
 namespace Scraper
 {
-    internal class DehumidModelScraper : IModelScraper
+    internal class DehumidMs : IModelScraper
     {
         private readonly IBrowsingContext _ctx;
         private readonly IBrandScraper[] _brands;
 
-        public DehumidModelScraper(IBrowsingContext ctx)
+        public DehumidMs(IBrowsingContext ctx)
         {
             _ctx = ctx;
             _brands = new IBrandScraper[]
