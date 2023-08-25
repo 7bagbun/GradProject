@@ -140,11 +140,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
     <Compile Include="Controllers\Image\ImageController.cs" />
+    <Compile Include="Controllers\Item\CommentController.cs" />
     <Compile Include="Controllers\Item\ItemController.cs" />
     <Compile Include="Controllers\Member\LoginController.cs" />
     <Compile Include="Controllers\Member\MemberController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Comment.cs">
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Image.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -305,6 +309,7 @@
     <Content Include="Views\Item\All.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Comment\" />
     <Folder Include="Views\Image\" />
   </ItemGroup>
   <ItemGroup>

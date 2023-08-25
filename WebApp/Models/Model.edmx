@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product" Type="int" Nullable="false" />
+          <Property Name="Author" Type="int" Nullable="false" />
+          <Property Name="Rating" Type="smallint" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Image">
           <Key>
             <PropertyRef Name="Id" />
@@ -54,6 +64,30 @@
           <Property Name="SourceName" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="Domain" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Comment__Author__40058253">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="Author" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__Product__3F115E1A">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Selling__Image__5CD6CB2B">
           <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
           <End Role="Selling" Type="Self.Selling" Multiplicity="*" />
@@ -91,11 +125,20 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="TestDbModelStoreContainer">
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Selling" EntityType="Self.Selling" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Source" EntityType="Self.Source" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Comment__Author__40058253" Association="Self.FK__Comment__Author__40058253">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__Product__3F115E1A" Association="Self.FK__Comment__Product__3F115E1A">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
           <AssociationSet Name="FK__Selling__Image__5CD6CB2B" Association="Self.FK__Selling__Image__5CD6CB2B">
             <End Role="Image" EntitySet="Image" />
             <End Role="Selling" EntitySet="Selling" />
@@ -130,6 +173,7 @@
           <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="PasswordHash" Type="Binary" MaxLength="64" FixedLength="false" />
+          <NavigationProperty Name="Comment" Relationship="TestDbModel.FK__Comment__Author__40058253" FromRole="Member" ToRole="Comment" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -142,6 +186,7 @@
           <Property Name="RetailPrice" Type="Int32" Nullable="false" />
           <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Selling" Relationship="Self.FK__Selling__Product__03F0984C" FromRole="Product" ToRole="Selling" />
+          <NavigationProperty Name="Comment" Relationship="TestDbModel.FK__Comment__Product__3F115E1A" FromRole="Product" ToRole="Comment" />
         </EntityType>
         <EntityType Name="Selling">
           <Key>
@@ -222,7 +267,52 @@
             <End Role="Source" EntitySet="Source" />
             <End Role="Selling" EntitySet="Selling" />
           </AssociationSet>
+          <EntitySet Name="Comment" EntityType="TestDbModel.Comment" />
+          <AssociationSet Name="FK__Comment__Author__40058253" Association="TestDbModel.FK__Comment__Author__40058253">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comment__Product__3F115E1A" Association="TestDbModel.FK__Comment__Product__3F115E1A">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product" Type="Int32" Nullable="false" />
+          <Property Name="Author" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int16" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Member" Relationship="TestDbModel.FK__Comment__Author__40058253" FromRole="Comment" ToRole="Member" />
+          <NavigationProperty Name="Product1" Relationship="TestDbModel.FK__Comment__Product__3F115E1A" FromRole="Comment" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Comment__Author__40058253">
+          <End Type="TestDbModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="TestDbModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="Author" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comment__Product__3F115E1A">
+          <End Type="TestDbModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="TestDbModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -280,6 +370,17 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="SourceName" ColumnName="SourceName" />
                 <ScalarProperty Name="Domain" ColumnName="Domain" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comment">
+            <EntityTypeMapping TypeName="TestDbModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

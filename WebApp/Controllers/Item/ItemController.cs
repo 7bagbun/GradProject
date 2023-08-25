@@ -14,6 +14,8 @@ namespace WebApp.Controllers.Item
             var items = _db.Selling.Include("Source1")
                             .Where(x => x.Product == id).OrderBy(x => x.Price);
 
+            if (items.Count() == 0) return HttpNotFound();
+
             int modelId = (int)items.First().Product;
             string model = _db.Product.FirstOrDefault(x => x.Id == modelId).Model;
             ViewBag.Model = model;

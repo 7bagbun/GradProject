@@ -94,7 +94,7 @@
   <ItemGroup>
     <Compile Include="HttpHelper.cs" />
     <Compile Include="ModelScraper\HairDryerMs.cs" />
-    <Compile Include="ModelScraper\ModelScraper.cs" />
+    <Compile Include="ModelScraper\ModelScraperBase.cs" />
     <Compile Include="Model\Image.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

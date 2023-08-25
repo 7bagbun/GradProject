@@ -14,48 +14,71 @@
 
 <h2>@(ViewBag.Model)價格列表</h2>
 
+
 <div class="container">
-    <div class="row title-bar">
-        <div class="col-5 offset-2">
-            賣場標題
+    <ul class="nav nav-tabs" id="tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="list-tab" data-toggle="tab" data-target="#list" type="button" role="tab" aria-controls="home" aria-selected="true">賣場清單</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="comment-tab" data-toggle="tab" data-target="#comments" type="button" role="tab" aria-controls="profile" aria-selected="false">評論</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="tabContent">
+        <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row title-bar">
+                <div class="col-5 offset-2">
+                    賣場標題
+                </div>
+                <div class="col-1">
+                    來源
+                </div>
+                <div class="col-1">
+                    售價
+                </div>
+                <div class="col-2">
+                    更新時間
+                </div>
+                <div class="col-1">
+                    <a href="top"></a>
+                </div>
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <img src="@Url.Action("get", "image", new { id = item.Image })" id="img-@(item.Image)" class="image"
+                             style="max-width:150px" onclick="displayImage(@item.Image)" />
+                    </div>
+                    <div class="col-5">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </div>
+                    <div class="col-1">
+                        @item.Source1.SourceName
+                    </div>
+                    <div class="col-1">
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </div>
+                    <div class="col-2">
+                        @Html.DisplayFor(modelItem => item.UpdatedTime)
+                    </div>
+                    <div class="col-1">
+                        <a href="@(item.Source1.Domain + item.Link)" class="btn btn-info" target="_blank">前往購買</a>
+                    </div>
+                </div>
+            }
         </div>
-        <div class="col-1">
-            來源
-        </div>
-        <div class="col-1">
-            售價
-        </div>
-        <div class="col-2">
-            更新時間
-        </div>
-        <div class="col-1">
-            <a href="top"></a>
+        <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        Create your comment.
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    @foreach (var item in Model)
-    {
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="@Url.Action("get", "image", new { id = item.Image })" id="img-@(item.Image)" class="image"
-                     style="max-width:150px" onclick="displayImage(@item.Image)" />
-            </div>
-            <div class="col-5">
-                @Html.DisplayFor(modelItem => item.Title)
-            </div>
-            <div class="col-1">
-                @item.Source1.SourceName
-            </div>
-            <div class="col-1">
-                @Html.DisplayFor(modelItem => item.Price)
-            </div>
-            <div class="col-2">
-                @Html.DisplayFor(modelItem => item.UpdatedTime)
-            </div>
-            <div class="col-1">
-                <a href="@(item.Source1.Domain + item.Link)" class="btn btn-info" target="_blank">前往購買</a>
-            </div>
-        </div>
-    }
+
     <div class="top">
         <a href="#top">&lt;回到最上方&gt;</a>
     </div>

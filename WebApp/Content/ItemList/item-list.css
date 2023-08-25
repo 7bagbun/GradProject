@@ -3,6 +3,10 @@
     margin: 1em;
 }
 
+#tab {
+    margin-bottom: 1em;
+}
+
 #close {
     position: absolute;
     top: 15px;

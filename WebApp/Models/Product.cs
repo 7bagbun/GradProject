@@ -18,6 +18,7 @@ namespace WebApp.Models
         public Product()
         {
             this.Selling = new HashSet<Selling>();
+            this.Comment = new HashSet<Comment>();
         }
     
         public int Id { get; set; }
@@ -29,5 +30,7 @@ namespace WebApp.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Selling> Selling { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comment> Comment { get; set; }
     }
 }

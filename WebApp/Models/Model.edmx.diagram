@@ -13,6 +13,9 @@
         <AssociationConnector Association="TestDbModel.FK__Selling__Image__5CD6CB2B" ManuallyRouted="false" />
         <AssociationConnector Association="TestDbModel.FK__Selling__Product__03F0984C" ManuallyRouted="false" />
         <AssociationConnector Association="TestDbModel.FK__Selling__Source__4AB81AF0" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TestDbModel.Comment" Width="1.5" PointX="8.5" PointY="2.875" />
+        <AssociationConnector Association="TestDbModel.FK__Comment__Author__40058253" />
+        <AssociationConnector Association="TestDbModel.FK__Comment__Product__3F115E1A" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

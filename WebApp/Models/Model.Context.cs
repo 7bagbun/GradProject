@@ -30,5 +30,6 @@ namespace WebApp.Models
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Selling> Selling { get; set; }
         public virtual DbSet<Source> Source { get; set; }
+        public virtual DbSet<Comment> Comment { get; set; }
     }
 }
