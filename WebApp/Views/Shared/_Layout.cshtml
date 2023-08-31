@@ -24,80 +24,39 @@
 </head>
 <body>
     <header class="header_section">
-        <nav class="navbar navbar-expand-lg custom_nav-container ">
+        <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center nav-custom">
+            <a href="/" class="navbar-brand d-flex w-50 mr-auto">愛家電</a>
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class=""></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav  ">
+            <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+                <ul class="navbar-nav w-100 justify-content-center">
                     <li class="nav-item active">
-                        <a class="nav-link" href="@Url.Action("Index", "Home")">首頁 <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("all", "item")">
-                            商品比價
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">關於我們</a>
+                        <a class="nav-link" href="#">商品比價</a>
                     </li>
                 </ul>
-                <div class="user_option">
-                    <ul class="nav navbar-nav nav-link">
-                        <li>
-                            <form class="form-inline" style="margin-right: 25px">
-                                <button class="btn nav_search-btn" type="submit">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </button>
-                                <span>
-                                    搜尋
-                                </span>
-                            </form>
-                        </li>
-                    </ul>
+                <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
                     @if (Session["user"] == null)
                     {
-                        @Html.ActionLink("註冊", "register", "login", null, new { @class = "navbar-nav nav-link" })
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#login-modal">登入</button>
+                        <li class="nav-item">
+                            @Html.ActionLink("註冊", "register", "member", null, new { @class = "navbar-nav nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#login-modal">登入</button>
+                        </li>
                     }
                     else
                     {
-                        <span class="navbar-nav nav-link">您好，@Session["user"]</span>
-                        @Html.ActionLink("登出", "logout", "login", null, new { @class = "btn btn-info", style = "color: white;" })
+                        <li class="nav-item">
+                            <span class="navbar-nav nav-link">您好，@Session["user"]</span>
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("登出", "logout", "member", null, new { @class = "btn btn-info", style = "color: white;" })
+                        </li>
                     }
-                </div>
-            </div>
-            <div id="login-modal" class="modal fade" role="dialog">
-                <div class="modal-dialog" style="width: 400px">
-                    <div class="modal-content" style="padding: 1em;">
-                        <div class="modal-body">
-                            <div class="header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title form-title">登入</h4>
-                            </div>
-                            <div>
-                                <form id="login-form" action="/Account/LoginAjax" method="post">
-                                    <div class="form-group">
-                                        <label for="username" class="form-text">帳號</label>
-                                        <input type="text" name="username" id="username" class="form-control input m-input">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="psw" class="form-text">密碼</label>
-                                        <input type="password" id="passwd" name="passwd" class="form-control input m-input">
-                                    </div>
-                                    <input type="submit" id="submit" class="btn btn-info modal-btn" value="登入">
-                                </form>
-                            </div>
-                            <div class="msg-div">
-                                <span id="err-msg" class="hide" style="color: red"></span>
-                            </div>
-                            <div style="text-align: right">
-                                <span>不是會員? <a href="/Login/Register">註冊</a></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </ul>
             </div>
         </nav>
     </header>
@@ -106,10 +65,44 @@
 
     <footer class=" footer_section">
         <div class="container">
+            <!--
             <p>
             </p>
+            -->
         </div>
     </footer>
+
+    <div id="login-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="width: 400px">
+            <div class="modal-content" style="padding: 1em;">
+                <div class="modal-body">
+                    <div class="header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title form-title">登入</h4>
+                    </div>
+                    <div>
+                        <form id="login-form" action="/Account/LoginAjax" method="post">
+                            <div class="form-group">
+                                <label for="username" class="form-text">帳號</label>
+                                <input type="text" name="username" id="username" class="form-control input m-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="psw" class="form-text">密碼</label>
+                                <input type="password" id="passwd" name="passwd" class="form-control input m-input">
+                            </div>
+                            <input type="submit" id="submit" class="btn btn-info modal-btn" value="登入">
+                        </form>
+                    </div>
+                    <div class="msg-div">
+                        <span id="err-msg" class="hide" style="color: red"></span>
+                    </div>
+                    <div style="text-align: right">
+                        <span>不是會員? <a href="/member/register">註冊</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>

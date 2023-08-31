@@ -1,0 +1,47 @@
+﻿.star-rating {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating {
+  margin: 10px auto;
+  display: table;
+  width: 350px;
+}
+
+.star-rating label {
+  padding: 10px;
+  float: right;
+  font-size: 44px;
+  color: #eee;
+}
+
+.star-rating input:not(:checked)~label:hover,
+.star-rating input:not(:checked)~label:hover~label {
+  color: #ffc107;
+}
+
+.star-rating input:checked ~ label:before {
+    color: #ffc107 !important;
+}
+
+.colored-star {
+    color: #ffc107 !important;
+}
+
+.uncolored-star {
+    color: #ccc !important;
+}
+
+.form-control {
+    margin-bottom: 30px;
+}
+
+.hidden {
+    display: none;
+}

@@ -24,6 +24,11 @@
     cursor: pointer;
 }
 
+#list .row {
+    padding: 1em;
+    border-bottom: 1px solid #eee;
+}
+
 .image {
     cursor: pointer;
 }
@@ -63,11 +68,6 @@
 
 .title-bar {
     background-color: #eee;
-}
-
-.row {
-    padding: 1em;
-    border-bottom: 1px solid #eee;
 }
 
 .unslectable {

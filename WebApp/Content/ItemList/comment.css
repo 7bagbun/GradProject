@@ -1,0 +1,14 @@
+﻿.comment {
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 1em 1.5em;
+    margin: 1em 2em;
+}
+
+.comment .date {
+    text-align: end;
+}
+
+.comment #star {
+    text-align: center;
+}

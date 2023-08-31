@@ -14,6 +14,7 @@
           <Property Name="Author" Type="int" Nullable="false" />
           <Property Name="Rating" Type="smallint" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -288,6 +289,7 @@
           <Property Name="Content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Member" Relationship="TestDbModel.FK__Comment__Author__40058253" FromRole="Comment" ToRole="Member" />
           <NavigationProperty Name="Product1" Relationship="TestDbModel.FK__Comment__Product__3F115E1A" FromRole="Comment" ToRole="Product" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <Association Name="FK__Comment__Author__40058253">
           <End Type="TestDbModel.Member" Role="Member" Multiplicity="1" />
@@ -376,6 +378,7 @@
           <EntitySetMapping Name="Comment">
             <EntityTypeMapping TypeName="TestDbModel.Comment">
               <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="Author" ColumnName="Author" />

@@ -20,6 +20,7 @@ namespace WebApp.Models
         public int Author { get; set; }
         public short Rating { get; set; }
         public string Content { get; set; }
+        public System.DateTime CreatedDate { get; set; }
 
         [JsonIgnore]
         public virtual Member Member { get; set; }

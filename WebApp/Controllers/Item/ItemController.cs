@@ -8,7 +8,7 @@ namespace WebApp.Controllers.Item
     public class ItemController : Controller
     {
         private readonly TestDbEntities _db = new TestDbEntities();
-        // GET: Item
+
         public ActionResult List(int id)
         {
             var items = _db.Selling.Include("Source1")
@@ -18,7 +18,9 @@ namespace WebApp.Controllers.Item
 
             int modelId = (int)items.First().Product;
             string model = _db.Product.FirstOrDefault(x => x.Id == modelId).Model;
+
             ViewBag.Model = model;
+            ViewBag.ProductId = modelId;
 
             return View(items);
         }

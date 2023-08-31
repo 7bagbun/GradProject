@@ -18,7 +18,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/login/login',
+            url: '/member/login',
             async: true,
             data: {
                 username: username,
@@ -26,7 +26,7 @@
             },
             success: (data) => {
                 if (data.result) {
-                    window.location.href = '.';
+                    location.reload();
                 } else {
                     errMsgEle.text(data.msg);
                     errMsgEle.removeClass('hide');

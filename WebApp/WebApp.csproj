@@ -142,7 +142,6 @@
     <Compile Include="Controllers\Image\ImageController.cs" />
     <Compile Include="Controllers\Item\CommentController.cs" />
     <Compile Include="Controllers\Item\ItemController.cs" />
-    <Compile Include="Controllers\Member\LoginController.cs" />
     <Compile Include="Controllers\Member\MemberController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -150,6 +149,7 @@
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\Image.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -198,7 +198,9 @@
     <Content Include="Content\Index\font-awesome.min.css" />
     <Content Include="Content\Index\responsive.css" />
     <Content Include="Content\Index\style.css" />
+    <Content Include="Content\ItemList\comment.css" />
     <Content Include="Content\ItemList\item-list.css" />
+    <Content Include="Content\ItemList\star-rating.css" />
     <Content Include="Content\MemberList\member-list.css" />
     <Content Include="Content\Login\login-modal.css" />
     <Content Include="Content\OwlCarousel\ajax-loader.gif" />
@@ -259,6 +261,7 @@
     <Content Include="Connections.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\ItemList\image-list.js" />
+    <Content Include="Scripts\ItemList\load-comment.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -303,7 +306,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Login\Register.cshtml" />
+    <Content Include="Views\Member\Register.cshtml" />
     <Content Include="Views\Member\List.cshtml" />
     <Content Include="Views\Item\List.cshtml" />
     <Content Include="Views\Item\All.cshtml" />

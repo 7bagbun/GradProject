@@ -6,26 +6,28 @@
 
 @section scripts {
     <script src="~/Scripts/ItemList/image-list.js"></script>
+    <script src="~/Scripts/ItemList/load-comment.js"></script>
 }
 
 @section css {
-    <link rel="stylesheet" type="text/css" href="~/Content/ItemList/item-list.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/ItemList/item-list.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/ItemList/star-rating.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/ItemList/comment.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 }
 
 <h2>@(ViewBag.Model)價格列表</h2>
-
-
 <div class="container">
     <ul class="nav nav-tabs" id="tab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="list-tab" data-toggle="tab" data-target="#list" type="button" role="tab" aria-controls="home" aria-selected="true">賣場清單</button>
+            <button class="nav-link active" id="list-tab" data-toggle="tab" data-target="#list-section" type="button" role="tab" aria-controls="home" aria-selected="true">賣場清單</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="comment-tab" data-toggle="tab" data-target="#comments" type="button" role="tab" aria-controls="profile" aria-selected="false">評論</button>
+            <button class="nav-link" id="comment-tab" data-toggle="tab" data-target="#comment-section" type="button" role="tab" aria-controls="profile" aria-selected="false" onclick="loadComments(@ViewBag.ProductId)">評論</button>
         </li>
     </ul>
     <div class="tab-content" id="tabContent">
-        <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade show active" id="list-section" role="tabpanel" aria-labelledby="home-tab">
             <div class="row title-bar">
                 <div class="col-5 offset-2">
                     賣場標題
@@ -68,14 +70,46 @@
                 </div>
             }
         </div>
-        <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        Create your comment.
-                    </div>
+        <div class="tab-pane fade" id="comment-section" role="tabpanel" aria-labelledby="profile-tab">
+            <div>
+                <div class="container">
+                    @using (Html.BeginForm("create", "comment", FormMethod.Post, new { id = "post-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            <div class="col">
+                                <div class="star-rating">
+                                    <div class="star-input">
+                                        <input type="radio" name="rating" id="rating-5" value="5">
+                                        <label for="rating-5" class="fa fa-star"> </label>
+
+                                        <input type="radio" name="rating" id="rating-4" value="4">
+                                        <label for="rating-4" class="fa fa-star"> </label>
+
+                                        <input type="radio" name="rating" id="rating-3" value="3">
+                                        <label for="rating-3" class="fa fa-star"> </label>
+
+                                        <input type="radio" name="rating" id="rating-2" value="2">
+                                        <label for="rating-2" class="fa fa-star"> </label>
+
+                                        <input type="radio" name="rating" id="rating-1" value="1">
+                                        <label for="rating-1" class="fa fa-star"> </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="product" class="hidden" value="@ViewBag.ProductId" />
+                                <input type="text" name="author" class="hidden" value="@Session["userId"]" />
+                                <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" style="height: 250px"></textarea>
+                                <input type="submit" id="btn-post" class="btn btn-info form-control" value="發布" />
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
+            <div id="comments" class="container"></div>
         </div>
     </div>
 
@@ -89,3 +123,5 @@
     <img class="modal-content" id="display">
     <div id="caption"></div>
 </div>
+
+@Scripts.Render("~/bundles/jquery")
