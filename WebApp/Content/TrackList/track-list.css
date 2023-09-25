@@ -1,0 +1,17 @@
+﻿#msg {
+    color: #999;
+    font-size: 2em;
+}
+
+.row {
+    padding: 1em;
+}
+
+.title-row {
+    background-color: #EEE;
+    padding: 0.5em;
+}
+
+.data-row {
+    border-bottom: 1px solid grey;
+}

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebApp.Models.TrackProduct>
+
+@{
+    ViewBag.Title = "TrackItemList";
+}
+
+@section css {
+    <link rel="stylesheet" type="text/css" href="~/Content/TrackList/track-list.css" />
+}
+
+@section scripts {
+    <script src="~/Scripts/TrackList/list.js"></script>
+}
+
+<div class="content-div">
+    <div>
+        <h2>商品追蹤清單</h2>
+
+        <div id="list" class="container">
+            <div class="row align-items-center title-row no-hl">
+                <div class="col-5">
+                    型號
+                </div>
+                <div class="col-5">
+                    功能
+                </div>
+                <div class="col">
+                    <input id="search" type="text" class="form-control" onkeyup="search2()" placeholder="search" value="" />
+                </div>
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="row data-row">
+                    <div class="col-5">
+                        @Html.DisplayFor(modelItem => item.Product1.Model)
+                    </div>
+                    <div class="col-5">
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </div>
+                </div>
+            }
+            <div id="msg" class="row no-hl" style="display: none">
+                <div class="col" style="text-align: center">
+                    找不到項目
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

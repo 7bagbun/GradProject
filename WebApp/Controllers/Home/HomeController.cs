@@ -10,13 +10,14 @@ namespace WebApp.Controllers
     {
         //private readonly DbEntities _db = new DbEntities();
         private readonly TestDbEntities _db = new TestDbEntities();
+        private readonly int _displayAmount = 8; //amount of items displayed in home page
 
         public ActionResult Index()
         {
-            int amount = 8, count = 0;
+            int count = 0;
             var selling = _db.Selling.Include("Product1").OrderBy(x => x.Price);
-            var types = _db.Product.Take(amount).Select(x => x.Id);
-            var prods = new Selling[amount];
+            var types = _db.Product.Take(_displayAmount).Select(x => x.Id);
+            var prods = new Selling[_displayAmount];
             types.ForEach(i => prods[count++] = selling.First(x => x.Product1.Id == i));
 
             return View(prods);

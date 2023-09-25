@@ -12,14 +12,11 @@ namespace WebApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Comment
+    public partial class TrackProduct
     {
         public int Id { get; set; }
         public int Product { get; set; }
-        public int Author { get; set; }
-        public short Rating { get; set; }
-        public string Content { get; set; }
-        public System.DateTime CreatedDate { get; set; }
+        public int Follower { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual Product Product1 { get; set; }

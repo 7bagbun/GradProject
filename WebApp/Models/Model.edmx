@@ -65,6 +65,14 @@
           <Property Name="SourceName" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="Domain" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="TrackProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Product" Type="int" Nullable="false" />
+          <Property Name="Follower" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK__Comment__Author__40058253">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
@@ -125,6 +133,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__TrackProd__Follo__634EBE90">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="TrackProduct" Type="Self.TrackProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrackProduct">
+              <PropertyRef Name="Follower" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrackProd__Produ__625A9A57">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="TrackProduct" Type="Self.TrackProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrackProduct">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TestDbModelStoreContainer">
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
@@ -132,6 +164,7 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Selling" EntityType="Self.Selling" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Source" EntityType="Self.Source" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrackProduct" EntityType="Self.TrackProduct" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Comment__Author__40058253" Association="Self.FK__Comment__Author__40058253">
             <End Role="Member" EntitySet="Member" />
             <End Role="Comment" EntitySet="Comment" />
@@ -151,6 +184,14 @@
           <AssociationSet Name="FK__Selling__Source__4AB81AF0" Association="Self.FK__Selling__Source__4AB81AF0">
             <End Role="Source" EntitySet="Source" />
             <End Role="Selling" EntitySet="Selling" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrackProd__Follo__634EBE90" Association="Self.FK__TrackProd__Follo__634EBE90">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="TrackProduct" EntitySet="TrackProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrackProd__Produ__625A9A57" Association="Self.FK__TrackProd__Produ__625A9A57">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="TrackProduct" EntitySet="TrackProduct" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -175,6 +216,7 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="PasswordHash" Type="Binary" MaxLength="64" FixedLength="false" />
           <NavigationProperty Name="Comment" Relationship="TestDbModel.FK__Comment__Author__40058253" FromRole="Member" ToRole="Comment" />
+          <NavigationProperty Name="TrackProduct" Relationship="TestDbModel.FK__TrackProd__Follo__634EBE90" FromRole="Member" ToRole="TrackProduct" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -188,6 +230,7 @@
           <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Selling" Relationship="Self.FK__Selling__Product__03F0984C" FromRole="Product" ToRole="Selling" />
           <NavigationProperty Name="Comment" Relationship="TestDbModel.FK__Comment__Product__3F115E1A" FromRole="Product" ToRole="Comment" />
+          <NavigationProperty Name="TrackProduct" Relationship="TestDbModel.FK__TrackProd__Produ__625A9A57" FromRole="Product" ToRole="TrackProduct" />
         </EntityType>
         <EntityType Name="Selling">
           <Key>
@@ -277,6 +320,15 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="Comment" EntitySet="Comment" />
           </AssociationSet>
+          <EntitySet Name="TrackProduct" EntityType="TestDbModel.TrackProduct" />
+          <AssociationSet Name="FK__TrackProd__Follo__634EBE90" Association="TestDbModel.FK__TrackProd__Follo__634EBE90">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="TrackProduct" EntitySet="TrackProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrackProd__Produ__625A9A57" Association="TestDbModel.FK__TrackProd__Produ__625A9A57">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="TrackProduct" EntitySet="TrackProduct" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Comment">
           <Key>
@@ -311,6 +363,40 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Comment">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TrackProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Product" Type="Int32" Nullable="false" />
+          <Property Name="Follower" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="TestDbModel.FK__TrackProd__Follo__634EBE90" FromRole="TrackProduct" ToRole="Member" />
+          <NavigationProperty Name="Product1" Relationship="TestDbModel.FK__TrackProd__Produ__625A9A57" FromRole="TrackProduct" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__TrackProd__Follo__634EBE90">
+          <End Type="TestDbModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="TestDbModel.TrackProduct" Role="TrackProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrackProduct">
+              <PropertyRef Name="Follower" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrackProd__Produ__625A9A57">
+          <End Type="TestDbModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="TestDbModel.TrackProduct" Role="TrackProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TrackProduct">
               <PropertyRef Name="Product" />
             </Dependent>
           </ReferentialConstraint>
@@ -382,6 +468,15 @@
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Rating" ColumnName="Rating" />
                 <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrackProduct">
+            <EntityTypeMapping TypeName="TestDbModel.TrackProduct">
+              <MappingFragment StoreEntitySet="TrackProduct">
+                <ScalarProperty Name="Follower" ColumnName="Follower" />
                 <ScalarProperty Name="Product" ColumnName="Product" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

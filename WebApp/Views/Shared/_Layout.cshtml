@@ -49,8 +49,15 @@
                     }
                     else
                     {
-                        <li class="nav-item">
-                            <span class="navbar-nav nav-link">您好，@Session["user"]</span>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                                您好，@Session["user"]
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">個人資料</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/trackitem/tracklist">追蹤商品</a>
+                            </div>
                         </li>
                         <li class="nav-item">
                             @Html.ActionLink("登出", "logout", "member", null, new { @class = "btn btn-info", style = "color: white;" })

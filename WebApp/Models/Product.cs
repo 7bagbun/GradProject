@@ -19,6 +19,7 @@ namespace WebApp.Models
         {
             this.Selling = new HashSet<Selling>();
             this.Comment = new HashSet<Comment>();
+            this.TrackProduct = new HashSet<TrackProduct>();
         }
     
         public int Id { get; set; }
@@ -32,5 +33,7 @@ namespace WebApp.Models
         public virtual ICollection<Selling> Selling { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TrackProduct> TrackProduct { get; set; }
     }
 }

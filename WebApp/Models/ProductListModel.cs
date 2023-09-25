@@ -1,6 +1,6 @@
 ﻿namespace WebApp.Models
 {
-    internal class ProductList
+    internal class SellingProductList
     {
         public string Model { get; set; }
         public Selling[] Items { get; set; }

@@ -35,11 +35,11 @@ namespace WebApp.Controllers.Item
 
         public ActionResult Get(int typeCount, int itemCount)
         {
-            var list = new ProductList[typeCount];
+            var list = new SellingProductList[typeCount];
 
             for (int i = 0; i < typeCount; i++)
             {
-                list[i] = new ProductList();
+                list[i] = new SellingProductList();
                 list[i].Model = _db.Product.First(x => x.Id == i + 1).Model;
 
                 string modelNum = list[i].Model;

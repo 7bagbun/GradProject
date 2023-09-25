@@ -6,16 +6,19 @@
     <edmx:Diagrams>
       <Diagram DiagramId="bd58c97b2eee4803be87685c272b94da" Name="Diagram1">
         <EntityTypeShape EntityType="TestDbModel.Image" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestDbModel.Member" Width="1.5" PointX="6.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestDbModel.Member" Width="1.5" PointX="6.875" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDbModel.Product" Width="1.5" PointX="0.625" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDbModel.Selling" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="TestDbModel.Source" Width="1.5" PointX="6.125" PointY="4" IsExpanded="true" />
         <AssociationConnector Association="TestDbModel.FK__Selling__Image__5CD6CB2B" ManuallyRouted="false" />
         <AssociationConnector Association="TestDbModel.FK__Selling__Product__03F0984C" ManuallyRouted="false" />
         <AssociationConnector Association="TestDbModel.FK__Selling__Source__4AB81AF0" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="TestDbModel.Comment" Width="1.5" PointX="8.5" PointY="2.875" />
+        <EntityTypeShape EntityType="TestDbModel.Comment" Width="1.5" PointX="9.125" PointY="1.375" />
         <AssociationConnector Association="TestDbModel.FK__Comment__Author__40058253" />
         <AssociationConnector Association="TestDbModel.FK__Comment__Product__3F115E1A" />
+        <EntityTypeShape EntityType="TestDbModel.TrackProduct" Width="1.5" PointX="4.625" PointY="1.25" />
+        <AssociationConnector Association="TestDbModel.FK__TrackProd__Follo__634EBE90" />
+        <AssociationConnector Association="TestDbModel.FK__TrackProd__Produ__625A9A57" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
