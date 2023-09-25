@@ -1,9 +1,4 @@
 ﻿$("document").ready(() => {
-    if ($("input[name='author']").attr("value") == undefined) {
-        $("#btn-post").prop("disabled", true);
-        $("#btn-post").prop("value", "登入後即可發布評論");
-    }
-
     $("#post-form").submit(e => {
         e.preventDefault();
         const form = $("#post-form");
@@ -28,15 +23,15 @@
 
 function loadComments(id) {
     $.ajax({
-            type: "GET",
-            url: "/comment/getbyid/" + id,
-            async: true,
-            success: (data) => {
-                placeComments(data);
-            },
-            failure: (err) => {
-                console.log(err);
-            }
+        type: "GET",
+        url: "/comment/getbyid/" + id,
+        async: true,
+        success: (data) => {
+            placeComments(data);
+        },
+        failure: (err) => {
+            console.log(err);
+        }
     });
 }
 

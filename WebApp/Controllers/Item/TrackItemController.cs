@@ -12,15 +12,40 @@ namespace WebApp.Controllers.Item
     {
         private readonly TestDbEntities _db = new TestDbEntities();
 
-        public ActionResult TrackItemAjax(int productId, int memberId)
+        [HttpPost]
+        public ActionResult TrackAjax(int productId)
         {
-            if (!_db.Product.Any(x => x.Id == productId)
-                || !_db.Member.Any(x => x.Id == memberId))
+            string json;
+
+            if (Session["userId"] == null)
             {
-                return Content("無此會員或商品");
+                json = "{\"isSucceed\":false,\"redirUrl\":\"/error/nologin\"}";
+                return Content(json, "application/json");
             }
 
-            string json = "{\"IsSucceed\":true}";
+            if (!_db.Product.Any(x => x.Id == productId))
+            {
+                json = "{\"isSucceed\":false,\"redirUrl\":\"/error/custommessage?msg=無此商品\"}";
+                return Content(json, "application/json");
+            }
+
+            int mid = (int)Session["userId"];
+
+            var followed = _db.TrackProduct.FirstOrDefault(
+                x => x.Product == productId && x.Follower == mid);
+
+            if (followed != null) //if already followed then unfollow
+            {
+                _db.TrackProduct.Remove(followed);
+                _db.SaveChanges();
+                json = "{\"isSucceed\":true}";
+                return Content(json, "application/json");
+            }
+
+            _db.TrackProduct.Add(new TrackProduct { Product = productId, Follower = mid });
+            _db.SaveChanges();
+
+            json = "{\"isSucceed\":true}";
             return Content(json, "application/json");
         }
 
@@ -35,6 +60,19 @@ namespace WebApp.Controllers.Item
             var followList = _db.TrackProduct.Include("Product1").Where(x => x.Follower == memberId);
 
             return View(followList);
+        }
+
+        public ActionResult TrackStatusAjax(int productId)
+        {
+            if (Session["userId"] == null)
+            {
+                return Content("{\"isTracked\":\"false\"}", "application/json");
+            }
+
+            int mid = (int)Session["userId"];
+            string isTracked = _db.TrackProduct.Any( x => x.Product == productId && x.Follower == mid).ToString().ToLower();
+
+            return Content($"{{\"isTracked\":{isTracked}}}", "application/json");
         }
     }
 }

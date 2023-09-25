@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using Antlr.Runtime.Tree;
 
 namespace WebApp.Controllers.Item
 {
@@ -17,9 +18,11 @@ namespace WebApp.Controllers.Item
             if (items.Count() == 0) return HttpNotFound();
 
             int modelId = (int)items.First().Product;
-            string model = _db.Product.FirstOrDefault(x => x.Id == modelId).Model;
+            var model = _db.Product.FirstOrDefault(x => x.Id == modelId);
 
-            ViewBag.Model = model;
+            ViewBag.Model = model.Model;
+            ViewBag.Brand = model.Brand;
+            ViewBag.Type = model.ProductType;
             ViewBag.ProductId = modelId;
 
             return View(items);

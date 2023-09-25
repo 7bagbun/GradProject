@@ -7,6 +7,11 @@
 @section scripts {
     <script src="~/Scripts/ItemList/image-list.js"></script>
     <script src="~/Scripts/ItemList/load-comment.js"></script>
+    <script src="~/Scripts/ItemList/track-item.js"></script>
+
+    <script>
+        $(document).ready(() => { updateBtnText(@ViewBag.ProductId) })
+    </script>
 }
 
 @section css {
@@ -16,20 +21,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 }
 
-<div class="container-fluid">
+<div class="container item-header">
     <div class="row">
-        <div class="col-8 offset-2">
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>錯誤</strong> 請先登入才可使用此功能
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+        <div class="col-2">
+            <img src="@Url.Action("get", "image", new { id = Model.First().Image })" class="image"
+                 style="max-width:150px" />
+        </div>
+        <div class="col">
+            <h2 id="title">@($"{ViewBag.Brand} {ViewBag.Model} {ViewBag.Type} ")價格列表</h2>
+            <button class="btn btn-danger" onclick="track(@ViewBag.ProductId)">
+                <i id="follow" class="fa fa-heart-o follow"> 追蹤</i>
+            </button>
         </div>
     </div>
 </div>
-
-<h2>@(ViewBag.Model)價格列表</h2>
 <div class="container">
     <ul class="nav nav-tabs" id="tab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -114,9 +119,15 @@
                         <div class="row">
                             <div class="col">
                                 <input type="text" name="product" class="hidden" value="@ViewBag.ProductId" />
-                                <input type="text" name="author" class="hidden" value="@Session["userId"]" />
                                 <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" style="height: 250px"></textarea>
-                                <input type="submit" id="btn-post" class="btn btn-info form-control" value="發布" />
+                                @if (Session["userId"] == null)
+                                {
+                                    <input type="submit" id="btn-post" class="btn btn-info form-control" value="登入後即可發布評論" disabled />
+                                }
+                                else
+                                {
+                                    <input type="submit" id="btn-post" class="btn btn-info form-control" value="發布" />
+                                }
                             </div>
                         </div>
                     }

@@ -12,5 +12,11 @@ namespace WebApp.Controllers.Error
         {
             return View();
         }
+
+        public ActionResult CustomMessage(string msg)
+        {
+            ViewBag.Message = msg;
+            return View();
+        }
     }
 }

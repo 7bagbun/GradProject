@@ -50,12 +50,18 @@ namespace WebApp.Controllers.Item
         {
             try
             {
+                if (Session["userId"] == null)
+                {
+                    return RedirectToAction("nologin", "error");
+                }
+
                 if (comment.Rating < 1 || comment.Rating > 5
                     || comment.Content == null || comment.Content.Length > 500)
                 {
                     return new HttpStatusCodeResult(400);
                 }
 
+                comment.Author = (int)Session["userId"];
                 comment.CreatedDate = DateTime.Now;
                 _db.Comment.Add(comment);
                 _db.SaveChanges();

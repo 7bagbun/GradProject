@@ -29,6 +29,17 @@
     border-bottom: 1px solid #eee;
 }
 
+#title {
+    text-align: left;
+    margin: 0 0 0.5em 0;
+}
+
+.item-header {
+    background-color: #eee;
+    padding: 2em;
+    margin: 2em auto;
+}
+
 .image {
     cursor: pointer;
 }
