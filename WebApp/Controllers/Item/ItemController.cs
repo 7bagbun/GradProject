@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using Antlr.Runtime.Tree;
+using System.Web.UI.WebControls;
+using Microsoft.Ajax.Utilities;
 
 namespace WebApp.Controllers.Item
 {
@@ -17,7 +18,7 @@ namespace WebApp.Controllers.Item
 
             if (items.Count() == 0) return HttpNotFound();
 
-            int modelId = (int)items.First().Product;
+            int modelId = items.First().Product;
             var model = _db.Product.FirstOrDefault(x => x.Id == modelId);
 
             ViewBag.Model = model.Model;
@@ -26,14 +27,6 @@ namespace WebApp.Controllers.Item
             ViewBag.ProductId = modelId;
 
             return View(items);
-        }
-
-        public ActionResult All()
-        {
-            //var selling = _db.Selling.Include("Product1");
-            //var prods = Enumerable.Range(2, 8).Select(i => selling.First(x => x.Product1.Id == i));
-
-            return View();
         }
 
         public ActionResult Get(int typeCount, int itemCount)
@@ -54,5 +47,27 @@ namespace WebApp.Controllers.Item
             string json = JsonConvert.SerializeObject(list, dateSettings);
             return Content(json, "application/json");
         }
+        
+        public ActionResult Search(string query)
+        {
+            if (query == null)
+            {
+                var list = _db.Product.Include("Selling").Take(10);
+                return View(list);
+            }
+
+            var result = _db.Product.Include("Selling")
+                .Where(x =>
+                    x.Model.Contains(query) ||
+                    x.Brand.Contains(query) ||
+                    x.ProductType.Contains(query) ||
+                    x.Token.Contains(query));
+
+            //order by price
+            result.ForEach(x => x.Selling = x.Selling.OrderByDescending(t => t.Price).ToList());
+
+            return View(result);
+        }
+
     }
 }

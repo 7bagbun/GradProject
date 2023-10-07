@@ -66,11 +66,12 @@ namespace WebApp.Controllers.Item
         {
             if (Session["userId"] == null)
             {
-                return Content("{\"isTracked\":\"false\"}", "application/json");
+                return Content("{\"isTracked\":false}", "application/json");
             }
 
             int mid = (int)Session["userId"];
-            string isTracked = _db.TrackProduct.Any( x => x.Product == productId && x.Follower == mid).ToString().ToLower();
+            string isTracked = _db.TrackProduct.Any(x =>
+                x.Product == productId && x.Follower == mid) ? "true" : "false";
 
             return Content($"{{\"isTracked\":{isTracked}}}", "application/json");
         }

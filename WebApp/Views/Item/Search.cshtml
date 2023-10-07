@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WebApp.Models.Product>
+
+<div class="prod-section">
+    @if (Model.Count() != 0)
+    {
+        foreach (var product in Model)
+        {
+            int i = 1;
+            <div class="container">
+                <div class="row title-bar">
+                    <div class="col-8">@product.Brand @product.ProductType @product.Model</div>
+                    <div class="col-3">更新時間</div>
+                    <div class="col-1">售價</div>
+                </div>
+
+                @foreach (var selling in product.Selling)
+                {
+                    <div class="row">
+                        <div class="col-8">
+                            <a href="@(selling.Source1.Domain + selling.Link)">@selling.Title</a>
+                        </div>
+                        <div class="col-3">@selling.UpdatedTime</div>
+                        <div class="col-1">@selling.Price</div>
+                    </div>
+                    if (++i > 5) { break; }
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col no-result-title">
+                    查無結果
+                </div>
+            </div>
+            <div class="row">
+                <div class="col no-result-body">
+                    請嘗試提供其他關鍵字。
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+<style>
+    .title-bar {
+        background-color: #eee;
+    }
+
+    .prod-section .container {
+        margin-top: 5em;
+    }
+
+    .prod-section > .container > div {
+        padding: 0.5em;
+    }
+
+    .no-result-title {
+        color: #aaa;
+        font-size: 3em;
+        text-align: center;
+    }
+
+    .no-result-body {
+        color: #aaa;
+        font-size: 1em;
+        text-align: center;
+    }
+</style>

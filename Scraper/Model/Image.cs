@@ -22,6 +22,7 @@ namespace Scraper.Model
     
         public int Id { get; set; }
         public byte[] ImageContent { get; set; }
+        public byte[] LowresImage { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Selling> Selling { get; set; }

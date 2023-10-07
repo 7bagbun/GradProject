@@ -10,6 +10,7 @@
 
 @section scripts {
     <script src="~/Scripts/TrackList/list.js"></script>
+    <script src="~/Scripts/TrackList/untrack-item.js"></script>
 }
 
 <div class="content-div">
@@ -35,8 +36,8 @@
                         @Html.DisplayFor(modelItem => item.Product1.Model)
                     </div>
                     <div class="col-5">
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        <a href="/item/list/@item.Product">查看比價</a>
+                        <button class="btn btn-danger" onclick="untrack(@item.Product)">取消追蹤</button>
                     </div>
                 </div>
             }

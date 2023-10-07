@@ -25,12 +25,13 @@ namespace WebApp.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Image> Image { get; set; }
         public virtual DbSet<Member> Member { get; set; }
+        public virtual DbSet<PriceHistory> PriceHistory { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Selling> Selling { get; set; }
         public virtual DbSet<Source> Source { get; set; }
-        public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<TrackProduct> TrackProduct { get; set; }
     }
 }

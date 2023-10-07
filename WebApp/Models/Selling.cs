@@ -15,10 +15,10 @@ namespace WebApp.Models
     public partial class Selling
     {
         public int Id { get; set; }
-        public Nullable<int> Product { get; set; }
-        public Nullable<int> Source { get; set; }
+        public int Product { get; set; }
+        public int Source { get; set; }
         public string Title { get; set; }
-        public Nullable<int> Price { get; set; }
+        public int Price { get; set; }
         public Nullable<int> Image { get; set; }
         public System.DateTime UpdatedTime { get; set; }
         public string Link { get; set; }

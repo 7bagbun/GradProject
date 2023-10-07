@@ -13,6 +13,7 @@ namespace Scraper
     internal class PchomeScraper : ISellingScraper
     {
         private const float _price_interval = 0.15f;
+        private const int _source_id = 2;
 
         private readonly IBrowsingContext _browser;
         private readonly TestDb _db;
@@ -74,8 +75,7 @@ namespace Scraper
                     Link = obj["prods"][i].Value<string>("Id"),
                     Image1 = new Image()
                     { ImageContent = await HttpHelper.DownloadImageBytesAsync("https://cs-b.ecimg.tw" + imgLink) },
-
-                    Source = 2,
+                    Source = _source_id,
                     Product1 = prod,
                     UpdatedTime = DateTime.Now
                 };

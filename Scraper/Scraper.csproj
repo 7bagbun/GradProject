@@ -68,6 +68,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
@@ -93,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpHelper.cs" />
+    <Compile Include="ImageHelper.cs" />
     <Compile Include="ModelScraper\HairDryerMs.cs" />
     <Compile Include="ModelScraper\ModelScraperBase.cs" />
     <Compile Include="Model\Image.cs">
@@ -113,6 +115,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ModelScraper\DehumidMs.cs" />
+    <Compile Include="Model\PriceHistory.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Product.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -122,7 +128,6 @@
     <Compile Include="Model\Source.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="ModelScraper\DehumidMs.cs" />
     <Compile Include="Parser\ParserPtt.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

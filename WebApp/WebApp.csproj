@@ -143,6 +143,7 @@
     <Compile Include="Controllers\Image\ImageController.cs" />
     <Compile Include="Controllers\Item\CommentController.cs" />
     <Compile Include="Controllers\Item\ItemController.cs" />
+    <Compile Include="Controllers\Item\PriceHistoryController.cs" />
     <Compile Include="Controllers\Item\TrackItemController.cs" />
     <Compile Include="Controllers\Member\MemberController.cs" />
     <Compile Include="Global.asax.cs">
@@ -172,6 +173,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PriceHistory.cs">
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Product.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -268,7 +272,9 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\ItemList\image-list.js" />
     <Content Include="Scripts\ItemList\load-comment.js" />
+    <Content Include="Scripts\ItemList\price-chart.js" />
     <Content Include="Scripts\ItemList\track-item.js" />
+    <Content Include="Scripts\TrackList\untrack-item.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -317,7 +323,7 @@
     <Content Include="Views\Member\Register.cshtml" />
     <Content Include="Views\Member\List.cshtml" />
     <Content Include="Views\Item\List.cshtml" />
-    <Content Include="Views\Item\All.cshtml" />
+    <Content Include="Views\Item\Search.cshtml" />
     <Content Include="Views\TrackItem\TrackList.cshtml" />
     <Content Include="Views\Error\NoLogin.cshtml" />
     <Content Include="Views\Error\CustomMessage.cshtml" />
@@ -325,6 +331,7 @@
   <ItemGroup>
     <Folder Include="Views\Comment\" />
     <Folder Include="Views\Image\" />
+    <Folder Include="Views\PriceHistory\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -26,12 +26,14 @@ namespace Scraper
             _scrapers = new ISellingScraper[]
             {
                 new PcstoreScraper(_browser, _db),
-                //new PchomeScraper(_browser, _db)
+                new PchomeScraper(_browser, _db)
             };
         }
 
         public async Task StartScraping()
         {
+            await ClearSellings();
+
             var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
             {
                 var sellings = await _scrapers[i].Scrape();
@@ -40,6 +42,36 @@ namespace Scraper
 
             await Task.WhenAll(tasks);
             await _db.SaveChangesAsync();
+            await UpdatePriceHistory();
+        }
+
+        private async Task UpdatePriceHistory()
+        {
+            var prods = _db.Product.Include("Selling").ToList();
+            prods.ForEach(x =>
+            {
+                _db.PriceHistory.Add(new PriceHistory
+                {
+                    Product = x.Id,
+                    Price = x.Selling.Min(t => t.Price),
+                    UpdatedTime = System.DateTime.Now
+                });
+            });
+
+            await _db.SaveChangesAsync();
+        }
+
+        private async Task ClearSellings()
+        {
+            await _db.Database.ExecuteSqlCommandAsync("DELETE FROM [Image] WHERE Id IN (SELECT Id FROM Selling)");
+            await _db.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE Selling");
+        }
+
+        public void GenerateLowresImage()
+        {
+            var image = _db.Image.ToList();
+            image.ForEach(x => { x.LowresImage = ImageHelper.DownsizeImage(x.ImageContent); });
+            _db.SaveChanges();
         }
     }
 }

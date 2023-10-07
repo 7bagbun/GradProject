@@ -1,4 +1,6 @@
-﻿function track(pid) {
+﻿$(document).ready(() => { updateBtnText(id) })
+
+function track(pid) {
     $.ajax({
         type: 'POST',
         url: '/trackitem/trackajax',

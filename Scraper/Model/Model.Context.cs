@@ -26,6 +26,7 @@ namespace Scraper.Model
         }
     
         public virtual DbSet<Image> Image { get; set; }
+        public virtual DbSet<PriceHistory> PriceHistory { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Selling> Selling { get; set; }
         public virtual DbSet<Source> Source { get; set; }

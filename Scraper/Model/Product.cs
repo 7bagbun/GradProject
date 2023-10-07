@@ -17,6 +17,7 @@ namespace Scraper.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
+            this.PriceHistory = new HashSet<PriceHistory>();
             this.Selling = new HashSet<Selling>();
         }
     
@@ -24,9 +25,11 @@ namespace Scraper.Model
         public string Brand { get; set; }
         public string Model { get; set; }
         public string ProductType { get; set; }
-        public string Token { get; set; }
         public int RetailPrice { get; set; }
+        public string Token { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PriceHistory> PriceHistory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Selling> Selling { get; set; }
     }

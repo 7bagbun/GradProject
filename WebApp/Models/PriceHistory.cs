@@ -7,24 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Scraper.Model
+namespace WebApp.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Selling
+    public partial class PriceHistory
     {
         public int Id { get; set; }
         public int Product { get; set; }
-        public int Source { get; set; }
-        public string Title { get; set; }
         public int Price { get; set; }
-        public Nullable<int> Image { get; set; }
         public System.DateTime UpdatedTime { get; set; }
-        public string Link { get; set; }
     
-        public virtual Image Image1 { get; set; }
         public virtual Product Product1 { get; set; }
-        public virtual Source Source1 { get; set; }
     }
 }

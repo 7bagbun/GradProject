@@ -18,7 +18,21 @@ namespace WebApp.Controllers
             var selling = _db.Selling.Include("Product1").OrderBy(x => x.Price);
             var types = _db.Product.Take(_displayAmount).Select(x => x.Id);
             var prods = new Selling[_displayAmount];
-            types.ForEach(i => prods[count++] = selling.First(x => x.Product1.Id == i));
+            types.ForEach(i =>
+            {
+                while (true) //prevent products that are not for sell causing error
+                {
+                    var target = selling.FirstOrDefault(x => x.Product1.Id == i);
+
+                    if (target != null)
+                    {
+                        prods[count++] = target;
+                        break;
+                    }
+
+                    i += _displayAmount;
+                }
+            });
 
             return View(prods);
         }

@@ -5,13 +5,12 @@
 }
 
 @section scripts {
+    <script>var id = @ViewBag.ProductId</script>
     <script src="~/Scripts/ItemList/image-list.js"></script>
     <script src="~/Scripts/ItemList/load-comment.js"></script>
     <script src="~/Scripts/ItemList/track-item.js"></script>
-
-    <script>
-        $(document).ready(() => { updateBtnText(@ViewBag.ProductId) })
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="~/Scripts/ItemList/price-chart.js"></script>
 }
 
 @section css {
@@ -32,6 +31,9 @@
             <button class="btn btn-danger" onclick="track(@ViewBag.ProductId)">
                 <i id="follow" class="fa fa-heart-o follow"> 追蹤</i>
             </button>
+        </div>
+        <div class="col">
+            <div id="main" style="width: 600px;height:400px;"></div>
         </div>
     </div>
 </div>

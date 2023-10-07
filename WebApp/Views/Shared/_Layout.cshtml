@@ -34,7 +34,9 @@
             <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
                 <ul class="navbar-nav w-100 justify-content-center">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">商品比價</a>
+                        <form action="/item/search" method="get">
+                            <input type="text" name="query" class="form-control" placeholder="搜尋商品"/>
+                        </form>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
