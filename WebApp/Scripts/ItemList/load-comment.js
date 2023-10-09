@@ -38,24 +38,31 @@ function loadComments(id) {
 function placeComments(comments) {
     const section = $("#comments");
     section.empty();
+    section.after(`
+        <div id="comment-template" class="container comment">
+        <div class="row"><div class="col-1"><img class="profile-picture" /></div>
+        <div class="col list-group"><div class="row list-group-item comment-header">
+        <div class="col"><span class="comment-author"></span><span class="comment-date"></span>
+        </div><div class="col comment-stars"></div><div class="col comment-btn">
+        <button class="tool-btn"><i class="fa fa-ellipsis-h"></i></button>
+        </div> </div> <div class="row list-group-item comment-body"><div class="col comment-content">
+        </div></div></div></div></div>`);
 
     for (let i = 0; i < comments.length; i++) {
-        let html =
-        `<div class="comment">
-            <div class="row comment-header">
-                <div class="col">${comments[i].Author}</div>
-                <div id="star" class="col">${placeStars(comments[i].Rating)}</div>
-                <div class="col date">${comments[i].CreatedAt}</div>
-            </div>
-            <div class="row comment-body">
-                <div class="col">${comments[i].Content}</div>
-            </div>
-        </div>`
-        section.append(html);
+        var comment = $("#comment-template");
+        comment.find(".comment-author").text(comments[i].Author);
+        comment.find(".comment-date").text(`${comments[i].CreatedAt}`);
+        comment.find(".comment-stars").html(placeStars(comments[i].Rating));
+        comment.find(".comment-content").text(comments[i].Content);
+        comment.find(".profile-picture").attr("src", "/member/getpfpbyusername?username=" + comments[i].Author)
+        comment.attr("id", "");
+        comment.clone().appendTo("#comments");
     }
+
+    comment.remove();
 }
 function placeStars(rating) {
-    html = "";
+    let html = "";
 
     for (let i = 1; i <= 5; i++) {
         if (i <= rating) {

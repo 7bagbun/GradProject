@@ -146,6 +146,8 @@
     <Compile Include="Controllers\Item\PriceHistoryController.cs" />
     <Compile Include="Controllers\Item\TrackItemController.cs" />
     <Compile Include="Controllers\Member\MemberController.cs" />
+    <Compile Include="Controllers\News\NewsController.cs" />
+    <Compile Include="ExtensionMethods\ExtesionMethod.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -174,6 +176,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\News.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PriceHistory.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -197,6 +202,8 @@
     <Content Include="App_Data\TestDb_log.ldf">
       <DependentUpon>TestDb.mdf</DependentUpon>
     </Content>
+    <Content Include="Assets\Images\default-pfp.jpg" />
+    <Content Include="Assets\Images\default-pfp.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -205,6 +212,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\global.css" />
     <Content Include="Content\Index\font-awesome.min.css" />
+    <Content Include="Content\Index\index.css" />
     <Content Include="Content\Index\responsive.css" />
     <Content Include="Content\Index\style.css" />
     <Content Include="Content\ItemList\comment.css" />
@@ -331,6 +339,7 @@
   <ItemGroup>
     <Folder Include="Views\Comment\" />
     <Folder Include="Views\Image\" />
+    <Folder Include="Views\News\" />
     <Folder Include="Views\PriceHistory\" />
   </ItemGroup>
   <ItemGroup>

@@ -5,11 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="acbf1000cc5c46e1af9732a6e073c2b2" Name="Diagram1">
-        <EntityTypeShape EntityType="TestDbModel.Image" Width="1.5" PointX="3" PointY="2" />
-        <EntityTypeShape EntityType="TestDbModel.PriceHistory" Width="1.5" PointX="2.75" PointY="3.875" />
-        <EntityTypeShape EntityType="TestDbModel.Product" Width="1.5" PointX="5.375" PointY="3.875" />
-        <EntityTypeShape EntityType="TestDbModel.Selling" Width="1.5" PointX="7.625" PointY="3" />
-        <EntityTypeShape EntityType="TestDbModel.Source" Width="1.5" PointX="9.625" PointY="3" />
+        <EntityTypeShape EntityType="TestDbModel.Image" Width="1.5" PointX="4.375" PointY="1" />
+        <EntityTypeShape EntityType="TestDbModel.PriceHistory" Width="1.5" PointX="4.5" PointY="3.625" />
+        <EntityTypeShape EntityType="TestDbModel.Product" Width="1.5" PointX="2.25" PointY="3.375" />
+        <EntityTypeShape EntityType="TestDbModel.Selling" Width="1.5" PointX="6.375" PointY="3.25" />
+        <EntityTypeShape EntityType="TestDbModel.Source" Width="1.5" PointX="7.125" PointY="1.25" />
         <AssociationConnector Association="TestDbModel.FK__Selling__Image__5CD6CB2B" />
         <AssociationConnector Association="TestDbModel.FK__PriceHist__Produ__76619304" />
         <AssociationConnector Association="TestDbModel.FK__Selling__Product__7849DB76" />

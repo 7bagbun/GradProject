@@ -67,6 +67,7 @@ namespace Scraper
 
                 string title = obj["prods"][i].Value<string>("name");
                 string imgLink = obj["prods"][i].Value<string>("picS");
+                var imageByte = HttpHelper.DownloadImageBytesAsync("https://cs-b.ecimg.tw" + imgLink);
 
                 buffer[i] = new Selling
                 {
@@ -74,7 +75,10 @@ namespace Scraper
                     Price = price,
                     Link = obj["prods"][i].Value<string>("Id"),
                     Image1 = new Image()
-                    { ImageContent = await HttpHelper.DownloadImageBytesAsync("https://cs-b.ecimg.tw" + imgLink) },
+                    {
+                        ImageContent = await imageByte,
+                        LowresImage = ImageHelper.DownsizeImage(await imageByte)
+                    },
                     Source = _source_id,
                     Product1 = prod,
                     UpdatedTime = DateTime.Now

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using WebApp.Models;
+using WebApp.ExtensionMethods;
 
 namespace WebApp.Controllers.Item
 {
@@ -12,7 +13,8 @@ namespace WebApp.Controllers.Item
         public ActionResult Get(int productId)
         {
             var history = _db.PriceHistory.Where(x => x.Product == productId)
-                .Select(x => new { x.UpdatedTime, x.Price }).Distinct().OrderBy(x => x.UpdatedTime);
+                .Select(x => new { x.UpdatedTime, x.Price })
+                .DistinctBy(x => x.Price).OrderBy(x => x.UpdatedTime);
 
             var config = new JsonSerializerSettings() { DateFormatString = "yyyy/MM/dd hh:mm:ss" };
             string json = JsonConvert.SerializeObject(history, config);

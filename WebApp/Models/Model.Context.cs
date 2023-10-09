@@ -28,6 +28,7 @@ namespace WebApp.Models
         public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Image> Image { get; set; }
         public virtual DbSet<Member> Member { get; set; }
+        public virtual DbSet<News> News { get; set; }
         public virtual DbSet<PriceHistory> PriceHistory { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Selling> Selling { get; set; }

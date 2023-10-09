@@ -17,6 +17,7 @@ namespace WebApp.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Image()
         {
+            this.Member = new HashSet<Member>();
             this.Selling = new HashSet<Selling>();
         }
     
@@ -24,6 +25,8 @@ namespace WebApp.Models
         public byte[] ImageContent { get; set; }
         public byte[] LowresImage { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Member> Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Selling> Selling { get; set; }
     }

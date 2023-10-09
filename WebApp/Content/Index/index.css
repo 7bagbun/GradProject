@@ -1,0 +1,56 @@
+﻿.news {
+    max-width: 70%;
+    margin: 1em auto;
+}
+
+.news .col {
+    padding-right: 0.1em;
+    padding-left: 0.1em;
+}
+
+.news h2 {
+    margin: 0.5em;
+}
+
+.news-item:not(:last-child) {
+    margin-bottom: 0.2em;
+}
+
+.news-item {
+    cursor: pointer;
+}
+
+.news-item-empty {
+    visibility: hidden;
+}
+
+.news-detail {
+    height: 100%;
+    border: solid 1px #DDD;
+    border-radius: 5px;
+    padding: 1em;
+}
+
+.news-date {
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+}
+
+.content {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.color-tag {
+    border-left: solid 4px #007BFF;
+    padding: 0;
+}
+
+.news-item-danger .color-tag {
+    border-left: solid 4px #DC3545;
+}
+
+.page-nav {
+    margin-top: 1em;
+}

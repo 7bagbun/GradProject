@@ -22,7 +22,7 @@ namespace WebApp.Controllers.Member
                 return new HttpStatusCodeResult(500);
             }
         }
-        
+
         public ActionResult Register()
         {
             return View(new Models.Member() { CreatedDate = DateTime.Now });
@@ -88,6 +88,42 @@ namespace WebApp.Controllers.Member
             Session["user"] = null;
             Session["userId"] = null;
             return RedirectToAction("index", "home");
+        }
+
+        public ActionResult GetPfpById(int id)
+        {
+            var user = _db.Member.FirstOrDefault(x => x.Id == id);
+
+            if (user == null)
+            {
+                return new HttpNotFoundResult();
+            }
+            else if (user.ProfilePicture == null)
+            {
+                var bytes = System.IO.File.ReadAllBytes(Server.MapPath("~/Assets/Images/default-pfp.png"));
+                return File(bytes, "image/png");
+            }
+
+            var pfp = _db.Image.FirstOrDefault(x => x.Id == user.ProfilePicture);
+            return File(pfp.ImageContent, "image/jpg");
+        }
+
+        public ActionResult GetPfpByUsername(string username)
+        {
+            var user = _db.Member.FirstOrDefault(x => x.Username == username);
+
+            if (user == null)
+            {
+                return new HttpNotFoundResult();
+            }
+            else if (user.ProfilePicture == null)
+            {
+                var bytes = System.IO.File.ReadAllBytes(Server.MapPath("~/Assets/Images/default-pfp.png"));
+                return File(bytes, "image/png");
+            }
+
+            var pfp = _db.Image.FirstOrDefault(x => x.Id == user.ProfilePicture);
+            return File(pfp.ImageContent, "image/jpg");
         }
     }
 }

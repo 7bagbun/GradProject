@@ -160,8 +160,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ImageContent" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Selling" Relationship="TestDbModel.FK__Selling__Image__5CD6CB2B" FromRole="Image" ToRole="Selling" />
           <Property Name="LowresImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Selling" Relationship="TestDbModel.FK__Selling__Image__5CD6CB2B" FromRole="Image" ToRole="Selling" />
         </EntityType>
         <EntityType Name="PriceHistory">
           <Key>
@@ -212,7 +212,9 @@
           <NavigationProperty Name="Selling" Relationship="TestDbModel.FK__Selling__Source__793DFFAF" FromRole="Source" ToRole="Selling" />
         </EntityType>
         <Association Name="FK__Selling__Image__5CD6CB2B">
-          <End Type="TestDbModel.Image" Role="Image" Multiplicity="0..1" />
+          <End Type="TestDbModel.Image" Role="Image" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="TestDbModel.Selling" Role="Selling" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Image">
@@ -259,7 +261,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>

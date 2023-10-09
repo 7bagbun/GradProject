@@ -15,7 +15,7 @@ function chartInit(data) {
 
     option = {
         title: {
-            text: '歷史價格',
+            text: '歷史最低價格',
             left: 'center'
         },
         tooltip: {

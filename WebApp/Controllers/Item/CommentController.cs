@@ -15,16 +15,20 @@ namespace WebApp.Controllers.Item
 
         public ActionResult GetById(int id)
         {
+            //identify if login user is also who wrote comment
+            int userId = Session["userId"] == null ? -1 : (int)Session["userId"];
+
             var data = _db.Comment.Include("Member").Where(x => x.Product == id);
-            var comments = new CommentModel[data.Count()];
+            var comments = new CommentViewModel[data.Count()];
             int index = 0;
             data.ForEach(x =>
             {
-                comments[index++] = new CommentModel
+                comments[index++] = new CommentViewModel
                 {
                     Author = x.Member.Username,
                     Rating = x.Rating,
                     Content = x.Content,
+                    IsAuthor = x.Author == userId,
                     CreatedAt = x.CreatedDate
                 };
             });
@@ -72,6 +76,28 @@ namespace WebApp.Controllers.Item
                 Console.WriteLine(ex.Message);
                 return new HttpStatusCodeResult(500);
             }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteComment(int commentId)
+        {
+            if (Session["userId"] == null)
+            {
+                return new HttpStatusCodeResult(401);
+            }
+            
+            var comment = _db.Comment.FirstOrDefault(x => x.Id == commentId);
+
+            if (comment == null)
+            {
+                return RedirectToAction("CustomMessage", "Error", new { msg = "您要刪除的評論不存在" });
+            }
+            else if (comment.Author != (int)Session["userId"])
+            {
+                return new HttpStatusCodeResult(401);
+            }
+
+            return Content("{\"IsSucceed\":true}");
         }
     }
 }

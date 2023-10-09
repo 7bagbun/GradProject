@@ -69,6 +69,7 @@ namespace Scraper
 
                 string title = obj["prod"][i].Value<string>("title");
                 string imgLink = obj["prod"][i].Value<string>("mimg");
+                var imageBytes = HttpHelper.DownloadImageBytesAsync(imgLink);
 
                 if (price == 0 || title.Contains("另售"))
                 {
@@ -81,12 +82,16 @@ namespace Scraper
                     Price = price,
                     Link = obj["prod"][i].Value<string>("url").Substring(27),
                     Image1 = new Image()
-                    { ImageContent = await HttpHelper.DownloadImageBytesAsync(imgLink) },
-
+                    { 
+                        ImageContent = await imageBytes,
+                        LowresImage = ImageHelper.DownsizeImage(await imageBytes),
+                    },
                     Source = _source_id,
                     Product1 = prod,
                     UpdatedTime = DateTime.Now
                 };
+
+                buffer[i].Image1.LowresImage = ImageHelper.DownsizeImage(buffer[i].Image1.ImageContent);
             }
 
             return buffer.Where(x => x != null).ToArray();

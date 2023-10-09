@@ -1,14 +1,47 @@
-﻿.comment {
-    background-color: #eee;
-    border-radius: 5px;
-    padding: 1em 1.5em;
-    margin: 1em 2em;
+﻿#content-area {
+    margin-bottom: 3em;
 }
 
-.comment .date {
+.comment {
+    margin-top: 3em;
+}
+
+.comment-section {
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 0.5em 1em;
+    margin: 1em 0em;
+}
+
+.comment-header {
+    background-color: #eee;
+    display: flex;
+}
+
+.comment-btn {
+    color: #777;
     text-align: end;
 }
 
-.comment #star {
+.comment-stars {
     text-align: center;
+}
+
+.comment img {
+    max-width: 80%;
+    border: 1px solid #AAA;
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+}
+
+.comment-date {
+    color: #777;
+    margin-left: 0.7em
+}
+
+.tool-btn {
+    border: none;
+    background-color: #eee;
+    padding: 0 1em;
 }

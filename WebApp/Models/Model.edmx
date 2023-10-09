@@ -33,6 +33,17 @@
           <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="PasswordHash" Type="varbinary" MaxLength="64" />
+          <Property Name="ProfilePicture" Type="int" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="PriceHistory">
           <Key>
@@ -104,6 +115,18 @@
             </Principal>
             <Dependent Role="Comment">
               <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Member__ProfileP__32767D0B">
+          <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="ProfilePicture" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -185,6 +208,7 @@
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PriceHistory" EntityType="Self.PriceHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Selling" EntityType="Self.Selling" Schema="dbo" store:Type="Tables" />
@@ -197,6 +221,10 @@
           <AssociationSet Name="FK__Comment__Product__3F115E1A" Association="Self.FK__Comment__Product__3F115E1A">
             <End Role="Product" EntitySet="Product" />
             <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Member__ProfileP__32767D0B" Association="Self.FK__Member__ProfileP__32767D0B">
+            <End Role="Image" EntitySet="Image" />
+            <End Role="Member" EntitySet="Member" />
           </AssociationSet>
           <AssociationSet Name="FK__PriceHist__Produ__76619304" Association="Self.FK__PriceHist__Produ__76619304">
             <End Role="Product" EntitySet="Product" />
@@ -231,6 +259,7 @@
           <EntitySet Name="Comment" EntityType="TestDbModel.Comment" />
           <EntitySet Name="Image" EntityType="TestDbModel.Image" />
           <EntitySet Name="Member" EntityType="TestDbModel.Member" />
+          <EntitySet Name="News" EntityType="TestDbModel.News" />
           <EntitySet Name="PriceHistory" EntityType="TestDbModel.PriceHistory" />
           <EntitySet Name="Product" EntityType="TestDbModel.Product" />
           <EntitySet Name="Selling" EntityType="TestDbModel.Selling" />
@@ -243,6 +272,10 @@
           <AssociationSet Name="FK__Comment__Product__3F115E1A" Association="TestDbModel.FK__Comment__Product__3F115E1A">
             <End Role="Product" EntitySet="Product" />
             <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Member__ProfileP__32767D0B" Association="TestDbModel.FK__Member__ProfileP__32767D0B">
+            <End Role="Image" EntitySet="Image" />
+            <End Role="Member" EntitySet="Member" />
           </AssociationSet>
           <AssociationSet Name="FK__Selling__Image__5CD6CB2B" Association="TestDbModel.FK__Selling__Image__5CD6CB2B">
             <End Role="Image" EntitySet="Image" />
@@ -289,6 +322,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ImageContent" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="LowresImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Member" Relationship="TestDbModel.FK__Member__ProfileP__32767D0B" FromRole="Image" ToRole="Member" />
           <NavigationProperty Name="Selling" Relationship="TestDbModel.FK__Selling__Image__5CD6CB2B" FromRole="Image" ToRole="Selling" />
         </EntityType>
         <EntityType Name="Member">
@@ -300,8 +334,20 @@
           <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PasswordHash" Type="Binary" MaxLength="64" FixedLength="false" />
+          <Property Name="ProfilePicture" Type="Int32" />
           <NavigationProperty Name="Comment" Relationship="TestDbModel.FK__Comment__Author__40058253" FromRole="Member" ToRole="Comment" />
+          <NavigationProperty Name="Image" Relationship="TestDbModel.FK__Member__ProfileP__32767D0B" FromRole="Member" ToRole="Image" />
           <NavigationProperty Name="TrackProduct" Relationship="TestDbModel.FK__TrackProd__Follo__634EBE90" FromRole="Member" ToRole="TrackProduct" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="PriceHistory">
           <Key>
@@ -384,6 +430,18 @@
             </Principal>
             <Dependent Role="Comment">
               <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Member__ProfileP__32767D0B">
+          <End Type="TestDbModel.Image" Role="Image" Multiplicity="0..1" />
+          <End Type="TestDbModel.Member" Role="Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="ProfilePicture" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -491,10 +549,22 @@
           <EntitySetMapping Name="Member">
             <EntityTypeMapping TypeName="TestDbModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
                 <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="News">
+            <EntityTypeMapping TypeName="TestDbModel.News">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

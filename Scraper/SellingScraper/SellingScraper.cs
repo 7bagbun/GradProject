@@ -63,15 +63,8 @@ namespace Scraper
 
         private async Task ClearSellings()
         {
-            await _db.Database.ExecuteSqlCommandAsync("DELETE FROM [Image] WHERE Id IN (SELECT Id FROM Selling)");
+            await _db.Database.ExecuteSqlCommandAsync("DELETE FROM [Image] WHERE Id IN (SELECT Image FROM Selling)");
             await _db.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE Selling");
-        }
-
-        public void GenerateLowresImage()
-        {
-            var image = _db.Image.ToList();
-            image.ForEach(x => { x.LowresImage = ImageHelper.DownsizeImage(x.ImageContent); });
-            _db.SaveChanges();
         }
     }
 }
