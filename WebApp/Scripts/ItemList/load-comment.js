@@ -1,6 +1,4 @@
-﻿loadComments();
-
-function updateCount(e) {
+﻿function updateCount(e) {
     let count = e.value.length;
     const text = $("#text-count");
     text.text(count);
@@ -11,7 +9,10 @@ function updateCount(e) {
     } else {
     text.text(count);
         text.css("color", "#777");
-        $("#btn-post").prop("disabled", false);
+
+        if (!($("#btn-post").val().indexOf("登入") > -1)) {
+            $("#btn-post").prop("disabled", false);
+        }
     }
 }
 

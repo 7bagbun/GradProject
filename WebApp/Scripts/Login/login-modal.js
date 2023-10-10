@@ -11,7 +11,7 @@
         var errMsgEle = $('#err-msg');
 
         if (checkEmpty(username) || checkEmpty(passwd)) {
-            errMsgEle.text("Please fill out every field!");
+            errMsgEle.text("請確實輸入帳號與密碼");
             errMsgEle.removeClass('hide');
             return;
         }

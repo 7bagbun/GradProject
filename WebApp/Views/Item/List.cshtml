@@ -100,7 +100,7 @@
                             <div class="col">
                                 <div class="star-rating">
                                     <div class="star-input">
-                                        <input type="radio" name="rating" id="rating-5" value="5" @(Model.Comment?.Rating == 5 ? "checked" : ""))>
+                                        <input type="radio" name="rating" id="rating-5" value="5" required @(Model.Comment?.Rating == 5 ? "checked" : "")>
                                         <label for="rating-5" class="fa fa-star"> </label>
 
                                         <input type="radio" name="rating" id="rating-4" value="4" @(Model.Comment?.Rating == 4 ? "checked" : "")>
@@ -121,8 +121,8 @@
                         <div class="row">
                             <div class="col">
                                 <input type="text" name="product" class="hidden" value="@ViewBag.ProductId" />
-                                <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" onkeyup="updateCount(this)" style="height: 250px">@(Model.Comment?.Content)</textarea>
-                                <p class="text-counter"><span id="text-count">@(Model.Comment?.Content.Length)</span>/500</p>
+                                <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" required onkeyup="updateCount(this)" style="height: 250px">@(Model.Comment?.Content)</textarea>
+                                <p class="text-counter"><span id="text-count">@(Model.Comment?.Content.Length ?? 0)</span>/500</p>
                                 @if (Session["userId"] == null)
                                 {
                                     <input type="submit" id="btn-post" class="btn btn-info form-control" value="登入後即可發布評論" disabled />
