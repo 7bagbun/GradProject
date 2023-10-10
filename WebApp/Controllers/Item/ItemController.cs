@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Web.UI.WebControls;
 using Microsoft.Ajax.Utilities;
+using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers.Item
 {
@@ -13,12 +14,20 @@ namespace WebApp.Controllers.Item
 
         public ActionResult List(int id)
         {
-            var items = _db.Selling.Include("Source1")
+            var vm = new ItemListViewModel();
+
+            if (Session["userId"] != null)
+            {
+                int userId = (int)Session["userId"];
+                vm.Comment = _db.Comment.FirstOrDefault(x => x.Product == id && x.Author == userId);
+            }
+
+            vm.Items = _db.Selling.Include("Source1")
                             .Where(x => x.Product == id).OrderBy(x => x.Price);
 
-            if (items.Count() == 0) return HttpNotFound();
+            if (vm.Items.Count() == 0) return HttpNotFound();
 
-            int modelId = items.First().Product;
+            int modelId = vm.Items.First().Product;
             var model = _db.Product.FirstOrDefault(x => x.Id == modelId);
 
             ViewBag.Model = model.Model;
@@ -26,7 +35,7 @@ namespace WebApp.Controllers.Item
             ViewBag.Type = model.ProductType;
             ViewBag.ProductId = modelId;
 
-            return View(items);
+            return View(vm);
         }
 
         public ActionResult Get(int typeCount, int itemCount)

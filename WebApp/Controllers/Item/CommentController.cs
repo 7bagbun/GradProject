@@ -52,40 +52,62 @@ namespace WebApp.Controllers.Item
         [HttpPost]
         public ActionResult Create(Comment comment)
         {
-            try
+            if (Session["userId"] == null)
             {
-                if (Session["userId"] == null)
-                {
-                    return RedirectToAction("nologin", "error");
-                }
-
-                if (comment.Rating < 1 || comment.Rating > 5
-                    || comment.Content == null || comment.Content.Length > 500)
-                {
-                    return new HttpStatusCodeResult(400);
-                }
-
-                comment.Author = (int)Session["userId"];
-                comment.CreatedDate = DateTime.Now;
-                _db.Comment.Add(comment);
-                _db.SaveChanges();
-                return Content("{\"Succeed\":true}", "application/json");
+                return RedirectToAction("nologin", "error");
             }
-            catch (Exception ex)
+
+            if (comment.Rating < 1 || comment.Rating > 5
+                || comment.Content == null || comment.Content.Length > 500)
             {
-                Console.WriteLine(ex.Message);
-                return new HttpStatusCodeResult(500);
+                return new HttpStatusCodeResult(400);
             }
+
+            int userId = (int)Session["userId"];
+            if (_db.Comment.Any(x => x.Product == comment.Product && x.Author == userId))
+            {
+                return RedirectToAction("CustomMessage", "Error", new { msg = "您已評論過此產品" });
+            }
+
+            comment.Author = userId;
+            comment.CreatedDate = DateTime.Now;
+            _db.Comment.Add(comment);
+            _db.SaveChanges();
+
+            return RedirectToAction("list", "item", new { id = comment.Product });
         }
 
         [HttpPost]
-        public ActionResult DeleteComment(int commentId)
+        public ActionResult Edit(Comment comment)
         {
             if (Session["userId"] == null)
             {
                 return new HttpStatusCodeResult(401);
             }
-            
+
+            int userId = (int)Session["userId"];
+            var target = _db.Comment.FirstOrDefault(x => x.Product == comment.Product && x.Author == userId);
+
+            if (target == null)
+            {
+                return RedirectToAction("CustomMessage", "Error", new { msg = "您要編輯的評論不存在" });
+            }
+
+            target.Rating = comment.Rating;
+            target.Content = comment.Content;
+            _db.SaveChangesAsync();
+
+            return RedirectToAction("list", "item", new { id = comment.Product });
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int commentId)
+        {
+            if (Session["userId"] == null)
+            {
+                return new HttpStatusCodeResult(401);
+            }
+
             var comment = _db.Comment.FirstOrDefault(x => x.Id == commentId);
 
             if (comment == null)

@@ -96,7 +96,7 @@ namespace WebApp.Controllers.Member
 
             if (user == null)
             {
-                return new HttpNotFoundResult();
+                return HttpNotFound();
             }
             else if (user.ProfilePicture == null)
             {
@@ -114,7 +114,7 @@ namespace WebApp.Controllers.Member
 
             if (user == null)
             {
-                return new HttpNotFoundResult();
+                return HttpNotFound();
             }
             else if (user.ProfilePicture == null)
             {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApp.Models.Selling>
+﻿@model WebApp.Models.ViewModels.ItemListViewModel
 
 @{
     ViewBag.Title = "List";
@@ -23,7 +23,7 @@
 <div class="container item-header">
     <div class="row">
         <div class="col-2">
-            <img src="@Url.Action("get", "image", new { id = Model.First().Image })" class="image"
+            <img src="@Url.Action("get", "image", new { id = Model.Items.First().Image })" class="image"
                  style="max-width:150px" />
         </div>
         <div class="col">
@@ -65,7 +65,7 @@
                     <a href="top"></a>
                 </div>
             </div>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Items)
             {
                 <div class="row align-items-center">
                     <div class="col-2">
@@ -93,26 +93,26 @@
         <div class="tab-pane fade" id="comment-section" role="tabpanel" aria-labelledby="profile-tab">
             <div>
                 <div class="container">
-                    @using (Html.BeginForm("create", "comment", FormMethod.Post, new { id = "post-form" }))
+                    @using (Html.BeginForm(Model.Comment == null ? "create" : "edit", "comment", FormMethod.Post, new { id = "post-form" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="row">
                             <div class="col">
                                 <div class="star-rating">
                                     <div class="star-input">
-                                        <input type="radio" name="rating" id="rating-5" value="5">
+                                        <input type="radio" name="rating" id="rating-5" value="5" @(Model.Comment?.Rating == 5 ? "checked" : ""))>
                                         <label for="rating-5" class="fa fa-star"> </label>
 
-                                        <input type="radio" name="rating" id="rating-4" value="4">
+                                        <input type="radio" name="rating" id="rating-4" value="4" @(Model.Comment?.Rating == 4 ? "checked" : "")>
                                         <label for="rating-4" class="fa fa-star"> </label>
 
-                                        <input type="radio" name="rating" id="rating-3" value="3">
+                                        <input type="radio" name="rating" id="rating-3" value="3" @(Model.Comment?.Rating == 3 ? "checked" : "")>
                                         <label for="rating-3" class="fa fa-star"> </label>
 
-                                        <input type="radio" name="rating" id="rating-2" value="2">
+                                        <input type="radio" name="rating" id="rating-2" value="2" @(Model.Comment?.Rating == 2 ? "checked" : "")>
                                         <label for="rating-2" class="fa fa-star"> </label>
 
-                                        <input type="radio" name="rating" id="rating-1" value="1">
+                                        <input type="radio" name="rating" id="rating-1" value="1" @(Model.Comment?.Rating == 1 ? "checked" : "")>
                                         <label for="rating-1" class="fa fa-star"> </label>
                                     </div>
                                 </div>
@@ -121,10 +121,15 @@
                         <div class="row">
                             <div class="col">
                                 <input type="text" name="product" class="hidden" value="@ViewBag.ProductId" />
-                                <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" style="height: 250px"></textarea>
+                                <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" onkeyup="updateCount(this)" style="height: 250px">@(Model.Comment?.Content)</textarea>
+                                <p class="text-counter"><span id="text-count">@(Model.Comment?.Content.Length)</span>/500</p>
                                 @if (Session["userId"] == null)
                                 {
                                     <input type="submit" id="btn-post" class="btn btn-info form-control" value="登入後即可發布評論" disabled />
+                                }
+                                else if (Model.Comment != null)
+                                {
+                                    <input type="submit" id="btn-post" class="btn btn-info form-control" value="編輯並儲存" />
                                 }
                                 else
                                 {
@@ -136,7 +141,7 @@
                 </div>
             </div>
             <div id="comments"></div>
-            
+
         </div>
     </div>
 
