@@ -14,7 +14,7 @@ namespace WebApp.Controllers.Item
         {
             var history = _db.PriceHistory.Where(x => x.Product == productId)
                 .Select(x => new { x.UpdatedTime, x.Price })
-                .DistinctBy(x => x.Price).OrderBy(x => x.UpdatedTime);
+                .OrderBy(x => x.UpdatedTime);
 
             var config = new JsonSerializerSettings() { DateFormatString = "yyyy/MM/dd hh:mm:ss" };
             string json = JsonConvert.SerializeObject(history, config);

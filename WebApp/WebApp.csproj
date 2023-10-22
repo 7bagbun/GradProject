@@ -138,22 +138,26 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\Error\ErrorController.cs" />
+    <Compile Include="Controllers\Redirect\RedirectController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
     <Compile Include="Controllers\Image\ImageController.cs" />
     <Compile Include="Controllers\Item\CommentController.cs" />
     <Compile Include="Controllers\Item\ItemController.cs" />
     <Compile Include="Controllers\Item\PriceHistoryController.cs" />
     <Compile Include="Controllers\Item\TrackItemController.cs" />
+    <Compile Include="Controllers\Member\ForgetPasswordController.cs" />
     <Compile Include="Controllers\Member\MemberController.cs" />
     <Compile Include="Controllers\News\NewsController.cs" />
-    <Compile Include="ExtensionMethods\ExtesionMethod.cs" />
+    <Compile Include="Misc\AesHelper\AesHelper.cs" />
+    <Compile Include="Misc\ExtensionMethods\ExtesionMethod.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Misc\SecretManager.cs" />
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\Image.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -203,6 +207,7 @@
     <Content Include="App_Data\TestDb_log.ldf">
       <DependentUpon>TestDb.mdf</DependentUpon>
     </Content>
+    <Content Include="Assets\EmailTemplates\ResetPassword.html" />
     <Content Include="Assets\Images\default-pfp.jpg" />
     <Content Include="Assets\Images\default-pfp.png" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -211,6 +216,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ForgetPassword\forget-pwd.css" />
     <Content Include="Content\global.css" />
     <Content Include="Content\Index\font-awesome.min.css" />
     <Content Include="Content\Index\index.css" />
@@ -253,6 +259,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\ForgetPassword\forget-pwd.js" />
     <Content Include="Scripts\Index\index.js" />
     <Content Include="Content\Index\style.css.map" />
     <Content Include="Content\Index\style.scss" />
@@ -278,11 +285,13 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
     <Content Include="Connections.config" />
+    <Content Include="key.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\ItemList\image-list.js" />
     <Content Include="Scripts\ItemList\load-comment.js" />
     <Content Include="Scripts\ItemList\price-chart.js" />
     <Content Include="Scripts\ItemList\track-item.js" />
+    <Content Include="Scripts\ResetPassword\reset-pwd.js" />
     <Content Include="Scripts\TrackList\untrack-item.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -334,8 +343,13 @@
     <Content Include="Views\Item\List.cshtml" />
     <Content Include="Views\Item\Search.cshtml" />
     <Content Include="Views\TrackItem\TrackList.cshtml" />
-    <Content Include="Views\Error\NoLogin.cshtml" />
-    <Content Include="Views\Error\CustomMessage.cshtml" />
+    <Content Include="Views\Redirect\NoLogin.cshtml" />
+    <Content Include="Views\Redirect\Error.cshtml" />
+    <Content Include="Views\ForgetPassword\ForgetPassword.cshtml" />
+    <Content Include="Views\Member\ChangePassword.cshtml" />
+    <Content Include="Views\ForgetPassword\ResetPassword.cshtml" />
+    <Content Include="Views\Redirect\Inform.cshtml" />
+    <Content Include="Views\Redirect\Succeed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Comment\" />

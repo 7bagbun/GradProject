@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers.Member
 {
@@ -125,5 +126,37 @@ namespace WebApp.Controllers.Member
             var pfp = _db.Image.FirstOrDefault(x => x.Id == user.ProfilePicture);
             return File(pfp.ImageContent, "image/jpg");
         }
+
+        public ActionResult ChangePassword()
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("NoLogin", "Redirect");
+            }
+
+            return View(new ChangePasswordViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("NoLogin", "Redirect");
+            }
+
+            int id = (int)Session["userId"];
+            var target = _db.Member.FirstOrDefault(x => x.Id == id);
+
+            if (target.Password != model.OldPassword)
+            {
+                return RedirectToAction("CustomMessage", "輸入的舊密碼錯誤，請重新輸入。");
+            }
+
+            target.Password = model.NewPassword;
+            _db.SaveChanges();
+            return View(target);
+        }
+
     }
 }

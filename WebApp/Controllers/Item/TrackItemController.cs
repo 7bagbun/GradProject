@@ -19,13 +19,13 @@ namespace WebApp.Controllers.Item
 
             if (Session["userId"] == null)
             {
-                json = "{\"isSucceed\":false,\"redirUrl\":\"/error/nologin\"}";
+                json = "{\"isSucceed\":false,\"redirUrl\":\"/redirect/nologin\"}";
                 return Content(json, "application/json");
             }
 
             if (!_db.Product.Any(x => x.Id == productId))
             {
-                json = "{\"isSucceed\":false,\"redirUrl\":\"/error/custommessage?msg=無此商品\"}";
+                json = "{\"isSucceed\":false,\"redirUrl\":\"/redirect/error?msg=無此商品\"}";
                 return Content(json, "application/json");
             }
 
@@ -53,7 +53,7 @@ namespace WebApp.Controllers.Item
         {
             if (Session["userId"] == null)
             {
-                return RedirectToAction("nologin", "error");
+                return RedirectToAction("nologin", "redirect");
             }
 
             int memberId = (int)Session["userId"];

@@ -27,6 +27,7 @@ namespace WebApp.Models
         public System.DateTime CreatedDate { get; set; }
         public byte[] PasswordHash { get; set; }
         public Nullable<int> ProfilePicture { get; set; }
+        public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }

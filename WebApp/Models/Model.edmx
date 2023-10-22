@@ -34,6 +34,7 @@
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="PasswordHash" Type="varbinary" MaxLength="64" />
           <Property Name="ProfilePicture" Type="int" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -338,6 +339,7 @@
           <NavigationProperty Name="Comment" Relationship="TestDbModel.FK__Comment__Author__40058253" FromRole="Member" ToRole="Comment" />
           <NavigationProperty Name="Image" Relationship="TestDbModel.FK__Member__ProfileP__32767D0B" FromRole="Member" ToRole="Image" />
           <NavigationProperty Name="TrackProduct" Relationship="TestDbModel.FK__TrackProd__Follo__634EBE90" FromRole="Member" ToRole="TrackProduct" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -549,6 +551,7 @@
           <EntitySetMapping Name="Member">
             <EntityTypeMapping TypeName="TestDbModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
                 <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

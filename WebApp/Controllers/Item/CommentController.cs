@@ -54,7 +54,7 @@ namespace WebApp.Controllers.Item
         {
             if (Session["userId"] == null)
             {
-                return RedirectToAction("nologin", "error");
+                return RedirectToAction("NoLogin", "Redirect");
             }
 
             if (comment.Rating < 1 || comment.Rating > 5
@@ -66,7 +66,7 @@ namespace WebApp.Controllers.Item
             int userId = (int)Session["userId"];
             if (_db.Comment.Any(x => x.Product == comment.Product && x.Author == userId))
             {
-                return RedirectToAction("CustomMessage", "Error", new { msg = "您已評論過此產品" });
+                return RedirectToAction("Error", "Redirect", new { msg = "您已評論過此產品" });
             }
 
             comment.Author = userId;
@@ -90,7 +90,7 @@ namespace WebApp.Controllers.Item
 
             if (target == null)
             {
-                return RedirectToAction("CustomMessage", "Error", new { msg = "您要編輯的評論不存在" });
+                return RedirectToAction("Error", "Redirect", new { msg = "您要編輯的評論不存在" });
             }
 
             target.Rating = comment.Rating;
@@ -112,7 +112,7 @@ namespace WebApp.Controllers.Item
 
             if (comment == null)
             {
-                return RedirectToAction("CustomMessage", "Error", new { msg = "您要刪除的評論不存在" });
+                return RedirectToAction("Error", "Redirect", new { msg = "您要刪除的評論不存在" });
             }
             else if (comment.Author != (int)Session["userId"])
             {

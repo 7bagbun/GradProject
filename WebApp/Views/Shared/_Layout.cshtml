@@ -35,7 +35,7 @@
                 <ul class="navbar-nav w-100 justify-content-center">
                     <li class="nav-item active">
                         <form action="/item/search" method="get">
-                            <input type="text" name="query" class="form-control" placeholder="搜尋商品"/>
+                            <input type="text" name="query" class="form-control" placeholder="搜尋商品" />
                         </form>
                     </li>
                 </ul>
@@ -99,14 +99,23 @@
                                 <label for="psw" class="form-text">密碼</label>
                                 <input type="password" id="passwd" name="passwd" class="form-control input m-input">
                             </div>
-                            <input type="submit" id="submit" class="btn btn-info modal-btn" value="登入">
+                            <input type="submit" id="submit" class="btn btn-info modal-btn form-control" value="登入">
                         </form>
                     </div>
                     <div class="msg-div">
                         <span id="err-msg" class="hide" style="color: red"></span>
                     </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col" style="padding:0">
+                                <span>不是會員? <a href="/member/register">註冊</a></span>
+                            </div>
+                            <div class="col text-right" style="padding:0">
+                                <a href="/forgetpassword/forgetpassword" style="display:inline-block">忘記密碼</a>
+                            </div>
+                        </div>
+                    </div>
                     <div style="text-align: right">
-                        <span>不是會員? <a href="/member/register">註冊</a></span>
                     </div>
                 </div>
             </div>
