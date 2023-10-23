@@ -4,44 +4,64 @@
     ViewBag.Title = "Register";
 }
 
-<h2>註冊會員</h2>
+@section scripts {
+    <script src="~/Scripts/Register/register.js"></script>
+}
 
-<div>
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+@section css {
+    <link href="~/Content/ForgetPassword/forget-pwd.css" rel="stylesheet" />
+}
 
-        <div class="form-horizontal">
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <label class="control-label col-md-2">帳號</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
-                </div>
-            </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">註冊會員</h2>
 
-            <div class="form-group">
-                <label class="control-label col-md-2">密碼</label>
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    @using (Html.BeginForm("Register", "Member", FormMethod.Post, new { id = "rp", enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="建立" class="btn btn-default" />
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label">帳號</label>
+                                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", onhange = "setErrMsg('')" } })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">電子郵件</label>
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", onchange = "setErrMsg('')" } })
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">密碼</label>
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control", onchange = "setErrMsg('')" })
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirm" class="control-label">確認新密碼</label>
+                                <input type="password" name="comfirm" id="confirm" class="form-control" onchange="setErrMsg('')" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pfp">大頭貼<span class="text-muted"> (可選)</span></label>
+                                <input type="file" name="pfp" id="pfp" class="btn btn-primary hidden" accept="image/jpeg image/png" onchange="showPickedImage(this)" />
+                                <button id="btn-upload-pfp" class="btn btn-info form-control" onclick="setErrMsg('')">選擇檔案</button>
+                                <img id="pfp-display" src="" alt="" class="pfp-display card-img" style="max-height: 364px; margin:1em 0;" />
+                            </div>
+
+                            <div class="form-group">
+                                <button id="btn-submit" class="btn btn-primary form-control" onclick="validateForm(this)">註冊</button>
+                            </div>
+                        </div>
+                    }
+
+                    <p id="msg">@ViewBag.Message</p>
                 </div>
             </div>
         </div>
-    }
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+    </div>
 </div>
 
-<div>
-    @Html.ActionLink("返回首頁", "Index", "Home")
-</div>
+@Scripts.Render("~/bundles/jquery")

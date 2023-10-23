@@ -291,6 +291,7 @@
     <Content Include="Scripts\ItemList\load-comment.js" />
     <Content Include="Scripts\ItemList\price-chart.js" />
     <Content Include="Scripts\ItemList\track-item.js" />
+    <Content Include="Scripts\Register\register.js" />
     <Content Include="Scripts\ResetPassword\reset-pwd.js" />
     <Content Include="Scripts\TrackList\untrack-item.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

@@ -3,6 +3,8 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using WebApp.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace WebApp.Controllers.Member
 {
@@ -30,30 +32,56 @@ namespace WebApp.Controllers.Member
         }
 
         [HttpPost]
-        public ActionResult Register(Models.Member member)
+        public ActionResult Register(Models.Member member, HttpPostedFileBase pfp)
         {
             try
             {
-                var existed = _db.Member.FirstOrDefault(m => m.Username == member.Username);
+                bool dupeUsername = _db.Member.Any(m => m.Username == member.Username);
+                bool dupeEmail = _db.Member.Any(m => m.Email == member.Email);
 
-                if (existed != null)
+                if (member.Username == "")
                 {
-                    ViewBag.Message = $"Username \"{member.Username}\" has already existed!";
+                    ViewBag.Message = $"無效的帳號，請嘗試其他名稱。";
                     return View(member);
+                }
+                if (dupeUsername)
+                {
+                    ViewBag.Message = $"此帳號已被使用，請嘗試其他名稱。";
+                    return View(member);
+                }
+                else if (!new EmailAddressAttribute().IsValid(member.Email))
+                {
+                    ViewBag.Message = $"無效新的信箱地址，請重新輸入。";
+                    return View(member);
+                }
+                else if (dupeEmail)
+                {
+                    ViewBag.Message = $"此信箱地址已被使用，請嘗試其他信箱。";
+                    return View(member);
+                }
+
+                if (member.Password == "")
+                {
+                    ViewBag.Message = $"無效的密碼，請嘗試其他密碼。";
+                    return View(member);
+                }
+
+                if (pfp != null)
+                {
+                    byte[] imageBytes = new byte[pfp.ContentLength];
+                    pfp.InputStream.Read(imageBytes, 0, imageBytes.Length);
+                    member.Image = new Models.Image() { ImageContent = imageBytes };
                 }
 
                 Session["user"] = member.Username;
                 member.CreatedDate = DateTime.Now;
                 _db.Member.Add(member);
                 _db.SaveChanges();
-                return RedirectToAction("index", "home");
-
+                return RedirectToAction("Succeed", "Redirect", new { msg = "註冊成功！已將您登入。" });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
                 return new HttpStatusCodeResult(500);
-                throw;
             }
         }
 

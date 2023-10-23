@@ -49,8 +49,10 @@ function placeComments(comments) {
         comment.removeAttr("id");
         if (comments[i].IsAuthor) {
             comment.find(".comment-header").addClass("comment-owner");
-
+        } else {
+            comment.find(".comment-header").removeClass("comment-owner");
         }
+
         comment.find(".comment-author").text(comments[i].Author);
         comment.find(".comment-date").text(comments[i].CreatedAt);
         comment.find(".comment-stars").html(placeStars(comments[i].Rating));
