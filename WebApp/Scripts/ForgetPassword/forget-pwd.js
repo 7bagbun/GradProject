@@ -7,13 +7,16 @@ function submitForm(e) {
     const form = $("#fp");
     const msg = $("#msg");
     const input = $("#email");
-    msg.css("display", "block");
+    msg.addClass("hidden");
 
     if (input.val() === "") {
         msg.text("請輸入電子信箱。");
-        msg.css("display", "block");
+        msg.removeClass("hidden");
         return;
     }
+
+    msg.text("處理中...");
+    msg.removeClass("hidden");
 
     $.ajax({
         type: "POST",
@@ -22,7 +25,7 @@ function submitForm(e) {
         data: form.serialize(),
         success: (data) => {
             msg.text(data.msg);
-            msg.css("display", "block");
+            msg.removeClass("hidden");
         },
         failure: (err) => {
             console.log(err);

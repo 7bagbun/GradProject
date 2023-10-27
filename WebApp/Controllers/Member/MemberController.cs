@@ -36,34 +36,38 @@ namespace WebApp.Controllers.Member
         {
             try
             {
+                string msg = string.Empty;
                 bool dupeUsername = _db.Member.Any(m => m.Username == member.Username);
                 bool dupeEmail = _db.Member.Any(m => m.Email == member.Email);
+                bool noNonWordChar = System.Text.RegularExpressions.Regex.IsMatch(member.Username, @"\W");
 
-                if (member.Username == "")
+                if (noNonWordChar || member.Username.Length < 1)
                 {
-                    ViewBag.Message = $"無效的帳號，請嘗試其他名稱。";
-                    return View(member);
+                    msg = $"無效的帳號名稱，請嘗試其他名稱。";
                 }
-                if (dupeUsername)
+                else if (member.Username.Length < 6 || member.Username.Length > 20)
                 {
-                    ViewBag.Message = $"此帳號已被使用，請嘗試其他名稱。";
-                    return View(member);
+                    msg = $"已超過帳號長度限制(6-20個字元)，請嘗試其他名稱。";
+                }
+                else if (dupeUsername)
+                {
+                    msg = $"此帳號名稱已被使用，請嘗試其他名稱。";
                 }
                 else if (!new EmailAddressAttribute().IsValid(member.Email))
                 {
-                    ViewBag.Message = $"無效新的信箱地址，請重新輸入。";
-                    return View(member);
+                    msg = $"無效新的信箱地址，請重新輸入。";
                 }
                 else if (dupeEmail)
                 {
-                    ViewBag.Message = $"此信箱地址已被使用，請嘗試其他信箱。";
-                    return View(member);
+                    msg = $"此信箱地址已被使用，請嘗試其他信箱。";
+                }else if (member.Password == "")
+                {
+                    msg = $"無效的密碼，請嘗試其他密碼。";
                 }
 
-                if (member.Password == "")
+                if (msg != string.Empty)
                 {
-                    ViewBag.Message = $"無效的密碼，請嘗試其他密碼。";
-                    return View(member);
+                    return Content($"{{\"isSucceed\":false, \"msg\":\"{msg}\"}}", "application/json");
                 }
 
                 if (pfp != null)
@@ -77,7 +81,9 @@ namespace WebApp.Controllers.Member
                 member.CreatedDate = DateTime.Now;
                 _db.Member.Add(member);
                 _db.SaveChanges();
-                return RedirectToAction("Succeed", "Redirect", new { msg = "註冊成功！已將您登入。" });
+
+                msg = "註冊成功！已將您登入。";
+                return Content($"{{\"isSucceed\":true, \"redirUrl\":\"/redirect/succeed?msg={msg}\"}}", "application/json");
             }
             catch (Exception)
             {

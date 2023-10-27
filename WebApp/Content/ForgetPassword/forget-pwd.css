@@ -1,4 +1,9 @@
-﻿.card {
+﻿#msg {
+color: red;
+margin: 1em 0 0;
+}
+
+.card {
     padding: 10px;
     margin: 100px  10px;
 }
@@ -9,11 +14,6 @@
 
 .card input {
     margin-bottom: 2em;
-}
-
-#msg {
-    color: red;
-    margin: 1em 0 0;
 }
 
 .hidden {

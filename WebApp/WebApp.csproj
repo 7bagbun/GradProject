@@ -138,6 +138,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Identity\IdentityController.cs" />
     <Compile Include="Controllers\Redirect\RedirectController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
     <Compile Include="Controllers\Image\ImageController.cs" />
@@ -210,6 +211,8 @@
     <Content Include="Assets\EmailTemplates\ResetPassword.html" />
     <Content Include="Assets\Images\default-pfp.jpg" />
     <Content Include="Assets\Images\default-pfp.png" />
+    <Content Include="Assets\Images\drag-img.jpg" />
+    <Content Include="Assets\Images\drag-img.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -235,6 +238,7 @@
     <Content Include="Content\OwlCarousel\owl.theme.green.css" />
     <Content Include="Content\OwlCarousel\owl.theme.green.min.css" />
     <Content Include="Content\OwlCarousel\owl.video.play.png" />
+    <Content Include="Content\Register\register.css" />
     <Content Include="Content\TrackList\track-list.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -354,6 +358,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Comment\" />
+    <Folder Include="Views\Identity\" />
     <Folder Include="Views\Image\" />
     <Folder Include="Views\News\" />
     <Folder Include="Views\PriceHistory\" />

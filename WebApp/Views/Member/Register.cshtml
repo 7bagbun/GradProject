@@ -9,7 +9,7 @@
 }
 
 @section css {
-    <link href="~/Content/ForgetPassword/forget-pwd.css" rel="stylesheet" />
+    <link href="~/Content/Register/register.css" rel="stylesheet" />
 }
 
 <div class="container">
@@ -26,12 +26,13 @@
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label">帳號</label>
-                                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", onhange = "setErrMsg('')" } })
+                                @Html.EditorFor(model => model.Username, new { htmlAttributes =
+                                    new { @class = "form-control", placeholder = "限\"A-Z, a-z, 0-9, _\"", onhange = "setErrMsg('')" } })
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label">電子郵件</label>
-                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email", onchange = "setErrMsg('')" } })
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", onchange = "setErrMsg('')" } })
                             </div>
 
                             <div class="form-group">
@@ -47,12 +48,15 @@
                             <div class="form-group">
                                 <label for="pfp">大頭貼<span class="text-muted"> (可選)</span></label>
                                 <input type="file" name="pfp" id="pfp" class="btn btn-primary hidden" accept="image/jpeg image/png" onchange="showPickedImage(this)" />
-                                <button id="btn-upload-pfp" class="btn btn-info form-control" onclick="setErrMsg('')">選擇檔案</button>
-                                <img id="pfp-display" src="" alt="" class="pfp-display card-img" style="max-height: 364px; margin:1em 0;" />
+                                <button id="btn-upload-pfp" class="btn btn-info form-control">選擇檔案</button>
+                                <div id="img-section" class="img-section">
+                                    <span id="pfp-clear" class="hidden">&times;</span>
+                                    <img id="pfp-display" src="~/Assets/Images/drag-img.png" alt="" class="pfp-display card-img" style="max-height: 364px; margin:1em 0;" />
+                                </div>
                             </div>
 
                             <div class="form-group">
-                                <button id="btn-submit" class="btn btn-primary form-control" onclick="validateForm(this)">註冊</button>
+                                <button id="btn-submit" class="btn btn-primary form-control">註冊</button>
                             </div>
                         </div>
                     }

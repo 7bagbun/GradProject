@@ -3,7 +3,7 @@
 }
 
 <link href="~/Content/bootstrap.css" type="text/css" rel="stylesheet" />
-@Scripts.Render("~/bundles/jquery")
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
     .alert {
@@ -12,20 +12,33 @@
     }
 </style>
 
-<script>
-    $(document).ready(() => {
-        window.setTimeout(() => {
-            location.href = "/";
-        }, 5000);
-    });
-</script>
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-8 offset-2">
             <div class="alert alert-danger fade show" role="alert">
-                <strong>錯誤</strong> @(ViewBag.Message)5秒後導向首頁。
+                <span>
+                    <i class="fa fa-times-circle-o"></i>
+                    <strong> 錯誤</strong>
+                    @(ViewBag.Message)<span id="sec"> 5 </span>秒後導向首頁。
+                </span>
             </div>
         </div>
     </div>
 </div>
+
+@Scripts.Render("~/bundles/jquery")
+<script>
+    const sec = $("#sec");
+    let count = 5;
+
+    $(document).ready(() => {
+        let timer = setInterval(() => {
+            if (--count <= 0) {
+                clearInterval(timer);
+                location.href = "/";
+            }
+
+            sec.text(` ${count} `);
+        }, 1000)
+    });
+</script>

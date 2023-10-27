@@ -1,4 +1,10 @@
-﻿function updateCount(e) {
+﻿var identity
+
+$.get("/identity/getidentity", (data) => {
+    identity = data.identity;
+});
+
+function updateCount(e) {
     let count = e.value.length;
     const text = $("#text-count");
     text.text(count);
@@ -7,12 +13,14 @@
         text.css("color", "red");
         $("#btn-post").prop("disabled", true);
     } else {
-    text.text(count);
+        text.text(count);
         text.css("color", "#777");
 
-        if (!($("#btn-post").val().indexOf("登入") > -1)) {
-            $("#btn-post").prop("disabled", false);
-        }
+        $.get("/identity/getidentity", (data) => {
+            if (identity == "member") {
+                $("#btn-post").prop("disabled", false);
+            }
+        });
     }
 }
 
