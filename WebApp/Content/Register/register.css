@@ -37,3 +37,8 @@
 .img-section {
     position: relative;
 }
+
+.fa {
+    vertical-align: middle;
+    color: #555;
+}

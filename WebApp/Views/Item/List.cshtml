@@ -5,19 +5,23 @@
 }
 
 @section scripts {
-    <script>var id = @ViewBag.ProductId</script>
+    <script>
+        var id = @ViewBag.ProductId;
+        var tab = "@ViewBag.Tab";
+    </script>
+
     <script src="~/Scripts/ItemList/image-list.js"></script>
     <script src="~/Scripts/ItemList/load-comment.js"></script>
     <script src="~/Scripts/ItemList/track-item.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script src="~/Scripts/ItemList/price-chart.js"></script>
+    <script src="~/Scripts/ItemList/page-init.js"></script>
 }
 
 @section css {
     <link rel="stylesheet" type="text/css" href="~/Content/ItemList/item-list.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/ItemList/star-rating.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/ItemList/comment.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 }
 
 <div class="container item-header">
@@ -40,14 +44,14 @@
 <div class="container">
     <ul class="nav nav-tabs" id="tab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="list-tab" data-toggle="tab" data-target="#list-section" type="button" role="tab" aria-controls="home" aria-selected="true">賣場清單</button>
+            <button class="nav-link active" id="list-tab" data-toggle="tab" data-target="#list-section" type="button" role="tab">賣場清單</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="comment-tab" data-toggle="tab" data-target="#comment-section" type="button" role="tab" aria-controls="profile" aria-selected="false" onclick="loadComments(@ViewBag.ProductId)">評論</button>
+            <button class="nav-link" id="comment-tab" data-toggle="tab" data-target="#comment-section" type="button" role="tab">評論</button>
         </li>
     </ul>
     <div class="tab-content" id="tabContent">
-        <div class="tab-pane fade show active" id="list-section" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade show active" id="list-section" role="tabpanel">
             <div class="row title-bar">
                 <div class="col-5 offset-2">
                     賣場標題
@@ -121,7 +125,8 @@
                         <div class="row">
                             <div class="col">
                                 <input type="text" name="product" class="hidden" value="@ViewBag.ProductId" />
-                                <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" required onkeyup="updateCount(this)" style="height: 250px">@(Model.Comment?.Content)</textarea>
+                                <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" required
+                                          onkeyup="updateCount(this)" style="height: 250px" disabled>@(Model.Comment?.Content)</textarea>
                                 <p class="text-counter"><span id="text-count">@(Model.Comment?.Content.Length ?? 0)</span>/500</p>
                                 @if (Session["userId"] == null)
                                 {

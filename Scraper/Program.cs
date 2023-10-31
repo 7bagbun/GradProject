@@ -6,8 +6,8 @@ namespace Scraper
     {
         static async Task Main(string[] args)
         {
-            //var ms = new ModelScraperBase();
-            //await ms.StartScrapingModel();
+            var ms = new ModelScraperBase();
+            await ms.StartScrapingModel();
 
             var scrp = new SellingScraper();
             await scrp.StartScraping();

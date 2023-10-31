@@ -149,8 +149,9 @@
     <Compile Include="Controllers\Member\ForgetPasswordController.cs" />
     <Compile Include="Controllers\Member\MemberController.cs" />
     <Compile Include="Controllers\News\NewsController.cs" />
-    <Compile Include="Misc\AesHelper\AesHelper.cs" />
-    <Compile Include="Misc\ExtensionMethods\ExtesionMethod.cs" />
+    <Compile Include="Misc\AesHelper.cs" />
+    <Compile Include="Misc\EmailHelper.cs" />
+    <Compile Include="Misc\ExtesionMethod.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -158,6 +159,7 @@
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PriceHistoryModel.cs" />
     <Compile Include="Models\ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\Image.cs">
@@ -289,10 +291,10 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
     <Content Include="Connections.config" />
-    <Content Include="key.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\ItemList\image-list.js" />
     <Content Include="Scripts\ItemList\load-comment.js" />
+    <Content Include="Scripts\ItemList\page-init.js" />
     <Content Include="Scripts\ItemList\price-chart.js" />
     <Content Include="Scripts\ItemList\track-item.js" />
     <Content Include="Scripts\Register\register.js" />
@@ -355,14 +357,9 @@
     <Content Include="Views\ForgetPassword\ResetPassword.cshtml" />
     <Content Include="Views\Redirect\Inform.cshtml" />
     <Content Include="Views\Redirect\Succeed.cshtml" />
+    <Content Include="Views\Member\HintVerifyEmail.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Comment\" />
-    <Folder Include="Views\Identity\" />
-    <Folder Include="Views\Image\" />
-    <Folder Include="Views\News\" />
-    <Folder Include="Views\PriceHistory\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

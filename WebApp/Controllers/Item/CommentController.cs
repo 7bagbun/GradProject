@@ -74,7 +74,7 @@ namespace WebApp.Controllers.Item
             _db.Comment.Add(comment);
             _db.SaveChanges();
 
-            return RedirectToAction("list", "item", new { id = comment.Product });
+            return RedirectToAction("List", "Item", new { id = comment.Product, tab = "comment"});
         }
 
         [HttpPost]
@@ -97,7 +97,7 @@ namespace WebApp.Controllers.Item
             target.Content = comment.Content;
             _db.SaveChangesAsync();
 
-            return RedirectToAction("list", "item", new { id = comment.Product });
+            return RedirectToAction("List", "Item", new { id = comment.Product, tab = "comment" });
         }
 
         [HttpPost]

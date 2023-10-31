@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using System.Web.UI.WebControls;
 using Microsoft.Ajax.Utilities;
 using WebApp.Models.ViewModels;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace WebApp.Controllers.Item
 {
@@ -12,7 +14,7 @@ namespace WebApp.Controllers.Item
     {
         private readonly TestDbEntities _db = new TestDbEntities();
 
-        public ActionResult List(int id)
+        public ActionResult List(int id, string tab)
         {
             var vm = new ItemListViewModel();
 
@@ -34,6 +36,7 @@ namespace WebApp.Controllers.Item
             ViewBag.Brand = model.Brand;
             ViewBag.Type = model.ProductType;
             ViewBag.ProductId = modelId;
+            ViewBag.Tab = tab;
 
             return View(vm);
         }
@@ -77,6 +80,5 @@ namespace WebApp.Controllers.Item
 
             return View(result);
         }
-
     }
 }

@@ -6,6 +6,7 @@
     $("#img-section").on("dragover", dropOver);
     $("#img-section").on("drop", dropImage);
 })
+
 function showFilePicker(e) {
     e.preventDefault();
     $("#pfp").click();
@@ -48,8 +49,6 @@ function validateForm() {
 function submitForm(e) {
     e.preventDefault()
 
-    const form = $("#rp");
-
     if (!validateForm()) {
         return;
     }
@@ -58,7 +57,9 @@ function submitForm(e) {
         type: "POST",
         url: "/member/register",
         async: true,
-        data: form.serialize(),
+        data: new FormData(document.getElementById("rp")),
+        contentType: false,
+        processData: false,
         success: (data) => {
             if (data.isSucceed) {
                 window.location = data.redirUrl;
@@ -85,7 +86,6 @@ function clearPfp(e) {
 
 function dropOver(e) {
     e.preventDefault();
-    console.log("prevent drop over");
 }
 function dropImage(e) {
     e.preventDefault();

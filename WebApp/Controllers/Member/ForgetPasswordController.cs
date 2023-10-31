@@ -6,7 +6,6 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using WebApp.Misc;
-using WebApp.Misc.AesHelper;
 using WebApp.Models;
 
 namespace WebApp.Controllers.Member
@@ -39,11 +38,10 @@ namespace WebApp.Controllers.Member
             code = AesHelper.AesEncrypt(key, iv, code);
 
             string serverUrl = $"https://{Request.Url.Authority}/forgetpassword/verifycode";
-            string content = System.IO.File.ReadAllText(Server.MapPath("~/Assets/EmailTemplates/ResetPassword.html"));
             string subject = "愛家電重設密碼驗證信";
+            string content = System.IO.File.ReadAllText(Server.MapPath("~/Assets/EmailTemplates/ResetPassword.html"));
             content = content.Replace("${url}", $"{serverUrl}?code={code}&iv={iv}");
 
-            string mailServer = "smtp.gmail.com";
             MailMessage mms = new MailMessage
             {
                 From = new MailAddress("iiihomeappliances@gmail.com"),
@@ -52,16 +50,8 @@ namespace WebApp.Controllers.Member
                 IsBodyHtml = true,
                 SubjectEncoding = System.Text.Encoding.UTF8
             };
-            mms.To.Add(new MailAddress(target.Email));
-            using (SmtpClient client = new SmtpClient(mailServer, 587))
-            {
-                client.EnableSsl = true;
-                client.Credentials = new System.Net.NetworkCredential(
-                    ConfigurationManager.AppSettings["GmailAccount"],
-                    sm.GetSecret("gmailPassword"));
 
-                client.Send(mms);
-            }
+            new EmailHelper(Server.MapPath("~")).SendEmail(mms, new MailAddress(target.Email));
 
             return Content("{\"isSucceed\":true,\"msg\":\"已發送驗證信，請於15分鐘內至該信箱驗證。\"}", "application/json");
         }
@@ -138,7 +128,7 @@ namespace WebApp.Controllers.Member
             _db.SaveChanges();
             Session["resetTime"] = null;
 
-            return RedirectToAction("Succeed", "Redirect", new { msg = "已成功更改密碼" });
+            return RedirectToAction("Succeed", "Redirect", new { msg = "已成功更改密碼，" });
         }
     }
 }

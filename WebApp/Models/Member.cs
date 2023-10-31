@@ -28,6 +28,7 @@ namespace WebApp.Models
         public byte[] PasswordHash { get; set; }
         public Nullable<int> ProfilePicture { get; set; }
         public string Email { get; set; }
+        public bool Verified { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }

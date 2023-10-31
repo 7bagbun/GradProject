@@ -25,28 +25,28 @@
 
                         <div class="form-horizontal">
                             <div class="form-group">
-                                <label class="control-label">帳號</label>
+                                <label class="control-label"><i class="fa fa-user" style="font-size:20px;"></i> 帳號</label>
                                 @Html.EditorFor(model => model.Username, new { htmlAttributes =
                                     new { @class = "form-control", placeholder = "限\"A-Z, a-z, 0-9, _\"", onhange = "setErrMsg('')" } })
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label">電子郵件</label>
+                                <label class="control-label"><i class="fa fa-envelope" style="font-size:20px;"></i> 電子郵件</label>
                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", onchange = "setErrMsg('')" } })
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label">密碼</label>
+                                <label class="control-label"><i class="fa fa-lock" style="font-size:20px;"></i> 密碼</label>
                                 @Html.PasswordFor(model => model.Password, new { @class = "form-control", onchange = "setErrMsg('')" })
                             </div>
 
                             <div class="form-group">
-                                <label for="confirm" class="control-label">確認新密碼</label>
+                                <label for="confirm" class="controe-label"><i class="fa fa-lock" style="font-size:20px;"></i> 確認新密碼</label>
                                 <input type="password" name="comfirm" id="confirm" class="form-control" onchange="setErrMsg('')" />
                             </div>
 
                             <div class="form-group">
-                                <label for="pfp">大頭貼<span class="text-muted"> (可選)</span></label>
+                                <label for="pfp"><i class="fa fa-picture-o" style="font-size:20px;"></i> 大頭貼<span class="text-muted"> (可選)</span></label>
                                 <input type="file" name="pfp" id="pfp" class="btn btn-primary hidden" accept="image/jpeg image/png" onchange="showPickedImage(this)" />
                                 <button id="btn-upload-pfp" class="btn btn-info form-control">選擇檔案</button>
                                 <div id="img-section" class="img-section">

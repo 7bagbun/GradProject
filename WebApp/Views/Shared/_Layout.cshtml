@@ -19,16 +19,19 @@
 
     <!-- Site Metas -->
     <link rel="shortcut icon" href="~/images/favicon.png" type="~/image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     @RenderSection("css", required: false)
 </head>
 <body>
     <header class="header_section">
         <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center nav-custom">
-            <a href="/" class="navbar-brand d-flex w-50 mr-auto">愛家電</a>
+            <div class="d-flex w-50 mr-auto">
+                <a href="/" class="navbar-brand">愛家電</a>
+            </div>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class=""></span>
+                    <i class="fa fa-bars"></i>
             </button>
 
             <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">

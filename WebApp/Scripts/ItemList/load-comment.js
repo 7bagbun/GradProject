@@ -2,7 +2,12 @@
 
 $.get("/identity/getidentity", (data) => {
     identity = data.identity;
+
+    if (identity == "member") {
+        $("#content-area").prop("disabled", false);
+    }
 });
+
 
 function updateCount(e) {
     let count = e.value.length;
@@ -24,10 +29,10 @@ function updateCount(e) {
     }
 }
 
-function loadComments(id) {
+function loadComments(e) {
     $.ajax({
         type: "GET",
-        url: "/comment/getbyid/" + id,
+        url: "/comment/getbyid/" + e.data,
         async: true,
         success: (data) => {
             placeComments(data);

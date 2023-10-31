@@ -5,6 +5,8 @@ using System.Web.Mvc;
 using WebApp.Models.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using System.Net.Mail;
+using WebApp.Misc;
 
 namespace WebApp.Controllers.Member
 {
@@ -60,7 +62,8 @@ namespace WebApp.Controllers.Member
                 else if (dupeEmail)
                 {
                     msg = $"此信箱地址已被使用，請嘗試其他信箱。";
-                }else if (member.Password == "")
+                }
+                else if (member.Password == "")
                 {
                     msg = $"無效的密碼，請嘗試其他密碼。";
                 }
@@ -77,17 +80,72 @@ namespace WebApp.Controllers.Member
                     member.Image = new Models.Image() { ImageContent = imageBytes };
                 }
 
-                Session["user"] = member.Username;
+                SendVerificationEmail(member);
+
                 member.CreatedDate = DateTime.Now;
                 _db.Member.Add(member);
                 _db.SaveChanges();
 
-                msg = "註冊成功！已將您登入。";
-                return Content($"{{\"isSucceed\":true, \"redirUrl\":\"/redirect/succeed?msg={msg}\"}}", "application/json");
+                return Content($"{{\"isSucceed\":true, \"redirUrl\":\"/member/hintVerifyEmail?email={member.Email}\"}}", "application/json");
             }
             catch (Exception)
             {
                 return new HttpStatusCodeResult(500);
+            }
+        }
+
+        private void SendVerificationEmail(Models.Member member)
+        {
+            string code = member.Username;
+            var sm = new SecretManager(Server.MapPath("~"));
+            string key = sm.GetSecret("aesKey");
+            string iv = new Random().Next().ToString();
+
+            code = AesHelper.AesEncrypt(key, iv, code);
+
+            string serverUrl = $"https://{Request.Url.Authority}/member/verifymember?code={code}&iv={iv}";
+            string subject = "愛家電會員信箱驗證信";
+            string content = System.IO.File.ReadAllText(Server.MapPath("~/Assets/EmailTemplates/VerifyAccount.html"));
+            content = content.Replace("${url}", serverUrl);
+
+            MailMessage mms = new MailMessage
+            {
+                From = new MailAddress("iiihomeappliances@gmail.com"),
+                Subject = subject,
+                Body = content,
+                IsBodyHtml = true,
+                SubjectEncoding = System.Text.Encoding.UTF8
+            };
+
+            new EmailHelper(Server.MapPath("~")).SendEmail(mms, new MailAddress(member.Email));
+        }
+
+        public ActionResult HintVerifyEmail(string email)
+        {
+            ViewBag.Email = email;
+            return View();
+        }
+
+        public ActionResult VerifyMember(string code, string iv)
+        {
+            try
+            {
+                var sm = new SecretManager(Server.MapPath("~"));
+                string key = sm.GetSecret("aesKey");
+                code = AesHelper.AesDecrypt(key, iv, code);
+
+                var target = _db.Member.FirstOrDefault(x => x.Username == code);
+                target.Verified = true;
+                _db.SaveChanges();
+
+                Session["userId"] = target.Id;
+                Session["user"] = target.Username;
+
+                return RedirectToAction("Succeed", "Redirect", new { msg = "已成功驗證信箱，" });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Redirect", new { msg = "驗證失敗，" });
             }
         }
 
@@ -102,6 +160,10 @@ namespace WebApp.Controllers.Member
                 if (target == null)
                 {
                     return Json(new { result = false, msg = "帳號或密碼錯誤" });
+                }
+                else if (!target.Verified)
+                {
+                    return Json(new { result = false, msg = "請先完成信箱驗證後再登入" });
                 }
                 else
                 {
@@ -191,6 +253,5 @@ namespace WebApp.Controllers.Member
             _db.SaveChanges();
             return View(target);
         }
-
     }
 }

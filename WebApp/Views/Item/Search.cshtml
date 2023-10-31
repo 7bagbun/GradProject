@@ -8,7 +8,9 @@
             int i = 1;
             <div class="container">
                 <div class="row title-bar">
-                    <div class="col-8">@product.Brand @product.ProductType @product.Model</div>
+                    <div class="col-8">
+                        <a href="~/item/list/@product.Id">@product.Brand @product.ProductType @product.Model</a>
+                    </div>
                     <div class="col-3">更新時間</div>
                     <div class="col-1">售價</div>
                 </div>

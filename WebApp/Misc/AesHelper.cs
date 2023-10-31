@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace WebApp.Misc.AesHelper
+namespace WebApp.Misc
 {
     public static class AesHelper
     {

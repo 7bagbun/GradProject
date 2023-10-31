@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "驗證信箱";
+}
+
+<style>
+    .card {
+        margin: 2.5em 0;
+        font-size: 1.2em;
+    }
+
+    .card h5 {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">驗證信箱</h5>
+                    <p class="card-text">系統已發送會員驗證信，請至@(ViewBag.Email)信箱地址點擊驗證信中的驗證連結，以完成驗證。您可以關閉此網頁。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
