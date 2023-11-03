@@ -241,6 +241,7 @@
     <Content Include="Content\OwlCarousel\owl.theme.green.min.css" />
     <Content Include="Content\OwlCarousel\owl.video.play.png" />
     <Content Include="Content\Register\register.css" />
+    <Content Include="Content\Search\search.css" />
     <Content Include="Content\TrackList\track-list.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

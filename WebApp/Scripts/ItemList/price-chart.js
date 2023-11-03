@@ -1,4 +1,6 @@
-﻿$.ajax({
+﻿const formatter = new Intl.NumberFormat("zh-TW");
+
+$.ajax({
     type: "GET",
     url: `/pricehistory/get?productId=${id}`,
     async: true,
@@ -21,7 +23,7 @@ function chartInit(data) {
         tooltip: {
             trigger: 'item',
             formatter: (params) => {
-                return `售價: ${params.data.Price}`
+                return `售價: ${formatter.format(params.data.Price)}`
             }
         },
         dataset: {
@@ -38,6 +40,21 @@ function chartInit(data) {
                 name: 'Step Start',
                 type: 'line',
                 step: 'end',
+                itemStyle: {
+                    color: '#dc3545'
+                },
+                areaStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                        {
+                            offset: 0,
+                            color: '#ff7683'
+                        },
+                        {
+                            offset: 1,
+                            color: '#ffc0c6'
+                        }
+                    ])
+                }
             }
         ]
     };

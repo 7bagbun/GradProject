@@ -83,7 +83,7 @@
                         @item.Source1.SourceName
                     </div>
                     <div class="col-1">
-                        @Html.DisplayFor(modelItem => item.Price)
+                        @item.Price.ToString("C0")
                     </div>
                     <div class="col-2">
                         @Html.DisplayFor(modelItem => item.UpdatedTime)

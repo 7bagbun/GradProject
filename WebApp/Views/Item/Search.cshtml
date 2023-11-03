@@ -1,33 +1,40 @@
-﻿@model IEnumerable<WebApp.Models.Product>
+﻿@model List<WebApp.Models.Product>
+
+@section css {
+    <link href="~/Content/Search/search.css" rel="stylesheet" />
+}
 
 <div class="prod-section">
-    @if (Model.Count() != 0)
+    @{ int count = Model.Count; }
+    @if (count > 0)
     {
-        foreach (var product in Model)
-        {
-            int i = 1;
-            <div class="container">
-                <div class="row title-bar">
-                    <div class="col-8">
-                        <a href="~/item/list/@product.Id">@product.Brand @product.ProductType @product.Model</a>
-                    </div>
-                    <div class="col-3">更新時間</div>
-                    <div class="col-1">售價</div>
-                </div>
+        <div class="container">
+            @for (int i = 0; i < Model.Count();)
+            {
+                <div class="row">
+                    @for (int j = 0; j < 4; j++)
+                    {
+                        if (i >= count)
+                        {
+                            break;
+                        }
 
-                @foreach (var selling in product.Selling)
-                {
-                    <div class="row">
-                        <div class="col-8">
-                            <a href="@(selling.Source1.Domain + selling.Link)">@selling.Title</a>
+                        var prod = Model[i];
+                        <div class="col-3">
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="@Url.Action("get", "image", new { id = prod.Selling.First().Image })" alt="">
+                                <div class="card-body">
+                                    <a class="card-text" href="/item/list/@(prod.Id)">@prod.Brand @prod.Model @prod.ProductType</a>
+                                    <p class="card-text text-right">@(prod.Selling.First().Price.ToString("C0"))元起</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-3">@selling.UpdatedTime</div>
-                        <div class="col-1">@selling.Price</div>
-                    </div>
-                    if (++i > 5) { break; }
-                }
-            </div>
-        }
+
+                        i++;
+                    }
+                </div>
+            }
+        </div>
     }
     else
     {
@@ -46,29 +53,3 @@
 
     }
 </div>
-
-<style>
-    .title-bar {
-        background-color: #eee;
-    }
-
-    .prod-section .container {
-        margin-top: 5em;
-    }
-
-    .prod-section > .container > div {
-        padding: 0.5em;
-    }
-
-    .no-result-title {
-        color: #aaa;
-        font-size: 3em;
-        text-align: center;
-    }
-
-    .no-result-body {
-        color: #aaa;
-        font-size: 1em;
-        text-align: center;
-    }
-</style>

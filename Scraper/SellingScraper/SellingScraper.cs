@@ -26,7 +26,8 @@ namespace Scraper
             _scrapers = new ISellingScraper[]
             {
                 new PcstoreScraper(_browser, _db),
-                new PchomeScraper(_browser, _db)
+                new PchomeScraper(_browser, _db),
+                new MomoScraper(_db),
             };
         }
 
@@ -48,14 +49,17 @@ namespace Scraper
         private async Task UpdatePriceHistory()
         {
             var prods = _db.Product.Include("Selling").ToList();
-            prods.ForEach(x =>
+            prods?.ForEach(x =>
             {
-                _db.PriceHistory.Add(new PriceHistory
+                if (x.Selling.Count() > 0)
                 {
-                    Product = x.Id,
-                    Price = x.Selling.Min(t => t.Price),
-                    UpdatedTime = System.DateTime.Now
-                });
+                    _db.PriceHistory.Add(new PriceHistory
+                    {
+                        Product = x.Id,
+                        Price = x.Selling.Min(t => t.Price),
+                        UpdatedTime = System.DateTime.Now
+                    });
+                }
             });
 
             await _db.SaveChangesAsync();

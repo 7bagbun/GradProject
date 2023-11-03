@@ -35,6 +35,8 @@ namespace WebApp.Controllers.Item
                         Price = x.Price
                     });
                 }
+
+                index++;
             });
 
             var config = new JsonSerializerSettings() { DateFormatString = "yyyy/MM/dd hh:mm:ss" };

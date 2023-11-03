@@ -131,6 +131,7 @@
     <Compile Include="Parser\ParserPtt.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SellingScraper\MomoScraper.cs" />
     <Compile Include="SellingScraper\PchomeScraper.cs" />
     <Compile Include="SellingScraper\PcstoreScraper.cs" />
     <Compile Include="SellingScraper\SellingScraper.cs" />

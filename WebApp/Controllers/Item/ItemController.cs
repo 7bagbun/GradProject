@@ -64,8 +64,8 @@ namespace WebApp.Controllers.Item
         {
             if (query == null)
             {
-                var list = _db.Product.Include("Selling").Take(10);
-                return View(list);
+                var list = _db.Product.Include("Selling").Take(12);
+                return View(list.ToList());
             }
 
             var result = _db.Product.Include("Selling")
@@ -78,7 +78,7 @@ namespace WebApp.Controllers.Item
             //order by price
             result.ForEach(x => x.Selling = x.Selling.OrderByDescending(t => t.Price).ToList());
 
-            return View(result);
+            return View(result.ToList());
         }
     }
 }
