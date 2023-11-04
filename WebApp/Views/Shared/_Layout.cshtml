@@ -31,7 +31,7 @@
             </div>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars"></i>
+                <i class="fa fa-bars"></i>
             </button>
 
             <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
@@ -43,7 +43,7 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
-                    @if (Session["user"] == null)
+                    @if (Session["userId"] == null)
                     {
                         <li class="nav-item">
                             @Html.ActionLink("註冊", "register", "member", null, new { @class = "navbar-nav nav-link" })
@@ -63,6 +63,9 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/trackitem/tracklist">追蹤商品</a>
                             </div>
+                        </li>
+                        <li>
+                            <img src="@Url.Action("getPfpById", "member", new { id = Session["userId"] })" class="nav-item" style="max-height:40px;border-radius:50%;margin:0 1em;" alt="" />
                         </li>
                         <li class="nav-item">
                             @Html.ActionLink("登出", "logout", "member", null, new { @class = "btn btn-info", style = "color: white;" })

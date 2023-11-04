@@ -37,6 +37,9 @@ function validateForm() {
     } else if (!validateEmail(email)) {
         setErrMsg("電子信箱格式無效");
         return false;
+    } else if (password.length < 6) {
+        setErrMsg("密碼長度最少須6個字元");
+        return false;
     } else if (password !== confirm) {
         setErrMsg("密碼和確認密碼不相同");
         return false;

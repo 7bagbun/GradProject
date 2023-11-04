@@ -18,7 +18,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '/member/login',
+            url: '/account/login',
             async: true,
             data: {
                 username: username,
