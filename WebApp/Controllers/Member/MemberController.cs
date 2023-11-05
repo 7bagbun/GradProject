@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using WebApp.Models.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Net.Mail;

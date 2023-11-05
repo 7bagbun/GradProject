@@ -10,7 +10,7 @@ function submitForm(e) {
     msg.addClass("hidden");
 
     if (input.val() === "") {
-        msg.text("請輸入電子信箱。");
+        msg.text("請輸入電子信箱");
         msg.removeClass("hidden");
         return;
     }
