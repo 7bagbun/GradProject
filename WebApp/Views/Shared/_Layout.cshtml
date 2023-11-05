@@ -68,7 +68,7 @@
                             <img src="@Url.Action("getPfpById", "member", new { id = Session["userId"] })" class="nav-item" style="max-height:40px;border-radius:50%;margin:0 1em;" alt="" />
                         </li>
                         <li class="nav-item">
-                            @Html.ActionLink("登出", "logout", "member", null, new { @class = "btn btn-info", style = "color: white;" })
+                            @Html.ActionLink("登出", "logout", "account", null, new { @class = "btn btn-info", style = "color: white;" })
                         </li>
                     }
                 </ul>

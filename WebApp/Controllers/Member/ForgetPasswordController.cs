@@ -51,7 +51,7 @@ namespace WebApp.Controllers.Member
                 SubjectEncoding = System.Text.Encoding.UTF8
             };
 
-            new EmailHelper(Server.MapPath("~")).SendEmail(mms, new MailAddress(target.Email));
+            new EmailHelper(Server.MapPath("~")).SendEmail(mms, new MailAddress(target.Email, null, System.Text.Encoding.UTF8));
 
             return Content("{\"isSucceed\":true,\"msg\":\"已發送驗證信，請於15分鐘內至該信箱驗證。\"}", "application/json");
         }

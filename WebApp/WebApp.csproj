@@ -213,6 +213,7 @@
       <DependentUpon>TestDb.mdf</DependentUpon>
     </Content>
     <Content Include="Assets\EmailTemplates\ResetPassword.html" />
+    <Content Include="Assets\EmailTemplates\VerifyAccount.html" />
     <Content Include="Assets\Images\default-pfp.jpg" />
     <Content Include="Assets\Images\default-pfp.png" />
     <Content Include="Assets\Images\drag-img.jpg" />
@@ -246,7 +247,6 @@
     <Content Include="Content\Search\search.css" />
     <Content Include="Content\TrackList\track-list.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="images\favicon.png" />
     <Content Include="images\pccu.png" />
@@ -361,16 +361,14 @@
     <Content Include="Views\Redirect\Inform.cshtml" />
     <Content Include="Views\Redirect\Succeed.cshtml" />
     <Content Include="Views\Member\HintVerifyEmail.cshtml" />
+    <Content Include="secret.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="fonts\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />

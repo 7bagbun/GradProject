@@ -29,6 +29,7 @@ namespace WebApp.Misc
                 {
                     var sm = new SecretManager(_secret_path);
 
+                    client.DeliveryFormat = SmtpDeliveryFormat.International;
                     client.EnableSsl = true;
                     client.Credentials = new System.Net.NetworkCredential(
                         ConfigurationManager.AppSettings["GmailAccount"],

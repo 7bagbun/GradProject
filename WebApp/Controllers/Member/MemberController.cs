@@ -67,9 +67,9 @@ namespace WebApp.Controllers.Member
                 {
                     msg = $"無效的密碼，請嘗試其他密碼。";
                 }
-                else if (member.Password.Length < 6)
+                else if (member.Password.Length < 6 || member.Password.Length > 20)
                 {
-                    msg = $"密碼長度需最少6個字元";
+                    msg = $"已超過密碼長度限制(6-20個字元)，請嘗試其他密碼。";
                 }
 
                 if (msg != string.Empty)
@@ -121,7 +121,7 @@ namespace WebApp.Controllers.Member
                 SubjectEncoding = System.Text.Encoding.UTF8
             };
 
-            new EmailHelper(Server.MapPath("~")).SendEmail(mms, new MailAddress(member.Email));
+            new EmailHelper(Server.MapPath("~")).SendEmail(mms, new MailAddress(member.Email, null, System.Text.Encoding.UTF8));
         }
 
         public ActionResult HintVerifyEmail(string email)

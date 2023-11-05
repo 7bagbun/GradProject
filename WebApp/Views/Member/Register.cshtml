@@ -19,7 +19,7 @@
                 <div class="card-body">
                     <h2 class="card-title text-center">註冊會員</h2>
 
-                    @using (Html.BeginForm("Register", "Member", FormMethod.Post, new { id = "rp", enctype = "multipart/form-data" }))
+                    @using (Html.BeginForm("register", "member", FormMethod.Post, new { id = "rp", enctype = "multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
 
@@ -37,11 +37,11 @@
 
                             <div class="form-group">
                                 <label class="control-label"><i class="fa fa-lock" style="font-size:20px;"></i> 密碼</label>
-                                @Html.PasswordFor(model => model.Password, new { @class = "form-control", onchange = "setErrMsg('')" })
+                                @Html.PasswordFor(model => model.Password, new { @class = "form-control", plceholder = "6-20個字元", onchange = "setErrMsg('')" })
                             </div>
 
                             <div class="form-group">
-                                <label for="confirm" class="controe-label"><i class="fa fa-lock" style="font-size:20px;"></i> 確認新密碼</label>
+                                <label for="confirm" class="controe-label"><i class="fa fa-lock" style="font-size:20px;"></i> 確認密碼</label>
                                 <input type="password" name="comfirm" id="confirm" class="form-control" onchange="setErrMsg('')" />
                             </div>
 
