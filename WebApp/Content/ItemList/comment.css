@@ -42,11 +42,13 @@
 }
 
 .comment img {
-    max-width: 80%;
+    width: 75px;
+    height: 75px;
     border: 1px solid #AAA;
     border-radius: 50%;
     display: block;
     margin: auto;
+    object-fit: cover;
 }
 
 .comment-date {
