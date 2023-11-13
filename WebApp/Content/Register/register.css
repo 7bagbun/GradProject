@@ -26,8 +26,8 @@
     margin: 0 1em 1.5em 1em;
 }
 
-.card input {
-    margin-bottom: 2em;
+.card .form-text {
+    margin-bottom: 3em;
 }
 
 .hidden {

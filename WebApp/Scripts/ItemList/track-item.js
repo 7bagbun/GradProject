@@ -3,7 +3,7 @@
 function track(pid) {
     $.ajax({
         type: 'POST',
-        url: '/trackitem/trackajax',
+        url: '/trackItem/trackAjax',
         async: true,
         data: {
             productId: pid
@@ -15,7 +15,7 @@ function track(pid) {
                 window.location = data.redirUrl;
             }
         },
-        failure: (err) => {
+        error: (err) => {
             console.log(err);
         }
     })
@@ -31,13 +31,13 @@ function updateBtnText(pid) {
 
             if (data.isTracked) {
                 btn.text(" 已追蹤");
-                btn.attr("class", "fa fa-heart unfollow");
+                btn.attr("class", "fas fa-heart unfollow");
             } else {
                 btn.text(" 追蹤");
-                btn.attr("class", "fa fa-heart-o follow");
+                btn.attr("class", "far fa-heart follow");
             }
         },
-        failure: (err) => {
+        error: (err) => {
             console.log(err);
         }
     })

@@ -119,7 +119,10 @@ namespace WebApp.Controllers.Item
                 return new HttpStatusCodeResult(401);
             }
 
-            return Content("{\"IsSucceed\":true}");
+            _db.Comment.Remove(comment);
+            _db.SaveChanges();
+
+            return Content("{\"isSucceed\":true}", "application/json");
         }
     }
 }

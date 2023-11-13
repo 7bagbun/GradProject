@@ -19,7 +19,7 @@
 
     <!-- Site Metas -->
     <link rel="shortcut icon" href="~/images/favicon.png" type="~/image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     @RenderSection("css", required: false)
 </head>
@@ -59,13 +59,14 @@
                                 您好，@Session["user"]
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">個人資料</a>
+                                <a class="dropdown-item" href="/account/showprofile?tab=profile">個人資料</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/trackitem/tracklist">追蹤商品</a>
+                                <a class="dropdown-item" href="/account/showprofile?tab=track">追蹤商品</a>
+                                <a class="dropdown-item" href="/account/showprofile?tab=comment">已發布評論</a>
                             </div>
                         </li>
-                        <li>
-                            <img src="@Url.Action("getPfpById", "member", new { id = Session["userId"] })" class="nav-item" style="max-height:40px;border-radius:50%;margin:0 1em;" alt="" />
+                        <li class="nav-item">
+                            <img src="@Url.Action("getPfpById", "member", new { id = Session["userId"] })" class="profile-picture navbar-pfp" alt="" />
                         </li>
                         <li class="nav-item">
                             @Html.ActionLink("登出", "logout", "account", null, new { @class = "btn btn-info", style = "color: white;" })
@@ -129,6 +130,7 @@
     </div>
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/Login/login-modal.js"></script>
 

@@ -70,7 +70,7 @@ function submitForm(e) {
                 setErrMsg(data.msg);
             }
         },
-        failure: (err) => {
+        error: (err) => {
             console.log(err);
         }
     })

@@ -13,7 +13,7 @@
                 window.location = data.redirUrl;
             }
         },
-        failure: (err) => {
+        error: (err) => {
             console.log(err);
         }
     })

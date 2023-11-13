@@ -27,7 +27,7 @@ function submitForm(e) {
             msg.text(data.msg);
             msg.removeClass("hidden");
         },
-        failure: (err) => {
+        error: (err) => {
             console.log(err);
         }
     })

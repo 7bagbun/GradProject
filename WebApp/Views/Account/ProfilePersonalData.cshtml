@@ -1,0 +1,72 @@
+﻿@model WebApp.Models.Member
+
+@{
+    Layout = null;
+}
+
+<div id="list" class="container">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-5">
+                <div class="form-group text-left">
+                    <label for="username">使用者名稱:</label>
+                    <input id="username" type="email" class="form-control data" value="@Model.Username" disabled>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="form-group text-left">
+                    <label for="email">Email:</label>
+                    <input id="email" type="email" class="form-control data" value="@Model.Email" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-5 chpwd-trig">
+                <div class="form-group text-left">
+                    <label for="email">密碼:</label>
+                    <input type="button" class="form-control btn-danger" onclick="toggleChangePassword()" value="更改密碼">
+                </div>
+            </div>
+            <div class="col-5 chpwd-ctrl hidden">
+                <div class="form-group text-left">
+                    <label for="email">舊密碼:</label>
+                    <input id="old-pwd" type="password" class="form-control data">
+                </div>
+            </div>
+            <div class="col-5 chpwd-ctrl hidden">
+                <div class="form-group text-left">
+                    <label for="email">新密碼:</label>
+                    <input id="new-pwd" type="password" class="form-control data">
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-5 chpwd-ctrl hidden">
+                <div class="form-group">
+                    <input id="old-pwd" type="button" class="form-control" onclick="toggleChangePassword()" value="取消">
+                </div>
+            </div>
+            <div class="col-5 chpwd-ctrl hidden">
+                <div class="form-group">
+                    <input id="new-pwd" type="button" class="form-control btn-danger" onclick="submitPassword()" value="確認">
+                    <p id="msg-chpwd" class="text-right text-danger hidden"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5 text-left">
+                <p>大頭貼:</p>
+                <div class="text-center">
+                    <input id="input-pfp" type="file" class="hidden" name="pfp" accept="image/jpeg image/png" value="" />
+                    <img id="pfp-og-display" class="pfp" src="@Url.Action("getPfpById", "member", new { id = Model.Id })" />
+                    <img id="pfp-display" class="pfp hidden" />
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn-edit form-control btn btn-info" onclick="showFilePicker()"><i class="far fa-edit"></i> 更換大頭貼</button>
+                    <button class="btn-ctrl btn btn-secondary hidden" onclick="togglePfpCtrls()">取消</button>
+                    <button class="btn-ctrl btn btn-info hidden" onclick="submitPfp()">上傳</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

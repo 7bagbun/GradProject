@@ -51,35 +51,98 @@ namespace WebApp.Controllers.Account
             Session["user"] = null;
             return RedirectToAction("index", "home");
         }
-        
-        public ActionResult ChangePassword()
-        {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("NoLogin", "Redirect");
-            }
-
-            return View(new ChangePasswordViewModel());
-        }
 
         [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        public ActionResult ChangePassword(string oldPwd, string newPwd)
         {
             if (Session["userId"] == null)
             {
-                return RedirectToAction("NoLogin", "Redirect");
+                return Content("{\"isSucceed\":false,\"msg\":\"使用者未登入。\"}", "application/json");
             }
 
             int id = (int)Session["userId"];
             var target = _db.Member.FirstOrDefault(x => x.Id == id);
 
-            if (target.Password != model.OldPassword)
+            if (target.Password != oldPwd)
             {
-                return RedirectToAction("CustomMessage", "輸入的舊密碼錯誤，請重新輸入。");
+                return Content("{\"isSucceed\":false,\"msg\":\"輸入的舊密碼錯誤。\"}", "application/json");
             }
 
-            target.Password = model.NewPassword;
+            target.Password = newPwd;
             _db.SaveChanges();
+
+            return Content("{\"isSucceed\":true,\"msg\":\"修改成功！\"}", "application/json");
+        }
+
+        public ActionResult ShowProfile(string tab)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("NoLogin", "Redirect");
+            }
+
+            Models.Member target;
+            int id = (int)Session["userId"];
+
+            switch (tab)
+            {
+                case "track":
+                    ViewBag.Tab = tab;
+                    target = _db.Member.Include("TrackProduct").FirstOrDefault(x => x.Id == id);
+                    break;
+                case "comment":
+                    ViewBag.Tab = tab;
+                    target = _db.Member.Include("Comment").FirstOrDefault(x => x.Id == id);
+                    break;
+                case "profile":
+                    ViewBag.Tab = tab;
+                    target = _db.Member.FirstOrDefault(x => x.Id == id);
+                    break;
+                default:
+                    ViewBag.Tab = "track";
+                    target = _db.Member.Include("TrackProduct").FirstOrDefault(x => x.Id == id);
+                    break;
+            }
+
+            return View(target);
+        }
+
+        public ActionResult ProfileTrackProduct()
+        {
+            if (Session["userId"] == null)
+            {
+                return Content("{\"isSucceed\":false}");
+            }
+
+            int id = (int)Session["userId"];
+            var target = _db.Member.Include("TrackProduct").FirstOrDefault(x => x.Id == id);
+
+            return View(target);
+        }
+
+        public ActionResult ProfileComment()
+        {
+            if (Session["userId"] == null)
+            {
+                return Content("{\"isSucceed\":false}");
+            }
+
+            int id = (int)Session["userId"];
+            var target = _db.Member.Include("Comment").FirstOrDefault(x => x.Id == id);
+
+            return View(target);
+        }
+
+        public ActionResult ProfilePersonalData()
+        {
+            if (Session["userId"] == null)
+            {
+                return Content("{\"isSucceed\":false}");
+            }
+
+            int id = (int)Session["userId"];
+            var target = _db.Member.FirstOrDefault(x => x.Id == id);
+
             return View(target);
         }
     }

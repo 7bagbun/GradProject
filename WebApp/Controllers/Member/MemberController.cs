@@ -187,5 +187,28 @@ namespace WebApp.Controllers.Member
             var pfp = _db.Image.FirstOrDefault(x => x.Id == user.ProfilePicture);
             return File(pfp.ImageContent, "image/jpg");
         }
+
+        public ActionResult EditPfp(HttpPostedFileBase pfp)
+        {
+            if (Session["userId"] == null)
+            {
+                return Content("{\"isSucceed\":false}");
+            }
+
+            int id = (int)Session["userId"];
+            var user = _db.Member.Include("Image").FirstOrDefault(x => x.Id == id);
+
+            if (user == null)
+            {
+                return Content("{\"isSucceed\":false}");
+            }
+
+            var imageBytes = new byte[pfp.InputStream.Length];
+            pfp.InputStream.Read(imageBytes, 0, imageBytes.Length);
+            user.Image.ImageContent = imageBytes;
+            _db.SaveChanges();
+
+            return Content("{\"isSucceed\":true}");
+        }
     }
 }

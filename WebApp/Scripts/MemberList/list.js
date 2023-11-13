@@ -53,7 +53,7 @@ function bulkDelete() {
                     console.log(data.errMsg);
                 }
             },
-            failure: (err) => {
+            error: (err) => {
                 console.log(err);
             }
         });
