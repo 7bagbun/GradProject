@@ -52,7 +52,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SourceName" Type="nvarchar" MaxLength="15" Nullable="false" />
-          <Property Name="Domain" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Domain" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <Association Name="FK__PriceHist__Produ__76619304">
           <End Role="Product" Type="Self.Product" Multiplicity="1" />
@@ -208,7 +208,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SourceName" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="Domain" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Domain" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Selling" Relationship="TestDbModel.FK__Selling__Source__793DFFAF" FromRole="Source" ToRole="Selling" />
         </EntityType>
         <Association Name="FK__Selling__Image__5CD6CB2B">

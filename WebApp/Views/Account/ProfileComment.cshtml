@@ -1,0 +1,45 @@
+﻿@model WebApp.Models.Member
+
+@{
+    Layout = null;
+}
+
+<div id="list" class="container">
+    <div class="row title-row no-hl align-items-center">
+        <div class="col">評分</div>
+        <div class="col justify-content-center d-flex">
+            評論內容
+        </div>
+        <div class="col">
+        </div>
+    </div>
+    <hr />
+    @foreach (var item in Model.Comment)
+    {
+        <div class="row data-row align-items-center">
+            <div class="col star-rating">@item.Rating</div>
+            <div class="col text-left">
+                @item.Content
+            </div>
+            <div class="col text-right">
+                <div class="dropdown show">
+                    <i id="dropdown" class="fas fa-ellipsis-h text-secondary dropdown" data-toggle="dropdown" style="font-size:20px"></i>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/item/list/@item.Product?tab=comment">查看留言</a>
+                        <a class="dropdown-item text-danger" onclick="deleteComment(@item.Id)">刪除留言</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (Model.Comment.Count() < 1)
+    {
+        <div class="row d-flex align-items-center">
+            <div class="col text-muted text-center">
+                <h3>沒有評論紀錄。</h3>
+            </div>
+        </div>
+
+    }
+</div>

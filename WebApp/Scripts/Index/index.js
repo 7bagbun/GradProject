@@ -21,7 +21,7 @@ $.ajax({
         newsJson = data;
         displayNews(newsJson);
     },
-    failure: (err) => {
+    error: (err) => {
         console.log(err);
     }
 });

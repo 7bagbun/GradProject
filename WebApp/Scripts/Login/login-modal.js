@@ -32,7 +32,7 @@
                     errMsgEle.removeClass('hide');
                 }
             },
-            failure: (err) => {
+            error: (err) => {
                 console.log(err);
             }
         });

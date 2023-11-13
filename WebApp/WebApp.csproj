@@ -162,6 +162,7 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PriceHistoryModel.cs" />
+    <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\Image.cs">
@@ -243,13 +244,12 @@
     <Content Include="Content\OwlCarousel\owl.theme.green.css" />
     <Content Include="Content\OwlCarousel\owl.theme.green.min.css" />
     <Content Include="Content\OwlCarousel\owl.video.play.png" />
+    <Content Include="Content\Profile\profile.css" />
     <Content Include="Content\Register\register.css" />
     <Content Include="Content\Search\search.css" />
     <Content Include="Content\TrackList\track-list.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="images\favicon.png" />
-    <Content Include="images\pccu.png" />
     <Content Include="Models\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
@@ -300,6 +300,7 @@
     <Content Include="Scripts\ItemList\page-init.js" />
     <Content Include="Scripts\ItemList\price-chart.js" />
     <Content Include="Scripts\ItemList\track-item.js" />
+    <Content Include="Scripts\Profile\profile.js" />
     <Content Include="Scripts\Register\register.js" />
     <Content Include="Scripts\ResetPassword\reset-pwd.js" />
     <Content Include="Scripts\TrackList\untrack-item.js" />
@@ -362,10 +363,13 @@
     <Content Include="Views\Redirect\Succeed.cshtml" />
     <Content Include="Views\Member\HintVerifyEmail.cshtml" />
     <Content Include="secret.json" />
+    <Content Include="Views\Account\ShowProfile.cshtml" />
+    <Content Include="Views\Account\ProfileTrackProduct.cshtml" />
+    <Content Include="Views\Account\ProfileComment.cshtml" />
+    <Content Include="Views\Account\ProfilePersonalData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fonts\" />
-    <Folder Include="Views\Account\" />
     <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>

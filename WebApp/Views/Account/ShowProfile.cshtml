@@ -1,0 +1,42 @@
+﻿@model WebApp.Models.Member
+
+@section scripts {
+    <script>var tab = "@ViewBag.Tab"</script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/Profile/profile.js"></script>
+}
+
+@section css {
+    <link href="~/Content/Profile/profile.css" rel="stylesheet" />
+}
+
+<div class="container">
+    <div class="padding row">
+        <div class="col-md-8 offset-2">
+            <div class="card">
+                <div class="card-body little-profile text-center">
+                    <div class="pro-img">
+                        <img src="@Url.Action("getPfpById", "member", new { id = Model.Id })" alt="user">
+                    </div>
+                    <h3 class="m-b-0" style="margin-bottom:5em">@Model.Username</h3>
+                    <div class="row text-center m-t-20">
+                        <div id="tab-track" class="col-lg-4 tab @(ViewBag.Tab == "track" ? "tab-active" : "")" onclick="loadProfileData('track')">
+                            <h3 class="m-b-0 font-light">追蹤商品</h3>
+                        </div>
+                        <div id="tab-comment" class="col-lg-4 tab @(ViewBag.Tab == "comment" ? "tab-active" : "")" onclick="loadProfileData('comment')">
+                            <h3 class="m-b-0 font-light">評論</h3>
+                        </div>
+                        <div id="tab-profile" class="col-lg-4 tab @(ViewBag.Tab == "profile" ? "tab-active" : "")" onclick="loadProfileData('profile')">
+                            <h3 class="m-b-0 font-light">個人資料</h3>
+                        </div>
+                    </div>
+                    <div class="" style="min-height:10em;margin: 2em 0">
+                        <div id="content" class="content">
+                        </div>
+                        <div id="spinner" class="spinner-border text-secondary text-center" style="margin:auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
