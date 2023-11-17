@@ -60,13 +60,13 @@
 
                     @if (item.Verified)
                     {
-                        <td class="false"><i class="far fa-check-circle"></i> 已驗證</td>
+                        <td class="true"><i class="far fa-check-circle"></i> 已驗證</td>
                     }
                     else
                     {
-                        <td class="true"><i class="far fa-times-circle"></i> 未驗證</td>
+                        <td class="false"><i class="far fa-times-circle"></i> 未驗證</td>
                     }
-                    
+
                     @if (item.Suspended)
                     {
                         <td class="false"><i class="fas fa-exclamation-triangle"></i> 已停權</td>
@@ -82,7 +82,14 @@
                             <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/admin/editMember/@item.Id">詳細資料</a>
-                                <div class="dropdown-item text-danger cursor-pointer" onclick="suspendMember(@item.Id)">停用會員</div>
+                                @if (item.Suspended)
+                                {
+                                    <div class="dropdown-item text-danger cursor-pointer" onclick="unsuspendMember(@item.Id, false)">解除停權</div>
+                                }
+                                else
+                                {
+                                    <div class="dropdown-item text-danger cursor-pointer" onclick="suspendMember(@item.Id)">停權會員</div>
+                                }
                             </div>
                         </div>
                     </td>

@@ -114,11 +114,11 @@
                     <div class="form-group">
                         @if (Model.Member.Suspended)
                         {
-                            <button class="form-control btn btn-danger" onclick="suspendMember(@Model.Member.Id, false)">解除停用</button>
+                            <button class="form-control btn btn-danger" onclick="unsuspendMember(@Model.Member.Id)">解除停權</button>
                         }
                         else
                         {
-                            <button class="form-control btn btn-danger" onclick="suspendMember(@Model.Member.Id)">停用會員</button>
+                            <button class="form-control btn btn-danger" onclick="suspendMember(@Model.Member.Id)">停權會員</button>
                         }
                     </div>
                 </div>

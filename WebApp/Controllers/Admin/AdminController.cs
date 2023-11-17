@@ -18,7 +18,9 @@ namespace WebApp.Controllers.Admin
                 Comments = _db.Comment.Include("Member").OrderByDescending(x => x.CreatedDate).Take(10).ToArray()
             };
 
-            ViewBag.MemberCount = _db.Member.Count();
+            ViewBag.MemberCount = _db.Member.Where(
+                x => x.Verified == true && x.Suspended == false && x.IsAdmin == false).Count();
+
             ViewBag.CommentCount = _db.Comment.Count();
 
             return View(vm);

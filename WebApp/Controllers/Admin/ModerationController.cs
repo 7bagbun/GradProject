@@ -31,7 +31,7 @@ namespace WebApp.Controllers.Admin
             target.Suspended = state;
             _db.SaveChanges();
 
-            return Content("{\"isSuceed\":true}");
+            return Content("{\"isSucceed\":true}", "application/json");
         }
 
         [HttpPost]
