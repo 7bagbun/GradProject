@@ -37,6 +37,7 @@
           <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Verified" Type="bit" Nullable="false" />
           <Property Name="IsAdmin" Type="bit" Nullable="false" />
+          <Property Name="Suspended" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -96,6 +97,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Product" Type="int" Nullable="false" />
           <Property Name="Follower" Type="int" Nullable="false" />
+          <Property Name="FollowTime" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK__Comment__Author__40058253">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
@@ -344,6 +346,7 @@
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Verified" Type="Boolean" Nullable="false" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="Suspended" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -414,6 +417,7 @@
           <Property Name="Follower" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="TestDbModel.FK__TrackProd__Follo__634EBE90" FromRole="TrackProduct" ToRole="Member" />
           <NavigationProperty Name="Product1" Relationship="TestDbModel.FK__TrackProd__Produ__625A9A57" FromRole="TrackProduct" ToRole="Product" />
+          <Property Name="FollowTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <Association Name="FK__Comment__Author__40058253">
           <End Type="TestDbModel.Member" Role="Member" Multiplicity="1" />
@@ -555,6 +559,7 @@
           <EntitySetMapping Name="Member">
             <EntityTypeMapping TypeName="TestDbModel.Member">
               <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Suspended" ColumnName="Suspended" />
                 <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="Verified" ColumnName="Verified" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -626,6 +631,7 @@
           <EntitySetMapping Name="TrackProduct">
             <EntityTypeMapping TypeName="TestDbModel.TrackProduct">
               <MappingFragment StoreEntitySet="TrackProduct">
+                <ScalarProperty Name="FollowTime" ColumnName="FollowTime" />
                 <ScalarProperty Name="Follower" ColumnName="Follower" />
                 <ScalarProperty Name="Product" ColumnName="Product" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

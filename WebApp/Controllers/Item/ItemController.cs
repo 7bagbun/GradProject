@@ -5,8 +5,6 @@ using Newtonsoft.Json;
 using System.Web.UI.WebControls;
 using Microsoft.Ajax.Utilities;
 using WebApp.Models.ViewModels;
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 
 namespace WebApp.Controllers.Item
 {
@@ -32,6 +30,7 @@ namespace WebApp.Controllers.Item
             int modelId = vm.Items.First().Product;
             var model = _db.Product.FirstOrDefault(x => x.Id == modelId);
 
+            ViewBag.UpdatedTime = vm.Items.First().UpdatedTime;
             ViewBag.Model = model.Model;
             ViewBag.Brand = model.Brand;
             ViewBag.Type = model.ProductType;

@@ -140,6 +140,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs" />
+    <Compile Include="Controllers\Admin\ModerationController.cs" />
     <Compile Include="Controllers\Identity\IdentityController.cs" />
     <Compile Include="Controllers\Redirect\RedirectController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
@@ -161,8 +162,9 @@
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\PriceHistoryModel.cs" />
-    <Compile Include="Models\ProfileViewModel.cs" />
+    <Compile Include="Models\MemberViewModel.cs" />
     <Compile Include="Models\ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\Image.cs">
@@ -215,10 +217,15 @@
     </Content>
     <Content Include="Assets\EmailTemplates\ResetPassword.html" />
     <Content Include="Assets\EmailTemplates\VerifyAccount.html" />
+    <Content Include="Assets\Images\comment.png" />
     <Content Include="Assets\Images\default-pfp.jpg" />
     <Content Include="Assets\Images\default-pfp.png" />
     <Content Include="Assets\Images\drag-img.jpg" />
     <Content Include="Assets\Images\drag-img.png" />
+    <Content Include="Assets\Images\index-bg.png" />
+    <Content Include="Assets\Images\index-bg2.png" />
+    <Content Include="Content\Admin\layout.css" />
+    <Content Include="Content\shared.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -260,6 +267,7 @@
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Admin\member-list.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -367,10 +375,15 @@
     <Content Include="Views\Account\ProfileTrackProduct.cshtml" />
     <Content Include="Views\Account\ProfileComment.cshtml" />
     <Content Include="Views\Account\ProfilePersonalData.cshtml" />
+    <Content Include="Views\Shared\Admin.cshtml" />
+    <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Admin\MemberList.cshtml" />
+    <Content Include="Views\Admin\EditMember.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fonts\" />
-    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\AdminAction\" />
+    <Folder Include="Views\Moderation\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

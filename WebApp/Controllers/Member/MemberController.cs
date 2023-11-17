@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Net.Mail;
 using WebApp.Misc;
+using System.Net;
 
 namespace WebApp.Controllers.Member
 {

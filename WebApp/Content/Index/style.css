@@ -2,12 +2,12 @@
 
 .nav-custom {
     padding: 13px 40px;
-    background-color: #f9ece6;
+    background-color: #eceff4;
 }
 
-.nav-custom .nav-link {
-    margin: 0 2em;
-}
+    .nav-custom .nav-link {
+        margin: 0 2em;
+    }
 
 #navbarDropdown {
     margin: 0;
@@ -17,7 +17,7 @@
     height: 40px;
     width: 40px;
     border-radius: 50%;
-    margin:  0 1.5em 0 0;
+    margin: 0 1.5em 0 0;
     object-fit: cover;
 }
 
@@ -71,7 +71,7 @@ body {
     }
 
         .heading_container h2 span {
-            color: #f89cab;
+            color: #88c0d0;
         }
 
     .heading_container.heading_center {
@@ -84,9 +84,18 @@ body {
 .slider_section .slider_container {
     color: #fefefe;
     background-color: #000000;
-    background-color: #f89cab;
-    padding: 25px;
-    border-radius: 0 0 15px 15px;
+    background-color: #88c0d0;
+}
+
+.slider_section .owl-carousel{
+  position: relative;
+}
+
+.slider_section .owl-dots{
+  position: absolute;
+  bottom: 10px;
+  left:25%;
+  right:25%;
 }
 
 .slider_section .row {
@@ -174,7 +183,7 @@ body {
 }
 
 .shop_section .box {
-    background-color: #eeeeee;
+    background-color: #eceff4;
     position: relative;
     padding: 10px;
     margin-top: 25px;
@@ -577,6 +586,11 @@ body {
     transform: translateY(-50%);
 }
 
+.carousel img {
+    height: 400px;
+    object-fit: contain;
+}
+
 .client_section .carousel-control-prev {
     left: 0;
 }
@@ -588,9 +602,8 @@ body {
 /* info section */
 .info_section {
     position: relative;
-    background-color: #2d2d2d;
+    background-color: #2e3440;
     color: #ffffff;
-    margin: 0 45px 45px;
 }
 
     .info_section .social_container {
@@ -630,7 +643,7 @@ body {
         outline: none;
         border: none;
         color: #ffffff;
-        background: #f89cab;
+        background: #88c0d0;
         margin-top: 15px;
         text-transform: uppercase;
     }

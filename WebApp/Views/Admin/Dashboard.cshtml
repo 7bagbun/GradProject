@@ -1,0 +1,100 @@
+﻿@model WebApp.Models.DashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+<style>
+    .section {
+        background-color: #ECEFF4;
+        padding: 1em;
+        border-radius: 3px;
+        box-shadow: 2px 2px 5px #999;
+    }
+
+    .tag {
+        width: 70px;
+    }
+</style>
+
+<div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>
+    <hr />
+
+    <div class="row m-0 justify-content-around">
+        <div class="col-2 section">
+            <div class="row">
+                <div class="col d-flex justify-content-center align-items-center">
+                    <img class="pfp" src="~/Assets/Images/default-pfp.png" alt="" />
+                </div>
+                <div class="col">
+                    <h5>總會員數</h5>
+                    <h3>@ViewBag.MemberCount</h3>
+                </div>
+            </div>
+        </div><div class="col-2 section">
+            <div class="row">
+                <div class="col d-flex justify-content-center align-items-center">
+                    <img class="tag" src="~/Assets/Images/comment.png" alt="" />
+                </div>
+                <div class="col">
+                    <h5>總評論數</h5>
+                    <h3>@ViewBag.CommentCount</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <div>
+        <h5 class="mb-4">近期10則評論</h5>
+
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>No.</th>
+                    <th>使用者</th>
+                    <th>評分</th>
+                    <th>內容</th>
+                    <th>發布日期</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @if (Model.Comments.Count() > 0)
+            {
+                int i = 1;
+                foreach (var item in Model.Comments)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td><a href="/admin/editMember/@item.Member.Id">@item.Member.Username</a></td>
+                        <td>@item.Rating</td>
+                        <td>@item.Content</td>
+                        <td>@item.CreatedDate</td>
+                        <td>
+                            <div class="dropdown show text-right">
+                                <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/item/list/@item.Product?tab=comment">查看評論</a>
+                                    <a class="dropdown-item text-danger" href="/comment/delete?commentId=@item.Id">刪除評論</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-center text-muted" colspan="3" style="font-size:3em">尚無評論紀錄。</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

@@ -48,10 +48,10 @@ function placeComments(comments) {
     section.empty();
     section.after(`
         <div id="comment-template" class="container comment">
-        <div class="row"><div class="col-1"><img class="profile-picture" /></div>
-        <div class="col list-group"><div class="row list-group-item comment-header">
+        <div class="row"><div class="col-2 d-flex justify-content-end"><img class="profile-picture" /></div>
+        <div class="col-8 list-group"><div class="row list-group-item comment-header">
         <div class="col"><span class="comment-author"></span><span class="comment-date"></span>
-        </div><div class="col comment-stars"></div><div class="col comment-btn">
+        </div><div class="col-2 comment-stars"></div><div class="col comment-btn">
         <button class="tool-btn"><i class="fa fa-ellipsis-h"></i></button>
         </div> </div> <div class="row list-group-item comment-body"><div class="col comment-content">
         </div></div></div></div></div>`);

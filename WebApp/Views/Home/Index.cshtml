@@ -31,72 +31,63 @@
 </head>
 
 <body>
+    <!-- slider section -->
     <div class="hero_area">
-        <!-- slider section -->
         <section class="slider_section">
-            <div class="container-fluid slider_container">
-                <div class="row">
-                    <div class="col-3">
-                    </div>
-                    <div class="col-6">
-                        <div id="carousel" class="owl-carousel owl-theme carousel slide" data-ride="carousel">
-                            <div class="item">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="detail-box">
-                                                <h1>
-                                                    i家電
-                                                </h1>
-                                                <p>
-                                                    是您比價的好選擇
-                                                </p>
-                                                <a href="">
-                                                    聯絡我們
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5 ">
-                                            <div class="img-box">
-                                                <img src="~/images/pccu.png" alt="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="detail-box">
-                                                <h1>
-                                                    i家電2
-                                                </h1>
-                                                <p>
-                                                    是您比價的好選擇
-                                                </p>
-                                                <a href="">
-                                                    聯絡我們
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5 ">
-                                            <div class="img-box">
-                                                <img src="~/images/pccu.png" alt="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div id="carousel" class="slider_container owl-carousel owl-theme carousel slide" data-ride="carousel">
+                <div class="item">
+                    <img src="~/Assets/Images/index-bg.png" alt="" />
+                </div>
+                <div class="item">
+                    <img src="~/Assets/Images/index-bg2.png" alt="" />
                 </div>
             </div>
         </section>
-        <!-- end slider section -->
     </div>
+    <!-- end slider section -->
+
     <!-- shop section -->
-    <!-- anouncement section -->
+    <section class="shop_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>
+                    熱門商品比價
+                </h2>
+            </div>
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="box">
+                            <a href="@Url.Action("list", "item", new { id = item.Product1.Id })">
+                                <div class="img-box">
+                                    <img src="@Url.Action("getcached", "image", new { id = item.Image1.Id } )" alt="">
+                                </div>
+                                <div class="detail-box">
+                                    <h6>
+                                        @item.Product1.Brand @item.Product1.ProductType @item.Product1.Model
+                                    </h6>
+                                    <h6 class="price">
+                                        售價:
+                                        <span>
+                                            @(item.Price)起
+                                        </span>
+                                    </h6>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!--<div class="btn-box">
+                <a href="">
+                    瀏覽所有商品
+                </a>
+            </div>-->
+        </div>
+    </section>
+    <!-- shop section -->
+    <!-- news section -->
     <section>
         <div class="news">
             <h2 class="text-center">最新消息</h2>
@@ -174,56 +165,13 @@
             </div>
         </div>
     </section>
-    <!-- end anouncement section -->
-
-    <section class="shop_section layout_padding">
-        <div class="container">
-            <div class="heading_container heading_center">
-                <h2>
-                    商品比價
-                </h2>
-            </div>
-            <div class="row">
-                @foreach (var item in Model)
-                {
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="box">
-                            <a href="@Url.Action("list", "item", new { id = item.Product1.Id })">
-                                <div class="img-box">
-                                    <img src="@Url.Action("getcached", "image", new { id = item.Image1.Id } )" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h6>
-                                        @item.Product1.Brand @item.Product1.ProductType @item.Product1.Model
-                                    </h6>
-                                    <h6 class="price">
-                                        售價:
-                                        <span>
-                                            @(item.Price)起
-                                        </span>
-                                    </h6>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                }
-            </div>
-            <!--<div class="btn-box">
-                <a href="">
-                    瀏覽所有商品
-                </a>
-            </div>-->
-        </div>
-    </section>
-
+    <!-- end news section -->
     <!-- info section -->
-
-    <section class="info_section  layout_padding2-top">
-
+    <section class="info_section">
         <div class="info_container ">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 col-lg-3">
+                    <div class="col">
                         <h6>
                             關於我們
                         </h6>
@@ -231,6 +179,7 @@
                             一個致力於比價家電的網站
                         </p>
                     </div>
+                    <!--
                     <div class="col-md-6 col-lg-3">
                         <div class="info_form ">
                             <form action="#">
@@ -241,10 +190,8 @@
                             </form>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3">
-
-                    </div>
-                    <div class="col-md-6 col-lg-3">
+                    -->
+                    <div class="col">
                         <h6>
                             聯絡我們
                         </h6>
@@ -259,19 +206,15 @@
                             </a>
                             <a href="">
                                 <i class="fa fa-envelope" aria-hidden="true"></i>
-                                <span> 範例@ulive.pccu.edu.tw</span>
+                                <span> iiihomeappliances@gmail.com</span>
                             </a>
                         </div>
                     </div>
-                </div>
-                <div class="col-3">
-
                 </div>
             </div>
         </div>
 
     </section>
-
     <!-- end info section -->
 
 </body>

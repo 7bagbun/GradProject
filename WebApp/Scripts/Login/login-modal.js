@@ -25,6 +25,11 @@
                 passwd: passwd,
             },
             success: (data) => {
+                if (data.admin) {
+                    window.location = data.redirUrl;
+                    return;
+                }
+
                 if (data.result) {
                     location.reload();
                 } else {

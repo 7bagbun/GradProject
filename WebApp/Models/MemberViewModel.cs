@@ -2,7 +2,7 @@
 
 namespace WebApp.Models
 {
-    public class ProfileViewModel
+    public class MemberViewModel
     {
         public Member Member { get; set; }
         public IEnumerable<TrackProduct> TrackProducts { get; set; }

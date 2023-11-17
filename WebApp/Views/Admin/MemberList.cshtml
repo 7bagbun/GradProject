@@ -1,0 +1,93 @@
+﻿@model IEnumerable<WebApp.Models.Member>
+
+@{
+    ViewBag.Title = "MemberList";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@section scripts {
+    <script src="~/Scripts/Admin/member-list.js"></script>
+}
+
+<style>
+    .true {
+        color: #A3BE8C;
+    }
+
+    .false {
+        color: #BF616A;
+    }
+</style>
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">會員清單</li>
+    </ol>
+</nav>
+<hr />
+
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <input class="form-control" type="text" name="query" placeholder="搜尋..." />
+        </div>
+    </div>
+    <div class="col">
+
+    </div>
+</div>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">使用者名稱</th>
+            <th scope="col">電子信箱</th>
+            <th scope="col">信箱驗證</th>
+            <th scope="col">會員狀態</th>
+            <th scope="col">創建時間</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+
+            foreach (var item in Model)
+            {
+                <tr>
+                    <th>@(i++)</th>
+                    <td><a href="/admin/editMember/@item.Id">@item.Username</a></td>
+                    <td>@item.Email</td>
+
+                    @if (item.Verified)
+                    {
+                        <td class="false"><i class="far fa-check-circle"></i> 已驗證</td>
+                    }
+                    else
+                    {
+                        <td class="true"><i class="far fa-times-circle"></i> 未驗證</td>
+                    }
+                    
+                    @if (item.Suspended)
+                    {
+                        <td class="false"><i class="fas fa-exclamation-triangle"></i> 已停權</td>
+                    }
+                    else
+                    {
+                        <td class="true"><i class="far fa-check-circle"></i> 已啟用</td>
+                    }
+
+                    <td>@item.CreatedDate</td>
+                    <td class="text-right">
+                        <div class="dropdown show">
+                            <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/admin/editMember/@item.Id">詳細資料</a>
+                                <div class="dropdown-item text-danger cursor-pointer" onclick="suspendMember(@item.Id)">停用會員</div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -2,7 +2,7 @@
 
 $.ajax({
     type: "GET",
-    url: `/pricehistory/get?productId=${id}`,
+    url: "/pricehistory/get?productId=" + id,
     async: true,
     success: (data) => {
         chartInit(data);
@@ -13,45 +13,45 @@ $.ajax({
 })
 
 function chartInit(data) {
-    const chart = echarts.init(document.getElementById('main'));
+    const chart = echarts.init(document.getElementById("main"));
 
     option = {
         title: {
-            text: '歷史最低價格',
-            left: 'center'
+            text: "歷史最低價格",
+            left: "center"
         },
         tooltip: {
-            trigger: 'item',
+            trigger: "item",
             formatter: (params) => {
-                return `售價: ${formatter.format(params.data.Price)}`
+                return `售價: ${formatter.format(params.data.Price)} 日期: ${params.data.UpdatedTime}`
             }
         },
         dataset: {
             source: data
         },
         xAxis: {
-            type: 'category',
+            type: "category",
         },
         yAxis: {
-            type: 'value'
+            type: "value"
         },
         series: [
             {
-                name: 'Step Start',
-                type: 'line',
-                step: 'end',
+                name: "Step Start",
+                type: "line",
+                step: "end",
                 itemStyle: {
-                    color: '#dc3545'
+                    color: "#88c0d0"
                 },
                 areaStyle: {
                     color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                         {
                             offset: 0,
-                            color: '#ff7683'
+                            color: "#88c0d0"
                         },
                         {
                             offset: 1,
-                            color: '#ffc0c6'
+                            color: "#eee"
                         }
                     ])
                 }

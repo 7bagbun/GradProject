@@ -16,9 +16,13 @@ var newsJson;
 $.ajax({
     type: "GET",
     url: "/news/getallnews",
-    async: false,
     success: (data) => {
         newsJson = data;
+
+        if (Object.keys(newsJson).length) {
+            displayNewsDetail(0);
+        }
+
         displayNews(newsJson);
     },
     error: (err) => {
@@ -26,9 +30,6 @@ $.ajax({
     }
 });
 
-if (Object.keys(newsJson).length) {
-    displayNewsDetail(0);
-}
 
 function displayNews(news) {
     const newsEles = $(".news-item-empty");

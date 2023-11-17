@@ -17,6 +17,7 @@ namespace WebApp.Models
         public int Id { get; set; }
         public int Product { get; set; }
         public int Follower { get; set; }
+        public System.DateTime FollowTime { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual Product Product1 { get; set; }

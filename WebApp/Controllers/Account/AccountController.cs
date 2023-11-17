@@ -25,18 +25,20 @@ namespace WebApp.Controllers.Account
                 {
                     return Json(new { result = false, msg = "請先完成信箱驗證後再登入" });
                 }
-
-                if (target.IsAdmin)
+                else if (target.Suspended)
                 {
-                    Session["admin"] = true;
-                }
-                else
-                {
-                    Session["admin"] = false;
+                    return Json(new { result = false, msg = "此帳號已被停權" });
                 }
 
                 Session["user"] = target.Username;
                 Session["userId"] = target.Id;
+
+                if (target.IsAdmin)
+                {
+                    Session["admin"] = true;
+                    return Json(new { result = true, msg = "登入成功", admin = true, redirUrl = "/admin/dashboard" });
+                }
+
                 return Json(new { result = true, msg = "登入成功" });
             }
             catch (Exception)

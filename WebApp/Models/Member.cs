@@ -30,6 +30,7 @@ namespace WebApp.Models
         public string Email { get; set; }
         public bool Verified { get; set; }
         public bool IsAdmin { get; set; }
+        public bool Suspended { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }

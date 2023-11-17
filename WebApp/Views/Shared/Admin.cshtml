@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>i家電</title>
+    <title>愛家電</title>
 
     <!-- bootstrap core css -->
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css" />
@@ -21,71 +21,46 @@
     <link rel="shortcut icon" href="~/images/favicon.png" type="~/image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- admin -->
+    <link rel="stylesheet" type="text/css" href="~/Content/Admin/layout.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/shared.css" />
+
+
     @RenderSection("css", required: false)
+
 </head>
 <body>
-    <header class="header_section">
-        <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center nav-custom">
-            <div class="d-flex w-50 mr-auto">
-                <a href="/" class="navbar-brand">愛家電</a>
-            </div>
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fa fa-bars"></i>
-            </button>
-
-            <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
-                <ul class="navbar-nav w-100 justify-content-center">
-                    <li class="nav-item active">
-                        <form action="/item/search" method="get">
-                            <input type="text" name="query" class="form-control" placeholder="搜尋商品" />
-                        </form>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
-                    @if (Session["userId"] == null)
-                    {
+    <nav class="navbar navbar-dark sticky-top bg-dark p-0 flex-md-nowrap shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/admin/dashboard">愛家電管理員後台</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <input class="form-control form-control-dark w-100" type="text" placeholder="" aria-label="Search" style="display:none">
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="/account/logout">登出</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-2 sidebar">
+                <div class="sidebar-sticky pt-3">
+                    <ul class="nav flex-column">
                         <li class="nav-item">
-                            @Html.ActionLink("註冊", "register", "member", null, new { @class = "navbar-nav nav-link" })
+                            <a class="nav-link active" href="/admin/dashboard">Dashboard</a>
+                            <a class="nav-link active" href="/admin/memberList">會員管理</a>
+                            <a class="nav-link active" href="#">客服案件</a>
+                            <a class="nav-link active" href="#">檢舉案件</a>
                         </li>
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#login-modal">登入</button>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
-                                您好，@Session["user"]
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/account/showprofile?tab=profile">個人資料</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/account/showprofile?tab=track">追蹤商品</a>
-                                <a class="dropdown-item" href="/account/showprofile?tab=comment">已發布評論</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <img src="@Url.Action("getPfpById", "member", new { id = Session["userId"] })" class="profile-picture navbar-pfp" alt="" />
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("登出", "logout", "account", null, new { @class = "btn btn-info", style = "color: white;" })
-                        </li>
-                    }
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-    @RenderBody()
-
-    <!--
-    <footer class=" footer_section">
-        <div class="container">
-            <p></p>
+                    </ul>
+                </div>
+            </nav>
+            <main class="col-10 p-4 ml-auto">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
-    -->
+    </div>
 
     <div id="login-modal" class="modal fade" role="dialog">
         <div class="modal-dialog" style="width: 400px">
@@ -132,6 +107,7 @@
     <script src="~/Scripts/popper.min.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/Login/login-modal.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>

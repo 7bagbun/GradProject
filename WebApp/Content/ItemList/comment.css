@@ -1,4 +1,5 @@
-﻿#content-area {
+﻿#comments {
+    margin-bottom: 4em;
 }
 
 #comments .list-group-item .col {
@@ -47,7 +48,6 @@
     border: 1px solid #AAA;
     border-radius: 50%;
     display: block;
-    margin: auto;
     object-fit: cover;
 }
 
