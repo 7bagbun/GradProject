@@ -1,0 +1,98 @@
+﻿@model WebApp.Models.News
+
+@{
+    ViewBag.Title = "EditAnnouncement";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@section scripts {
+    <script src="~/Scripts/Admin/edit-anncouncement.js"></script>
+}
+
+<style>
+    .section {
+        color: #434C5E;
+        border-radius: 3px;
+        background-color: #ECEFF4;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-control:disabled {
+        background-color: #fff;
+    }
+
+    .true {
+        color: #85BF53;
+    }
+
+    .false {
+        color: #BF616A;
+    }
+</style>
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/admin/announcementList">公告列表</a></li>
+        <li class="breadcrumb-item active" aria-current="page">編輯公告 > @Model.Title</li>
+    </ol>
+</nav>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="section p-3">
+            <form id="edit-form" action="/moderation/editAnnouncement" method="post">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5 class="m-0">公告內容</h5>
+                    </div>
+                </div>
+                <hr />
+                <input class="hidden" type="text" name="id" value="@Model.Id" />
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="form-text">類型</label>
+                            <select class="form-control input" name="type" disabled>
+                                <option value="0" @(Model.Type == 0 ? "selected" : "")>一般</option>
+                                <option value="1" @(Model.Type == 1 ? "selected" : "")>重要</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="form-text">發布時間</label>
+                            <input class="form-control" type="text" name="createdDate" disabled value="@Model.CreatedDate">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-text">標題</label>
+                            <input class="form-control input" type="text" name="title" disabled value="@Model.Title" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-text">內容</label>
+                            <textarea class="form-control input" name="content" style="min-height:2.4em;height:8em;" disabled>@Model.Content</textarea>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group text-right">
+                            <button type="button" class="btn btn-edit btn-secondary mr-3 px-4 hidden" onclick="setCtrl(false)">取消</button>
+                            <button type="button" class="btn btn-edit btn-primary px-4 hidden" onclick="submitChanges()">儲存</button>
+                            <button type="button" class="btn btn-show btn-primary" onclick="setCtrl(true)"><i class="far fa-edit"></i> 編輯</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

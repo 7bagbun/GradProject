@@ -267,6 +267,9 @@
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Admin\announcement-list.js" />
+    <Content Include="Scripts\Admin\create-announcement.js" />
+    <Content Include="Scripts\Admin\edit-anncouncement.js" />
     <Content Include="Scripts\Admin\member-list.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -379,10 +382,13 @@
     <Content Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Views\Admin\MemberList.cshtml" />
     <Content Include="Views\Admin\EditMember.cshtml" />
+    <Content Include="Views\Admin\AnnouncementList.cshtml" />
+    <Content Include="Views\Admin\EditAnnouncement.cshtml" />
+    <Content Include="Views\Admin\CreateAnnouncement.cshtml" />
+    <Content Include="Views\Admin\CommentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fonts\" />
-    <Folder Include="Views\AdminAction\" />
     <Folder Include="Views\Moderation\" />
   </ItemGroup>
   <ItemGroup>

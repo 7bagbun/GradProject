@@ -1,4 +1,8 @@
-﻿.breadcrumb {
+﻿main {
+    color: #3B4252;
+}
+
+.breadcrumb {
     font-size: 1.8em;
     background-color: transparent;
     padding: 0;

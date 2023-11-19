@@ -1,17 +1,4 @@
-﻿$('.owl-carousel').owlCarousel({
-    loop: true,
-    margin: 10,
-    dots: true,
-    autoplay: true,
-    autoplayHoverPause: true,
-    responsive: {
-        0: {
-            items: 1
-        }
-    },
-})
-
-var newsJson;
+﻿var newsJson;
 var curr = 0;
 var pages;
 
@@ -167,4 +154,24 @@ function changeSection(direction) {
 function changePage(pageNum) {
     curr = pageNum;
     getNews(curr + 1);
+}
+
+function deleteAnnouncement(id) {
+    swal({
+        text: "你確定要刪除此公告嗎?",
+        icon: "warning",
+        buttons: {
+            cancel: "取消",
+            confirm: "確定"
+        },
+        dangerMode: true,
+    }).then((decision) => {
+        if (decision) {
+            $.post("/moderation/deleteAnnouncement", { id: id }, (data) => {
+                if (data.isSucceed) {
+                    location.reload();
+                }
+            });
+        }
+    });
 }

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WebApp.Models.Comment>
+
+@{
+    ViewBag.Title = "CommentList";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@section scripts {
+
+}
+
+<nav>
+    <div class="row mb-2">
+        <div class="col">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">評論列表</li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<hr />
+<div class="row">
+    <div class="col-lg-3">
+        <div class="form-group">
+            <input class="form-control" type="text" name="query" value="" placeholder="搜尋評論"/>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group">
+            <a class="btn btn-primary" href=""><i class="fas fa-filter"></i> 篩選器</a>
+        </div>
+    </div>
+</div>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">產品型號</th>
+            <th scope="col">使用者</th>
+            <th scope="col">評分</th>
+            <th scope="col">內容</th>
+            <th scope="col">發布時間</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+
+            foreach (var item in Model)
+            {
+                <tr>
+                    <th>@(i++)</th>
+                    <td>@item.Product1.Brand @item.Product1.Model @item.Product1.ProductType</td>
+                    <td>@item.Member.Username</td>
+                    <td>@item.Content</td>
+                    <td>@item.CreatedDate</td>
+                    <td class="text-right">
+                        <div class="dropdown show">
+                            <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/admin/editAnnouncement/@item.Id">詳細資料</a>
+                                <div class="dropdown-item text-danger cursor-pointer" onclick="deleteAnnouncement(@item.Id)">刪除評論</div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

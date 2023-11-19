@@ -1,13 +1,8 @@
 ﻿const spinner = $("#spinner");
 const div = $("#content");
 
-$(document).ready(async () => {
-    await loadProfileData(tab);
-
-    $("#input-pfp").on("change", () => {
-        togglePfpCtrls();
-        showPickedImage();
-    });
+$(document).ready(() => {
+    loadProfileData(tab);
 });
 
 async function loadProfileData(type) {
@@ -35,14 +30,19 @@ async function loadProfileData(type) {
             break;
     }
 
-    await $.get({
+    $.get({
         url: url,
         success: (data) => {
             changeDivContent(data);
             updateActiveTab(type);
 
-            if (type = "comment") {
+            if (type === "comment") {
                 placeStars();
+            } else if (type === "profile") {
+                $("#input-pfp").on("change", () => {
+                    togglePfpCtrls();
+                    showPickedImage();
+                });
             }
         }
     });

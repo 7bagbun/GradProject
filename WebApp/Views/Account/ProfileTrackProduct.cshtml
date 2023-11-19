@@ -13,21 +13,24 @@
         </div>
     </div>
     <hr />
-    @foreach (var item in Model.TrackProduct)
+    @if (Model.TrackProduct.Count() > 0)
     {
-        <div class="row data-row align-items-center">
-            <div class="col text-left">
-                <span>
-                    <a class="align-middle" href="/item/list/@item.Product">@item.Product1.Brand @item.Product1.ProductType @item.Product1.Model</a>
-                </span>
+        foreach (var item in Model.TrackProduct)
+        {
+            <div class="row data-row align-items-center">
+                <div class="col text-left">
+                    <span>
+                        <a class="align-middle" href="/item/list/@item.Product">@item.Product1.Brand @item.Product1.ProductType @item.Product1.Model</a>
+                    </span>
+                </div>
+                <div class="col text-right">
+                    <button class="btn btn-danger" onclick="untrackItem(@item.Product)">取消追蹤</button>
+                </div>
             </div>
-            <div class="col text-right">
-                <button class="btn btn-danger" onclick="untrackItem(@item.Product)">取消追蹤</button>
-            </div>
-        </div>
-    }
+        }
 
-    @if (Model.TrackProduct.Count() < 1)
+    }
+    else
     {
         <div class="row d-flex align-items-center">
             <div class="col text-muted text-center">

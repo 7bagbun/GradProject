@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "CreateAnnouncement";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="~/Scripts/Admin/create-announcement.js"></script>
+}
+
+<style>
+    .section {
+        color: #434C5E;
+        border-radius: 3px;
+        background-color: #ECEFF4;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    .form-control:disabled {
+        background-color: #fff;
+    }
+
+    .true {
+        color: #85BF53;
+    }
+
+    .false {
+        color: #BF616A;
+    }
+</style>
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/admin/announcementList">公告列表</a></li>
+        <li class="breadcrumb-item active" aria-current="page">新增公告</li>
+    </ol>
+</nav>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="section p-3">
+            <form id="create-form" action="/moderation/editAnnouncement" method="post">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5 class="m-0">新增公告</h5>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="form-text">類型</label>
+                            <select class="form-control input" name="type">
+                                <option value="0" selected>一般</option>
+                                <option value="1">重要</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="form-text">發布時間</label>
+                            <input id="time" class="form-control" type="text" name="createdDate" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-text">標題</label>
+                            <input id="title" class="form-control input" type="text" name="title" onchange="hideMsg()" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-text">內容</label>
+                            <textarea id="content" class="form-control input" name="content" rows="6" style="min-height:2.4em" onchange="hideMsg()"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group text-right">
+                            <p id="msg" class="text-left text-danger hidden">請確實填寫標題與內容</p>
+                            <button type="button" class="btn btn-show btn-primary px-4" onclick="submitForm()">發布</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

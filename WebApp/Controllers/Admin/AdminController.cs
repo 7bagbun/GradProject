@@ -28,7 +28,7 @@ namespace WebApp.Controllers.Admin
 
         public ActionResult MemberList()
         {
-            var members = _db.Member.ToArray();
+            var members = _db.Member.Where(x => x.IsAdmin == false).ToArray();
 
             return View(members);
         }
@@ -50,6 +50,37 @@ namespace WebApp.Controllers.Admin
             };
 
             return View(vm);
+        }
+
+        public ActionResult AnnouncementList()
+        {
+            var news = _db.News.OrderByDescending(x => x.CreatedDate).ToArray();
+
+            return View(news);
+        }
+
+        public ActionResult EditAnnouncement(int id)
+        {
+            var news = _db.News.FirstOrDefault(x => x.Id == id);
+
+            return View(news);
+        }
+
+        public ActionResult CreateAnnouncement()
+        {
+            var news = new Models.News
+            {
+                CreatedDate = DateTime.Now,
+            };
+
+            return View(news);
+        }
+
+        public ActionResult CommentList()
+        {
+            var comments = _db.Comment.OrderByDescending(x => x.CreatedDate).ToArray();
+
+            return View(comments);
         }
     }
 }

@@ -1,0 +1,143 @@
+﻿@model IEnumerable<WebApp.Models.News>
+
+@{
+    ViewBag.Title = "EditAnnouncement";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@section css {
+    <link href="~/Content/Index/index.css" rel="stylesheet" />
+}
+
+@section scripts {
+    <script src="~/Scripts/Admin/announcement-list.js"></script>
+}
+
+<nav>
+    <div class="row mb-2">
+        <div class="col-lg-6">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">公告列表</li>
+            </ol>
+        </div>
+        <div class="col-lg-6 d-flex flex-row-reverse align-content-center">
+            <a class="btn btn-primary" href="/admin/createAnnouncement"><i class="fas fa-plus"></i> 新增公告</a>
+        </div>
+    </div>
+</nav>
+<hr />
+<section>
+    <div class="news">
+        <h2 class="text-center">最新消息預覽</h2>
+        <div class="container">
+            <div class="row">
+                <div id="news-list" class="col">
+                    <div class="list-group list-group-horizontal news-item news-item-empty">
+                        <div class="list-group-item color-tag"></div>
+                        <div class="list-group-item" style="width: 100%">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">&nbsp;</h5>
+                                <small class="text-muted"></small>
+                            </div>
+                            <p class="mb-1 text-muted content">&nbsp;</p>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-horizontal news-item news-item-empty">
+                        <div class="list-group-item color-tag"></div>
+                        <div class="list-group-item" style="width: 100%">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">&nbsp;</h5>
+                                <small class="text-muted"></small>
+                            </div>
+                            <p class="mb-1 text-muted content">&nbsp;</p>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-horizontal news-item news-item-empty">
+                        <div class="list-group-item color-tag"></div>
+                        <div class="list-group-item" style="width: 100%">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">&nbsp;</h5>
+                                <small class="text-muted"></small>
+                            </div>
+                            <p class="mb-1 text-muted content">&nbsp;</p>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-horizontal news-item news-item-empty">
+                        <div class="list-group-item color-tag"></div>
+                        <div class="list-group-item" style="width: 100%">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">&nbsp;</h5>
+                                <small class="text-muted"></small>
+                            </div>
+                            <p class="mb-1 text-muted content">&nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="news-detail" class="news-detail">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1 news-title">Title</h5>
+                            <h5 class="news-type">Type</h5>
+                        </div>
+                        <hr />
+                        <p class="mb-1 news-content">Content</p>
+                        <p class="news-date">Date</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row page-nav">
+                <div class="col">
+                    <ul id="page" class="pagination justify-content-center">
+                        <li id="prev" class="page-item disabled">
+                            <div class="page-link" onclick="changeSection(false)">&laquo;</div>
+                        </li>
+                        <li id="page-0" class="page-item active"><div class="page-link">1</div></li>
+                        <li id="page-1" class="page-item"><div class="page-link">2</div></li>
+                        <li id="page-2" class="page-item"><div class="page-link">3</div></li>
+                        <li id="next" class="page-item disabled">
+                            <div class="page-link" onclick="changeSection(true)">&raquo;</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">類型</th>
+            <th scope="col">標題</th>
+            <th scope="col">內容</th>
+            <th scope="col">發布時間</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+
+            foreach (var item in Model)
+            {
+                <tr>
+                    <th>@(i++)</th>
+                    <td>@(item.Type == 1 ? "重要" : "一般")</td>
+                    <td>@item.Title</td>
+                    <td>@item.Content</td>
+                    <td>@item.CreatedDate</td>
+                    <td class="text-right">
+                        <div class="dropdown show">
+                            <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/admin/editAnnouncement/@item.Id">詳細資料</a>
+                                <div class="dropdown-item text-danger cursor-pointer" onclick="deleteAnnouncement(@item.Id)">刪除公告</div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

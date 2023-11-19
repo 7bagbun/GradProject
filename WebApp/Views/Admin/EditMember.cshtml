@@ -20,9 +20,6 @@
     .pfp {
         width: 128px;
         height: 128px;
-        border: solid 1px #434C5E;
-        border-radius: 50%;
-        object-fit: cover;
     }
 
     .form-control:disabled {
@@ -36,13 +33,11 @@
     .false {
         color: #BF616A;
     }
-
-    .comments {
-    }
 </style>
 
 <nav>
     <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="/admin/memberList">會員管理</a></li>
         <li class="breadcrumb-item active" aria-current="page">會員資料 > @Model.Member.Username</li>
     </ol>
