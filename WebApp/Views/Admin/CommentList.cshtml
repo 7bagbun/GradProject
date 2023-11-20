@@ -2,11 +2,12 @@
 
 @{
     ViewBag.Title = "CommentList";
+    ViewBag.Active = "cl";
     Layout = "~/Views/Shared/Admin.cshtml";
 }
 
 @section scripts {
-
+    <script src="~/Scripts/Admin/comment-list.js"></script>
 }
 
 <nav>
@@ -23,12 +24,7 @@
 <div class="row">
     <div class="col-lg-3">
         <div class="form-group">
-            <input class="form-control" type="text" name="query" value="" placeholder="搜尋評論"/>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="form-group">
-            <a class="btn btn-primary" href=""><i class="fas fa-filter"></i> 篩選器</a>
+            <input id="query" class="form-control" type="text" name="query" value="" placeholder="搜尋評論" onkeyup="searchComment()"/>
         </div>
     </div>
 </div>
@@ -50,18 +46,19 @@
 
             foreach (var item in Model)
             {
-                <tr>
+                <tr class="data-row">
                     <th>@(i++)</th>
-                    <td>@item.Product1.Brand @item.Product1.Model @item.Product1.ProductType</td>
-                    <td>@item.Member.Username</td>
-                    <td>@item.Content</td>
+                    <td><a class="product" href="/item/list/@item.Product">@item.Product1.Brand @item.Product1.Model @item.Product1.ProductType</a></td>
+                    <td><a class="username" href="/admin/editMember/@item.Author">@item.Member.Username</a></td>
+                    <td>@item.Rating</td>
+                    <td class="overflow-hidden">@item.Content</td>
                     <td>@item.CreatedDate</td>
                     <td class="text-right">
                         <div class="dropdown show">
                             <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/admin/editAnnouncement/@item.Id">詳細資料</a>
-                                <div class="dropdown-item text-danger cursor-pointer" onclick="deleteAnnouncement(@item.Id)">刪除評論</div>
+                                <a class="dropdown-item" href="/admin/commentDetail/@item.Id">詳細資料</a>
+                                <div class="dropdown-item text-danger cursor-pointer" onclick="deleteComment(@item.Id)">刪除評論</div>
                             </div>
                         </div>
                     </td>

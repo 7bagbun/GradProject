@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "EditAnnouncement";
+    ViewBag.Active = "al";
     Layout = "~/Views/Shared/Admin.cshtml";
 }
 
@@ -124,8 +125,8 @@
                 <tr>
                     <th>@(i++)</th>
                     <td>@(item.Type == 1 ? "重要" : "一般")</td>
-                    <td>@item.Title</td>
-                    <td>@item.Content</td>
+                    <td class="overflow-hidden">@item.Title</td>
+                    <td class="overflow-hidden">@item.Content</td>
                     <td>@item.CreatedDate</td>
                     <td class="text-right">
                         <div class="dropdown show">

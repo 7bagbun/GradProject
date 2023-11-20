@@ -55,6 +55,26 @@
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#login-modal">登入</button>
                         </li>
                     }
+                    else if (Session["admin"] == null)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                                您好，@Session["user"]
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/account/showprofile?tab=profile">個人資料</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/account/showprofile?tab=track">追蹤商品</a>
+                                <a class="dropdown-item" href="/account/showprofile?tab=comment">已發布評論</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <img src="@Url.Action("getPfpById", "member", new { id = Session["userId"] })" class="profile-picture navbar-pfp" alt="" />
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("登出", "logout", "account", null, new { @class = "btn btn-info", style = "color: white;" })
+                        </li>
+                    }
                     else
                     {
                         <li class="nav-item dropdown">
@@ -66,6 +86,8 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/account/showprofile?tab=track">追蹤商品</a>
                                 <a class="dropdown-item" href="/account/showprofile?tab=comment">已發布評論</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/admin/dashboard">管理員介面</a>
                             </div>
                         </li>
                         <li class="nav-item">

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "MemberList";
+    ViewBag.Active = "ml";
     Layout = "~/Views/Shared/Admin.cshtml";
 }
 
@@ -25,15 +26,11 @@
     </ol>
 </nav>
 <hr />
-
 <div class="row">
-    <div class="col">
+    <div class="col-lg-3">
         <div class="form-group">
-            <input class="form-control" type="text" name="query" placeholder="搜尋..." />
+            <input id="query" class="form-control" type="text" name="query" value="" placeholder="搜尋會員" onkeyup="searchMember()"/>
         </div>
-    </div>
-    <div class="col">
-
     </div>
 </div>
 <table class="table table-hover">
@@ -54,10 +51,10 @@
 
             foreach (var item in Model)
             {
-                <tr>
+                <tr class="data-row">
                     <th>@(i++)</th>
-                    <td><a href="/admin/editMember/@item.Id">@item.Username</a></td>
-                    <td>@item.Email</td>
+                    <td><a class="username" href="/admin/editMember/@item.Id">@item.Username</a></td>
+                    <td class="email">@item.Email</td>
 
                     @if (item.Verified)
                     {

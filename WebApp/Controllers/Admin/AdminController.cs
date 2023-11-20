@@ -82,5 +82,13 @@ namespace WebApp.Controllers.Admin
 
             return View(comments);
         }
+        
+        public ActionResult CommentDetail(int id)
+        {
+            var target = _db.Comment.FirstOrDefault(x => x.Id == id);
+
+            return View(target);
+        }
+
     }
 }

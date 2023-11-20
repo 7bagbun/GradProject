@@ -13,7 +13,7 @@
           <Property Name="Product" Type="int" Nullable="false" />
           <Property Name="Author" Type="int" Nullable="false" />
           <Property Name="Rating" Type="smallint" Nullable="false" />
-          <Property Name="Content" Type="nvarchar" MaxLength="500" />
+          <Property Name="Content" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Image">
@@ -316,7 +316,7 @@
           <Property Name="Product" Type="Int32" Nullable="false" />
           <Property Name="Author" Type="Int32" Nullable="false" />
           <Property Name="Rating" Type="Int16" Nullable="false" />
-          <Property Name="Content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Member" Relationship="TestDbModel.FK__Comment__Author__40058253" FromRole="Comment" ToRole="Member" />
           <NavigationProperty Name="Product1" Relationship="TestDbModel.FK__Comment__Product__3F115E1A" FromRole="Comment" ToRole="Product" />

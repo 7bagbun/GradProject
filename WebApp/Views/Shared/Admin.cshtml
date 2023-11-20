@@ -19,7 +19,8 @@
 
     <!-- Site Metas -->
     <link rel="shortcut icon" href="~/images/favicon.png" type="~/image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
+          integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- admin -->
     <link rel="stylesheet" type="text/css" href="~/Content/Admin/layout.css" />
@@ -38,7 +39,7 @@
         <input class="form-control form-control-dark w-100" type="text" placeholder="" aria-label="Search" style="display:none">
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="/account/logout">登出</a>
+                <a class="nav-link" href="/account/logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
             </li>
         </ul>
     </nav>
@@ -48,12 +49,31 @@
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/admin/dashboard">Dashboard</a>
-                            <a class="nav-link active" href="/admin/memberList">會員管理</a>
-                            <a class="nav-link active" href="/admin/announcementList">公告列表</a>
-                            <a class="nav-link active" href="/admin/commentList">評論列表</a>
+                            <a id="db" class="nav-link" href="/admin/dashboard"><i class="mr-2 fas fa-tachometer-alt"></i>Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="ml" class="nav-link" href="/admin/memberList"><i class="mr-2 fas fa-users"></i>會員管理</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="al" class="nav-link" href="/admin/announcementList"><i class="mr-2 fas fa-bullhorn"></i>公告列表</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="cl" class="nav-link" href="/admin/commentList"><i class="mr-2 far fa-comment-dots"></i>評論列表</a>
+                        </li>
+                        <li class="nav-item hidden">
                             <a class="nav-link active" href="#">客服案件</a>
+                        </li>
+                        <li class="nav-item hidden">
                             <a class="nav-link active" href="#">檢舉案件</a>
+                        </li>
+                    </ul>
+                    <hr />
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/account/showProfile" target="_blank"><i class="mr-2 fas fa-user-circle"></i>個人資料</a>
+                        </li>
+                        <li>
+                            <a class="nav-link active" href="/" target="_blank"><i class="mr-2 fas fa-external-link-alt"></i>回到前台</a>
                         </li>
                     </ul>
                 </div>
@@ -110,6 +130,7 @@
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/Login/login-modal.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>$("#@ViewBag.Active").addClass(["active", "active-tab"]);</script>
 
     @RenderSection("scripts", required: false)
 </body>

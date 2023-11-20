@@ -8,7 +8,6 @@ namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly DbEntities _db = new DbEntities();
         private readonly TestDbEntities _db = new TestDbEntities();
         private readonly int _displayAmount = 8; //amount of items displayed in home page
 

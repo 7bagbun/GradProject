@@ -14,20 +14,6 @@ namespace WebApp.Controllers.Member
     {
         private readonly TestDbEntities _db = new TestDbEntities();
 
-        public ActionResult List()
-        {
-            try
-            {
-                var list = _db.Member.ToArray();
-                return View(list);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return new HttpStatusCodeResult(500);
-            }
-        }
-
         public ActionResult Register()
         {
             return View(new Models.Member() { CreatedDate = DateTime.Now });

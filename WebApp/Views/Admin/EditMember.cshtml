@@ -2,11 +2,13 @@
 
 @{
     ViewBag.Title = "EditMember";
+    ViewBag.Active = "ml";
     Layout = "~/Views/Shared/Admin.cshtml";
 }
 
 @section scripts {
     <script src="~/Scripts/Admin/member-list.js"></script>
+    <script src="~/Scripts/Admin/comment-list.js"></script>
 }
 
 <style>
@@ -47,18 +49,23 @@
 <div class="row justify-content-center">
     <div class="col-6">
         <div class="section p-3">
-            <h5 class="text-center mb-4">會員基本資料</h5>
-            <div class="mb-5 d-flex justify-content-center">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5 class="m-0">會員基本資料</h5>
+                </div>
+            </div>
+            <hr />
+            <div class="mt-4 mb-5 d-flex justify-content-center">
                 <img class="pfp" src="@Url.Action("GetPfpById", "Member", new { id = Model.Member.Id })" alt="" />
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-xl-6">
                     <div class="form-group">
                         <label class="form-text">使用者名稱</label>
                         <input class="form-control" type="text" name="username" disabled value="@Model.Member.Username">
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-xl-6">
                     <div class="form-group">
                         <label class="form-text">電子信箱</label>
                         <input class="form-control" type="text" name="username" disabled value="@Model.Member.Email" />
@@ -66,13 +73,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-xl-6">
                     <div class="form-group">
                         <label class="form-text">創建日期</label>
                         <input class="form-control" type="text" name="username" disabled value="@Model.Member.CreatedDate">
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-xl-6">
                     <div class="form-group">
                         <label class="form-text">信箱驗證</label>
                         @if (Model.Member.Verified)
@@ -87,7 +94,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-xl-6">
                     <div class="form-group">
                         <label class="form-text">會員狀態</label>
                         @if (Model.Member.Suspended)
@@ -103,9 +110,9 @@
             </div>
             <hr />
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-xl-6">
                 </div>
-                <div class="col-lg-6">
+                <div class="col-xl-6">
                     <div class="form-group">
                         @if (Model.Member.Suspended)
                         {
