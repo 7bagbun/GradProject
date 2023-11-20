@@ -32,6 +32,7 @@
           <Property Name="ProductType" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="RetailPrice" Type="int" Nullable="false" />
           <Property Name="Token" Type="nvarchar" MaxLength="50" />
+          <Property Name="Views" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Selling">
           <Key>
@@ -185,6 +186,7 @@
           <Property Name="Token" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PriceHistory" Relationship="TestDbModel.FK__PriceHist__Produ__76619304" FromRole="Product" ToRole="PriceHistory" />
           <NavigationProperty Name="Selling" Relationship="TestDbModel.FK__Selling__Product__7849DB76" FromRole="Product" ToRole="Selling" />
+          <Property Name="Views" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Selling">
           <Key>
@@ -289,6 +291,7 @@
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="TestDbModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Views" ColumnName="Views" />
                 <ScalarProperty Name="Token" ColumnName="Token" />
                 <ScalarProperty Name="RetailPrice" ColumnName="RetailPrice" />
                 <ScalarProperty Name="ProductType" ColumnName="ProductType" />

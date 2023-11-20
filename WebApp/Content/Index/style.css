@@ -221,6 +221,10 @@ body {
         justify-content: space-between;
     }
 
+        .shop_section .detail-box h6 {
+            max-width: 200px
+        }
+
         .shop_section .box .detail-box h6 span {
             color: #db4f66;
         }

@@ -27,6 +27,7 @@ namespace Scraper.Model
         public string ProductType { get; set; }
         public int RetailPrice { get; set; }
         public string Token { get; set; }
+        public int Views { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PriceHistory> PriceHistory { get; set; }

@@ -37,6 +37,9 @@ namespace WebApp.Controllers.Item
             ViewBag.ProductId = modelId;
             ViewBag.Tab = tab;
 
+            _db.Product.FirstOrDefault(x => x.Id == id).Views++;
+            _db.SaveChanges();
+
             return View(vm);
         }
 

@@ -66,10 +66,10 @@
                                     <h6>
                                         @item.Product1.Brand @item.Product1.ProductType @item.Product1.Model
                                     </h6>
-                                    <h6 class="price">
+                                        <h6 class="price px-2">
                                         售價:
                                         <span>
-                                            @(item.Price)起
+                                            @item.Price.ToString("C0")起
                                         </span>
                                     </h6>
                                 </div>

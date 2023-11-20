@@ -13,27 +13,16 @@ namespace WebApp.Controllers
 
         public ActionResult Index()
         {
-            int count = 0;
-            var selling = _db.Selling.Include("Product1").OrderBy(x => x.Price);
-            var types = _db.Product.Take(_displayAmount).Select(x => x.Id);
-            var prods = new Selling[_displayAmount];
-            types.ForEach(i =>
+            var sellings = new Selling[_displayAmount];
+            var prods = _db.Product.Include("Selling")
+                .OrderByDescending(x => x.Views).Take(_displayAmount).ToArray();
+
+            for (int i = 0; i < _displayAmount; i++)
             {
-                while (true) //prevent products that are not for sell causing error
-                {
-                    var target = selling.FirstOrDefault(x => x.Product1.Id == i);
+                sellings[i] = prods[i].Selling.First();
+            }
 
-                    if (target != null)
-                    {
-                        prods[count++] = target;
-                        break;
-                    }
-
-                    i += _displayAmount;
-                }
-            });
-
-            return View(prods);
+            return View(sellings);
         }
     }
 }

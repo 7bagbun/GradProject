@@ -3,7 +3,6 @@ using Scraper.Model;
 using AngleSharp;
 using System.Linq;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Scraper.ModelScraper;
 
 namespace Scraper
@@ -17,7 +16,6 @@ namespace Scraper
     {
         Task<Product[]> ParseModelData(IBrowsingContext ctx);
     }
-
 
     internal class ModelScraperBase
     {
@@ -33,8 +31,10 @@ namespace Scraper
 
             _modelScrapers = new IModelScraper[]
             {
-                new DehumidMs(_ctx),
-                new HairDryerMs(_ctx),
+                //new DehumidMs(_ctx),
+                //new HairDryerMs(_ctx),
+                //new FridgeMs(_ctx),
+                new WashMachineMS(_ctx),
             };
         }
 

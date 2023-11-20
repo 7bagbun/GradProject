@@ -9,8 +9,8 @@ namespace Scraper
             //var ms = new ModelScraperBase();
             //await ms.StartScrapingModel();
 
-            var scrp = new SellingScraper();
-            await scrp.StartScraping();
+            //var scrp = new SellingScraper();
+            //await scrp.StartScraping();
         }
     }
 }
