@@ -23,6 +23,9 @@
         <AssociationConnector Association="TestDbModel.FK__Selling__Product__7849DB76" />
         <AssociationConnector Association="TestDbModel.FK__TrackProd__Produ__625A9A57" />
         <AssociationConnector Association="TestDbModel.FK__Selling__Source__793DFFAF" />
+        <EntityTypeShape EntityType="TestDbModel.Article" Width="1.5" PointX="0.625" PointY="7.5" />
+        <AssociationConnector Association="TestDbModel.FK__Article__Product__74444068" />
+        <AssociationConnector Association="TestDbModel.FK__Article__Source__73501C2F" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

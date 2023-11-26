@@ -43,50 +43,10 @@ namespace Scraper
             foreach (var item in _modelScrapers)
             {
                 var models = await item.GetModels();
-                models = RemoveDuplicate(models);
                 _db.Product.AddRange(models);
             }
 
             await _db.SaveChangesAsync();
-        }
-
-        private Product[] RemoveDuplicate(Product[] array)
-        {
-            var exist = _db.Product.Select(x => x.Model).ToArray();
-            var map = new HashSet<string>(exist);
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (map.Contains(array[i].Model))
-                {
-                    array[i] = null;
-                }
-            }
-
-            //remove duplicate in array
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (array[i] == null)
-                    continue;
-
-                for (int j = i + 1; j < array.Length; j++)
-                {
-                    if (array[j] == null ||
-                         array[i].Model != array[j].Model) continue;
-
-                    if (array[i].RetailPrice < array[j].RetailPrice)
-                    {
-                        array[j] = null;
-                    }
-                    else
-                    {
-                        array[i] = null;
-                        break;
-                    }
-                }
-            }
-
-            return array.Where(x => x != null).ToArray();
         }
     }
 }

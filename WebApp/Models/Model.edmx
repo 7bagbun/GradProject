@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TestDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Source" Type="int" Nullable="false" />
+          <Property Name="Product" Type="int" Nullable="false" />
+          <Property Name="Link" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="Id" />
@@ -69,6 +80,8 @@
           <Property Name="RetailPrice" Type="int" Nullable="false" />
           <Property Name="Token" Type="nvarchar" MaxLength="50" />
           <Property Name="Views" Type="int" Nullable="false" />
+          <Property Name="CurrentLow" Type="int" Nullable="false" />
+          <Property Name="PreviousLow" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Selling">
           <Key>
@@ -90,6 +103,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SourceName" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="Domain" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ImageName" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="TrackProduct">
           <Key>
@@ -100,6 +114,30 @@
           <Property Name="Follower" Type="int" Nullable="false" />
           <Property Name="FollowTime" Type="datetime" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Article__Product__74444068">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Article" Type="Self.Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Article__Source__73501C2F">
+          <End Role="Source" Type="Self.Source" Multiplicity="1" />
+          <End Role="Article" Type="Self.Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="Source" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Comment__Author__40058253">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
@@ -211,6 +249,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="TestDbModelStoreContainer">
+          <EntitySet Name="Article" EntityType="Self.Article" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
@@ -220,6 +259,14 @@
           <EntitySet Name="Selling" EntityType="Self.Selling" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Source" EntityType="Self.Source" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrackProduct" EntityType="Self.TrackProduct" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Article__Product__74444068" Association="Self.FK__Article__Product__74444068">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Article" EntitySet="Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Article__Source__73501C2F" Association="Self.FK__Article__Source__73501C2F">
+            <End Role="Source" EntitySet="Source" />
+            <End Role="Article" EntitySet="Article" />
+          </AssociationSet>
           <AssociationSet Name="FK__Comment__Author__40058253" Association="Self.FK__Comment__Author__40058253">
             <End Role="Member" EntitySet="Member" />
             <End Role="Comment" EntitySet="Comment" />
@@ -307,6 +354,15 @@
             <End Role="Source" EntitySet="Source" />
             <End Role="Selling" EntitySet="Selling" />
           </AssociationSet>
+          <EntitySet Name="Article" EntityType="TestDbModel.Article" />
+          <AssociationSet Name="FK__Article__Product__74444068" Association="TestDbModel.FK__Article__Product__74444068">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Article" EntitySet="Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Article__Source__73501C2F" Association="TestDbModel.FK__Article__Source__73501C2F">
+            <End Role="Source" EntitySet="Source" />
+            <End Role="Article" EntitySet="Article" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Comment">
           <Key>
@@ -384,6 +440,9 @@
           <NavigationProperty Name="Selling" Relationship="TestDbModel.FK__Selling__Product__7849DB76" FromRole="Product" ToRole="Selling" />
           <NavigationProperty Name="TrackProduct" Relationship="TestDbModel.FK__TrackProd__Produ__625A9A57" FromRole="Product" ToRole="TrackProduct" />
           <Property Name="Views" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Article" Relationship="TestDbModel.FK__Article__Product__74444068" FromRole="Product" ToRole="Article" />
+          <Property Name="CurrentLow" Type="Int32" Nullable="false" />
+          <Property Name="PreviousLow" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Selling">
           <Key>
@@ -409,6 +468,8 @@
           <Property Name="SourceName" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="Domain" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Selling" Relationship="TestDbModel.FK__Selling__Source__793DFFAF" FromRole="Source" ToRole="Selling" />
+          <NavigationProperty Name="Article" Relationship="TestDbModel.FK__Article__Source__73501C2F" FromRole="Source" ToRole="Article" />
+          <Property Name="ImageName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TrackProduct">
           <Key>
@@ -531,6 +592,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Source" Type="Int32" Nullable="false" />
+          <Property Name="Product" Type="Int32" Nullable="false" />
+          <Property Name="Link" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product1" Relationship="TestDbModel.FK__Article__Product__74444068" FromRole="Article" ToRole="Product" />
+          <NavigationProperty Name="Source1" Relationship="TestDbModel.FK__Article__Source__73501C2F" FromRole="Article" ToRole="Source" />
+        </EntityType>
+        <Association Name="FK__Article__Product__74444068">
+          <End Type="TestDbModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="TestDbModel.Article" Role="Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Article__Source__73501C2F">
+          <End Type="TestDbModel.Source" Role="Source" Multiplicity="1" />
+          <End Type="TestDbModel.Article" Role="Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Source">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="Source" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -598,6 +696,8 @@
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="TestDbModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="PreviousLow" ColumnName="PreviousLow" />
+                <ScalarProperty Name="CurrentLow" ColumnName="CurrentLow" />
                 <ScalarProperty Name="Views" ColumnName="Views" />
                 <ScalarProperty Name="Token" ColumnName="Token" />
                 <ScalarProperty Name="RetailPrice" ColumnName="RetailPrice" />
@@ -625,6 +725,7 @@
           <EntitySetMapping Name="Source">
             <EntityTypeMapping TypeName="TestDbModel.Source">
               <MappingFragment StoreEntitySet="Source">
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="Domain" ColumnName="Domain" />
                 <ScalarProperty Name="SourceName" ColumnName="SourceName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -637,6 +738,18 @@
                 <ScalarProperty Name="FollowTime" ColumnName="FollowTime" />
                 <ScalarProperty Name="Follower" ColumnName="Follower" />
                 <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Article">
+            <EntityTypeMapping TypeName="TestDbModel.Article">
+              <MappingFragment StoreEntitySet="Article">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

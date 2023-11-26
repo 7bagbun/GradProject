@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using AngleSharp.Dom;
+using System;
+using System.Threading.Tasks;
+using AngleSharp;
+using System.Linq;
 
 namespace Scraper
 {
@@ -11,6 +15,14 @@ namespace Scraper
 
             //var scrp = new SellingScraper();
             //await scrp.StartScraping();
+
+            //var artScrp = new ArticleScraper();
+            //await artScrp.StartScraping();
+
+            bool resp = await HttpHelper.SendRequest("https://localhost:44369/priceHistory/checkPrice");
+            await Console.Out.WriteLineAsync(resp ? "y" : "f");
+
+            Console.Read();
         }
     }
 }

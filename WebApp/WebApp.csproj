@@ -142,6 +142,7 @@
     <Compile Include="Controllers\Admin\AdminController.cs" />
     <Compile Include="Controllers\Admin\ModerationController.cs" />
     <Compile Include="Controllers\Identity\IdentityController.cs" />
+    <Compile Include="Controllers\Item\ArticleController.cs" />
     <Compile Include="Controllers\Redirect\RedirectController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
     <Compile Include="Controllers\Image\ImageController.cs" />
@@ -159,6 +160,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Misc\SecretManager.cs" />
+    <Compile Include="Models\Article.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -224,6 +228,7 @@
     <Content Include="Assets\Images\drag-img.png" />
     <Content Include="Assets\Images\index-bg.png" />
     <Content Include="Assets\Images\index-bg2.png" />
+    <Content Include="Assets\Images\ptt.png" />
     <Content Include="Content\Admin\layout.css" />
     <Content Include="Content\shared.css" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -309,6 +314,7 @@
     <Content Include="Connections.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\ItemList\image-list.js" />
+    <Content Include="Scripts\ItemList\load-article.js" />
     <Content Include="Scripts\ItemList\load-comment.js" />
     <Content Include="Scripts\ItemList\page-init.js" />
     <Content Include="Scripts\ItemList\price-chart.js" />
@@ -390,6 +396,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fonts\" />
+    <Folder Include="Views\Article\" />
     <Folder Include="Views\Moderation\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿$(document).ready(() => {
     $("#comment-tab").on("click", null, id, loadComments);
+    $("#comment-tab").on("click", null, id, loadArticles);
     $("#list-tab").on("click", null, "list", changeTabParam);
     $("#comment-tab").on("click", null, "comment", changeTabParam);
 

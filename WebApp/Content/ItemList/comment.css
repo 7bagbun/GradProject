@@ -2,16 +2,6 @@
     margin-bottom: 4em;
 }
 
-#comments .list-group-item .col {
-    padding-right: 0;
-    padding-left: 0;
-}
-
-#comments .list-group-item {
-    margin-right: 0;
-    margin-left: 0;
-}
-
 .text-counter {
     color: #777;
     text-align: right;

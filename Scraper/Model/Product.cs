@@ -19,6 +19,7 @@ namespace Scraper.Model
         {
             this.PriceHistory = new HashSet<PriceHistory>();
             this.Selling = new HashSet<Selling>();
+            this.Article = new HashSet<Article>();
         }
     
         public int Id { get; set; }
@@ -28,10 +29,14 @@ namespace Scraper.Model
         public int RetailPrice { get; set; }
         public string Token { get; set; }
         public int Views { get; set; }
+        public int CurrentLow { get; set; }
+        public int PreviousLow { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PriceHistory> PriceHistory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Selling> Selling { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Article> Article { get; set; }
     }
 }

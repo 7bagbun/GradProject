@@ -12,9 +12,6 @@ namespace Scraper
 
     internal class SellingScraper
     {
-        //var urlPtt = new Url("https://www.ptt.cc/bbs/MobileComm/search?q=iphone");
-        //var doc = browser.OpenAsync(urlPtt);
-
         private readonly TestDb _db = new TestDb();
         private readonly IBrowsingContext _browser;
         private readonly ISellingScraper[] _scrapers;
@@ -48,19 +45,34 @@ namespace Scraper
 
         private async Task UpdatePriceHistory()
         {
-            var prods = _db.Product.Include("Selling").ToList();
-            prods?.ForEach(x =>
+            var prods = _db.Product.Include("Selling")
+                .Where(x => x.Selling.FirstOrDefault() != null).ToList();
+
+            bool isCheaper = false;
+
+            prods.ForEach(x =>
             {
-                if (x.Selling.Count() > 0)
+                int lowest = x.Selling.Min(t => t.Price);
+
+                if (x.CurrentLow > lowest)
                 {
-                    _db.PriceHistory.Add(new PriceHistory
-                    {
-                        Product = x.Id,
-                        Price = x.Selling.Min(t => t.Price),
-                        UpdatedTime = System.DateTime.Now
-                    });
+                    x.PreviousLow = x.CurrentLow;
+                    x.CurrentLow = lowest;
+                    isCheaper = true;
                 }
+
+                _db.PriceHistory.Add(new PriceHistory
+                {
+                    Product = x.Id,
+                    Price = lowest,
+                    UpdatedTime = System.DateTime.Now
+                });
             });
+
+            if (isCheaper)
+            {
+                await HttpHelper.SendRequest("http://localhost:43369/priceHistory/checkPrice");
+            }
 
             await _db.SaveChangesAsync();
         }
