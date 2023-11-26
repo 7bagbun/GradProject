@@ -219,6 +219,7 @@
     <Content Include="App_Data\TestDb_log.ldf">
       <DependentUpon>TestDb.mdf</DependentUpon>
     </Content>
+    <Content Include="Assets\EmailTemplates\ProductDiscount.html" />
     <Content Include="Assets\EmailTemplates\ResetPassword.html" />
     <Content Include="Assets\EmailTemplates\VerifyAccount.html" />
     <Content Include="Assets\Images\comment.png" />
