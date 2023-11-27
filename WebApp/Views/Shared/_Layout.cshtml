@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>i家電</title>
+    <title>愛家電</title>
 
     <!-- bootstrap core css -->
     <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css" />
@@ -33,11 +33,11 @@
                 <a href="/" class="navbar-brand">愛家電</a>
             </div>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars"></i>
             </button>
 
-            <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+            <div class="navbar-collapse collapse w-100" id="navbar-collapse">
                 <ul class="navbar-nav w-100 justify-content-center">
                     <li class="nav-item active">
                         <form action="/item/search" method="get">
@@ -61,7 +61,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
                                 您好，@Session["user"]
                             </a>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu mb-4">
                                 <a class="dropdown-item" href="/account/showprofile?tab=profile">個人資料</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/account/showprofile?tab=track">追蹤商品</a>
@@ -69,10 +69,10 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <img src="@Url.Action("getPfpById", "member", new { id = Session["userId"] })" class="profile-picture navbar-pfp" alt="" />
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("登出", "logout", "account", null, new { @class = "btn btn-info", style = "color: white;" })
+                            <div>
+                                <img src="@Url.Action("getPfpById", "member", new { id = Session["userId"] })" class="profile-picture navbar-pfp" alt="" />
+                                @Html.ActionLink("登出", "logout", "account", null, new { @class = "btn btn-info", style = "color: white;" })
+                            </div>
                         </li>
                     }
                     else
@@ -81,7 +81,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
                                 您好，@Session["user"]
                             </a>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu mb-4">
                                 <a class="dropdown-item" href="/account/showprofile?tab=profile">個人資料</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/account/showprofile?tab=track">追蹤商品</a>
@@ -91,10 +91,10 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <img src="@Url.Action("getPfpById", "member", new { id = Session["userId"] })" class="profile-picture navbar-pfp" alt="" />
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("登出", "logout", "account", null, new { @class = "btn btn-info", style = "color: white;" })
+                            <div>
+                                <img src="@Url.Action("getPfpById", "member", new { id = Session["userId"] })" class="profile-picture navbar-pfp" alt="" />
+                                @Html.ActionLink("登出", "logout", "account", null, new { @class = "btn btn-info", style = "color: white;" })
+                            </div>
                         </li>
                     }
                 </ul>
@@ -104,39 +104,33 @@
 
     @RenderBody()
 
-    <!--
-    <footer class=" footer_section">
-        <div class="container">
-            <p></p>
-        </div>
-    </footer>
-    -->
-
     <div id="login-modal" class="modal fade" role="dialog">
         <div class="modal-dialog" style="width: 400px">
             <div class="modal-content" style="padding: 1em;">
                 <div class="modal-body">
                     <div class="header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title form-title">登入</h4>
+                        <h4 class="modal-title form-title mb-4">登入</h4>
                     </div>
                     <div>
                         <form id="login-form" action="/Account/LoginAjax" method="post">
                             <div class="form-group">
-                                <label for="username" class="form-text">帳號</label>
+                                <label for="username" class="form-text"><i class="fa fa-user text-secondary mr-2"></i>帳號</label>
                                 <input type="text" name="username" id="username" class="form-control input m-input">
                             </div>
-                            <div class="form-group">
-                                <label for="psw" class="form-text">密碼</label>
+                            <div class="form-group mb-4">
+                                <label for="psw" class="form-text"><i class="fa fa-lock text-secondary mr-2"></i>密碼</label>
                                 <input type="password" id="passwd" name="passwd" class="form-control input m-input">
                             </div>
-                            <input type="submit" id="submit" class="btn btn-info modal-btn form-control" value="登入">
+                            <div class="form-group mb-1">
+                                <input type="submit" id="submit" class="btn btn-info modal-btn form-control" value="登入">
+                            </div>
                         </form>
                     </div>
-                    <div class="msg-div">
+                    <div class="msg-div mb-3">
                         <span id="err-msg" class="hide" style="color: red"></span>
                     </div>
-                    <div class="container-fluid">
+                    <div class="container">
                         <div class="row">
                             <div class="col" style="padding:0">
                                 <span>不是會員? <a href="/member/register">註冊</a></span>

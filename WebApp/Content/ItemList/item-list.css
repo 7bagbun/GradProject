@@ -90,3 +90,7 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+.filter input {
+    max-width: 100px;
+}

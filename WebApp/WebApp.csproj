@@ -319,7 +319,9 @@
     <Content Include="Scripts\ItemList\load-comment.js" />
     <Content Include="Scripts\ItemList\page-init.js" />
     <Content Include="Scripts\ItemList\price-chart.js" />
+    <Content Include="Scripts\ItemList\sort-list.js" />
     <Content Include="Scripts\ItemList\track-item.js" />
+    <Content Include="Scripts\Login\login.js" />
     <Content Include="Scripts\Profile\profile.js" />
     <Content Include="Scripts\Register\register.js" />
     <Content Include="Scripts\ResetPassword\reset-pwd.js" />
@@ -394,6 +396,7 @@
     <Content Include="Views\Admin\CreateAnnouncement.cshtml" />
     <Content Include="Views\Admin\CommentList.cshtml" />
     <Content Include="Views\Admin\CommentDetail.cshtml" />
+    <Content Include="Views\Account\LoginPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fonts\" />

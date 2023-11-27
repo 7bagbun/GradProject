@@ -10,14 +10,24 @@
         var tab = "@ViewBag.Tab";
     </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.9/vue.global.min.js"
+            integrity="sha512-01DXK8J/RTf+INWJaGSa1a8ePsny+wTV63r5e+qcW4Gx7cgYKeX7uNvJminP4WvBthCi03aWdTmGLcZk/DTKKQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js"></script>
     <script src="~/Scripts/ItemList/image-list.js"></script>
     <script src="~/Scripts/ItemList/load-comment.js"></script>
     <script src="~/Scripts/ItemList/load-article.js"></script>
     <script src="~/Scripts/ItemList/track-item.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js"></script>
     <script src="~/Scripts/ItemList/price-chart.js"></script>
     <script src="~/Scripts/ItemList/page-init.js"></script>
+    <script src="~/Scripts/ItemList/sort-list.js"></script>
+
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.9/vue.global.prod.min.js"
+            integrity="sha512-pe96gClqJEgPDqobJ8ksfdPtRLU08afWRzJQO08/YSNvSQ5yBNcTWyEV2kViRAUis83JgOKI20jH7FiIwFepcw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    -->
 }
 
 @section css {
@@ -40,7 +50,7 @@
                 <i id="follow" class="far fa-heart follow"> 追蹤</i>
             </button>
         </div>
-        <div class="col">
+        <div class="col d-flex justify-content-center">
             <div id="main" style="width: 600px;height:400px;"></div>
         </div>
     </div>
@@ -56,38 +66,35 @@
     </ul>
     <div class="tab-content" id="tabContent">
         <div class="tab-pane fade show active" id="list-section" role="tabpanel">
-            <div class="row title-bar">
-                <div class="col-6 offset-2">
-                    賣場標題
-                </div>
-                <div class="col-1">
-                    來源
-                </div>
-                <div class="col-1">
-                    售價
+            <div class="filter d-flex justify-content-end align-items-center p-3 mb-3 rounded-lg" style="background-color: #d8dee9">
+                <span class="mx-3">價格範圍：</span>
+                <input class="form-control" type="text" name="low" v-model="low" @@change="filter" value="" />
+                <span class="mx-3">~</span>
+                <input class="form-control" type="text" name="high" v-model="high" @@change="filter" value="" />
+            </div>
+            <div class="gallery">
+                <div class="item" v-for="item in filteredList">
+                    <div class="d-flex rounded-lg p-3 mb-3" style="background-color:#eee;">
+                        <div class="mr-4">
+                            <a :href="item.image" target="_blank">
+                                <img :src="item.image" id="img-" class="image"
+                                     style="max-width:150px" />
+                            </a>
+                        </div>
+                        <div class="d-flex flex-column justify-content-between" style="flex:1;">
+                            <div>
+                                <h5 class="mb-0">{{item.title}}</h5>
+                                <p class="text-secondary">{{item.source}}</p>
+                                <span id="price" class="hidden">{{item.price}}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">{{item.fprice}}</h5>
+                                <a :href="item.url" class="btn btn-info" target="_blank">前往購買 <i class="fa fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            @foreach (var item in Model.Items)
-            {
-                <div class="row align-items-center">
-                    <div class="col-2">
-                        <img src="@Url.Action("get", "image", new { id = item.Image })" id="img-@(item.Image)" class="image"
-                             style="max-width:150px" onclick="displayImage(@item.Image)" />
-                    </div>
-                    <div class="col-6">
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </div>
-                    <div class="col-1">
-                        @item.Source1.SourceName
-                    </div>
-                    <div class="col-1">
-                        @item.Price.ToString("C0")
-                    </div>
-                    <div class="col-2 d-flex justify-content-center">
-                        <a href="@(item.Source1.Domain + item.Link)" class="btn btn-info" target="_blank">前往購買 <i class="fa fa-external-link-alt"></i></a>
-                    </div>
-                </div>
-            }
         </div>
         <div class="tab-pane fade" id="comment-section" role="tabpanel" aria-labelledby="profile-tab">
             <div id="articles">
@@ -184,10 +191,10 @@
             </div>
         </div>
     </div>
+</div>
 
-    <div class="top">
-        <a href="#top">&lt;回到最上方&gt;</a>
-    </div>
+<div class="top">
+    <a href="#top">&lt;回到最上方&gt;</a>
 </div>
 
 <div id="image-modal" class="display-modal">

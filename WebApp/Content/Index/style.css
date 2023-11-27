@@ -191,6 +191,7 @@ body {
 
     .shop_section .box a {
         color: #000000;
+        width: 100%;
     }
 
     .shop_section .box .img-box {
@@ -210,9 +211,10 @@ body {
         .shop_section .box .img-box img {
             max-width: 100%;
             max-height: 200px;
+            min-height: 100%;
         }
 
-    .shop_section .box .detail-box {
+    .shop_section .box {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -220,10 +222,6 @@ body {
         -ms-flex-pack: justify;
         justify-content: space-between;
     }
-
-        .shop_section .detail-box h6 {
-            max-width: 200px
-        }
 
         .shop_section .box .detail-box h6 span {
             color: #db4f66;

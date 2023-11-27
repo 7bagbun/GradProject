@@ -12,7 +12,7 @@ namespace WebApp.Controllers.Item
     {
         private readonly TestDbEntities _db = new TestDbEntities();
 
-        public ActionResult List(int id, string tab)
+        public ActionResult List(int id, string tab, string sort)
         {
             var vm = new ItemListViewModel();
 
@@ -23,9 +23,28 @@ namespace WebApp.Controllers.Item
             }
 
             vm.Items = _db.Selling.Include("Source1")
-                            .Where(x => x.Product == id).OrderBy(x => x.Price);
+                            .Where(x => x.Product == id);
+            if (vm.Items.FirstOrDefault() == null) return HttpNotFound();
 
-            if (vm.Items.Count() == 0) return HttpNotFound();
+            switch (sort)
+            {
+                case "p":
+                    vm.Items = vm.Items.OrderBy(x => x.Price);
+                    break;
+                case "pr":
+                    vm.Items = vm.Items.OrderByDescending(x => x.Price);
+                    break;
+                case "s":
+                    vm.Items = vm.Items.OrderBy(x => x.Source);
+                    break;
+                case "sr":
+                    vm.Items = vm.Items.OrderByDescending(x => x.Source);
+                    break;
+                default:
+                    vm.Items = vm.Items.OrderBy(x => x.Price);
+                    break;
+            }
+
 
             int modelId = vm.Items.First().Product;
             var model = _db.Product.FirstOrDefault(x => x.Id == modelId);
@@ -43,6 +62,7 @@ namespace WebApp.Controllers.Item
             return View(vm);
         }
 
+        /*
         public ActionResult Get(int typeCount, int itemCount)
         {
             var list = new SellingProductList[typeCount];
@@ -61,7 +81,26 @@ namespace WebApp.Controllers.Item
             string json = JsonConvert.SerializeObject(list, dateSettings);
             return Content(json, "application/json");
         }
+        */
         
+        public ActionResult Get(int id)
+        {
+            var prods = _db.Selling.Where(x => x.Product == id).OrderBy(x => x.Price).ToArray();
+            var obj = prods.Select(
+                x => new
+                {
+                    title = x.Title,
+                    source = x.Source1.SourceName,
+                    price = x.Price,
+                    fprice = x.Price.ToString("C0"),
+                    url = x.Source1.Domain + x.Link,
+                    image = "/image/get/" + x.Image
+                });
+
+            string json = JsonConvert.SerializeObject(obj);
+            return Content(json, "application/json");
+        }
+
         public ActionResult Search(string query)
         {
             if (query == null)

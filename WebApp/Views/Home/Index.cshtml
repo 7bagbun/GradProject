@@ -62,11 +62,11 @@
                                 <div class="img-box">
                                     <img src="@Url.Action("getcached", "image", new { id = item.Image1.Id } )" alt="">
                                 </div>
-                                <div class="detail-box">
+                                <div class="detail-box px-2">
                                     <h6>
                                         @item.Product1.Brand @item.Product1.ProductType @item.Product1.Model
                                     </h6>
-                                        <h6 class="price px-2">
+                                        <h6 class="price text-right">
                                         售價:
                                         <span>
                                             @item.Price.ToString("C0")起

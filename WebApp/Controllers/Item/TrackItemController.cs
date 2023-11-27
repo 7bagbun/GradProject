@@ -19,7 +19,7 @@ namespace WebApp.Controllers.Item
 
             if (Session["userId"] == null)
             {
-                json = "{\"isSucceed\":false,\"redirUrl\":\"/redirect/nologin\"}";
+                json = $"{{\"isSucceed\":false,\"referer\":\"/item/list/{productId}\"}}";
                 return Content(json, "application/json");
             }
 

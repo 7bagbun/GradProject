@@ -1,14 +1,15 @@
 ﻿$(document).ready(() => {
-    $(".m-input").click(() => {
+    $("input").on("click", () => {
         $("#err-msg").addClass("hidden");
     })
 
-    $("#login-form").submit((e) => {
+    $("#page-login").on("submit", e => {
         e.preventDefault();
 
-        let username = $("#username").val();
-        let passwd = $("#passwd").val();
-        const errMsgEle = $("#err-msg");
+        let username = $("#username-page").val();
+        let passwd = $("#passwd-page").val();
+        let referer = $("#referer").val();
+        const errMsgEle = $("#msg");
 
         if (checkEmpty(username) || checkEmpty(passwd)) {
             errMsgEle.text("請確實輸入帳號與密碼");
@@ -23,6 +24,7 @@
             data: {
                 username: username,
                 passwd: passwd,
+                referer: referer
             },
             success: (data) => {
                 if (data.admin) {
@@ -31,7 +33,11 @@
                 }
 
                 if (data.result) {
-                    location.reload();
+                    if (data.referer === undefined) {
+                        location = "/";
+                    } else {
+                        location = data.referer;
+                    }
                 } else {
                     errMsgEle.text(data.msg);
                     errMsgEle.removeClass("hidden");

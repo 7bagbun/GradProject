@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Remoting;
 using System.Web.Mvc;
 using WebApp.Models;
-using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers.Account
 {
@@ -10,7 +10,13 @@ namespace WebApp.Controllers.Account
     {
         private readonly TestDbEntities _db = new TestDbEntities();
 
-        public ActionResult Login(string username, string passwd)
+        public ActionResult LoginPage(string referer)
+        {
+            ViewBag.Referer = referer;
+            return View();
+        }
+
+        public ActionResult Login(string username, string passwd, string referer)
         {
             try
             {
@@ -39,7 +45,7 @@ namespace WebApp.Controllers.Account
                     return Json(new { result = true, msg = "登入成功", admin = true, redirUrl = "/admin/dashboard" });
                 }
 
-                return Json(new { result = true, msg = "登入成功" });
+                return Json(new { result = true, msg = "登入成功", referer });
             }
             catch (Exception)
             {
