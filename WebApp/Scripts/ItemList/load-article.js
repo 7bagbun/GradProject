@@ -14,7 +14,7 @@ function placeArticles(articles) {
         artEle.find(".comment-author").text(articles[i].title).attr("href", articles[i].link);
         artEle.find(".comment-content").text(articles[i].content);
         artEle.find(".profile-picture")
-            .attr("src", "/Assets/Images/ptt.png");
+            .attr("src", articles[i].image);
         artEle.appendTo("#articles");
     }
 

@@ -17,12 +17,12 @@
     transition: 0.3s;
 }
 
-#close:hover,
-#close:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
+    #close:hover,
+    #close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
 #list .row {
     padding: 1em;
@@ -69,9 +69,9 @@
     margin: 2em;
 }
 
-.top a:visited {
-    color: #007bff;
-}
+    .top a:visited {
+        color: #007bff;
+    }
 
 .container {
     max-width: 1500px;
@@ -91,6 +91,18 @@
     user-select: none;
 }
 
-.filter input {
-    max-width: 100px;
+.filter {
+    background-color: #d8dee9;
+}
+
+    .filter input {
+        max-width: 100px;
+    }
+
+.rotate-180 {
+    transform: rotate(-180deg);
+}
+
+.rotate {
+    transition: transform ease-out 0.3s;
 }

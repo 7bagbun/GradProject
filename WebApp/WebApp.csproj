@@ -153,6 +153,7 @@
     <Compile Include="Controllers\Member\ForgetPasswordController.cs" />
     <Compile Include="Controllers\Member\MemberController.cs" />
     <Compile Include="Controllers\News\NewsController.cs" />
+    <Compile Include="Controllers\Showcase\ShowcaseController.cs" />
     <Compile Include="Misc\AesHelper.cs" />
     <Compile Include="Misc\EmailHelper.cs" />
     <Compile Include="Misc\ExtesionMethod.cs" />
@@ -229,8 +230,12 @@
     <Content Include="Assets\Images\drag-img.png" />
     <Content Include="Assets\Images\index-bg.png" />
     <Content Include="Assets\Images\index-bg2.png" />
+    <Content Include="Assets\Images\momo.png" />
+    <Content Include="Assets\Images\pchome.png" />
+    <Content Include="Assets\Images\pcstore.png" />
     <Content Include="Assets\Images\ptt.png" />
     <Content Include="Content\Admin\layout.css" />
+    <Content Include="Content\Index\style.css" />
     <Content Include="Content\shared.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -243,7 +248,6 @@
     <Content Include="Content\Index\font-awesome.min.css" />
     <Content Include="Content\Index\index.css" />
     <Content Include="Content\Index\responsive.css" />
-    <Content Include="Content\Index\style.css" />
     <Content Include="Content\ItemList\comment.css" />
     <Content Include="Content\ItemList\item-list.css" />
     <Content Include="Content\ItemList\star-rating.css" />
@@ -259,7 +263,7 @@
     <Content Include="Content\OwlCarousel\owl.video.play.png" />
     <Content Include="Content\Profile\profile.css" />
     <Content Include="Content\Register\register.css" />
-    <Content Include="Content\Search\search.css" />
+    <Content Include="Content\SearchPage\search-page.css" />
     <Content Include="Content\TrackList\track-list.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -289,8 +293,6 @@
     <Content Include="Scripts\esm\popper.min.js" />
     <Content Include="Scripts\ForgetPassword\forget-pwd.js" />
     <Content Include="Scripts\Index\index.js" />
-    <Content Include="Content\Index\style.css.map" />
-    <Content Include="Content\Index\style.scss" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
@@ -313,6 +315,8 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
     <Content Include="Connections.config" />
+    <Content Include="Content\Index\style.css.map" />
+    <Content Include="Content\Index\style.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\ItemList\image-list.js" />
     <Content Include="Scripts\ItemList\load-article.js" />
@@ -325,6 +329,7 @@
     <Content Include="Scripts\Profile\profile.js" />
     <Content Include="Scripts\Register\register.js" />
     <Content Include="Scripts\ResetPassword\reset-pwd.js" />
+    <Content Include="Scripts\SearchPage\search-page.js" />
     <Content Include="Scripts\TrackList\untrack-item.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -372,7 +377,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Member\Register.cshtml" />
     <Content Include="Views\Item\List.cshtml" />
-    <Content Include="Views\Item\Search.cshtml" />
+    <Content Include="Views\Item\SearchPage.cshtml" />
     <Content Include="Views\TrackItem\TrackList.cshtml" />
     <Content Include="Views\Redirect\NoLogin.cshtml" />
     <Content Include="Views\Redirect\Error.cshtml" />
@@ -397,6 +402,7 @@
     <Content Include="Views\Admin\CommentList.cshtml" />
     <Content Include="Views\Admin\CommentDetail.cshtml" />
     <Content Include="Views\Account\LoginPage.cshtml" />
+    <Content Include="Views\Showcase\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fonts\" />

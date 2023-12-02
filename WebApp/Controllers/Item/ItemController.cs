@@ -82,7 +82,7 @@ namespace WebApp.Controllers.Item
             return Content(json, "application/json");
         }
         */
-        
+
         public ActionResult Get(int id)
         {
             var prods = _db.Selling.Where(x => x.Product == id).OrderBy(x => x.Price).ToArray();
@@ -90,10 +90,11 @@ namespace WebApp.Controllers.Item
                 x => new
                 {
                     title = x.Title,
-                    source = x.Source1.SourceName,
+                    source = x.Source1.DisplayName,
                     price = x.Price,
                     fprice = x.Price.ToString("C0"),
                     url = x.Source1.Domain + x.Link,
+                    sourceImage = "/Assets/Images/" + x.Source1.ImageName,
                     image = "/image/get/" + x.Image
                 });
 
@@ -101,25 +102,59 @@ namespace WebApp.Controllers.Item
             return Content(json, "application/json");
         }
 
+        public ActionResult SearchPage(string query)
+        {
+            ViewBag.Query = query == "" ? null : query;
+            return View();
+        }
+
         public ActionResult Search(string query)
         {
-            if (query == null)
+            if (query == "" || query == null)
             {
-                var list = _db.Product.Include("Selling").Take(12);
-                return View(list.ToList());
+                var list = _db.Product.Include("Selling")
+                    .Where(x => x.Selling.FirstOrDefault() != null).Take(12).ToArray();
+
+                var filtered = list.Select(x => new
+                {
+                    id = x.Id,
+                    brand = x.Brand,
+                    model = x.Model,
+                    type = x.ProductType,
+                    image = x.Selling.FirstOrDefault().Image,
+                    fprice = x.Selling.FirstOrDefault().Price.ToString("C0"),
+                    price = x.Selling.FirstOrDefault().Price,
+                    popularity = x.Views
+                });
+
+                string js = JsonConvert.SerializeObject(filtered);
+                return Content(js, "application/json");
             }
 
             var result = _db.Product.Include("Selling")
+                .Where(x => x.Selling.FirstOrDefault() != null)
                 .Where(x =>
                     x.Model.Contains(query) ||
                     x.Brand.Contains(query) ||
                     x.ProductType.Contains(query) ||
-                    x.Token.Contains(query));
+                    x.Token.Contains(query)).ToArray();
 
             //order by price
             result.ForEach(x => x.Selling = x.Selling.OrderByDescending(t => t.Price).ToList());
+            var obj = result.Select(x => new
+            {
+                id = x.Id,
+                brand = x.Brand,
+                model = x.Model,
+                type = x.ProductType,
+                image = x.Selling.FirstOrDefault().Image,
+                fprice = x.Selling.FirstOrDefault().Price.ToString("C0"),
+                price = x.Selling.FirstOrDefault().Price,
+                popularity = x.Views
+            });
+            string json = JsonConvert.SerializeObject(obj);
 
-            return View(result.ToList());
+            return Content(json, "application/json");
         }
     }
 }

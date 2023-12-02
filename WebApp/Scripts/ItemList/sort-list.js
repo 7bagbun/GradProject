@@ -3,11 +3,13 @@
         return {
             items: [],
             low: "",
-            high: ""
+            high: "",
+            priceOrderDesc: false,
+            source: "all"
         }
     },
     methods: {
-        filter() {
+        filterPrice() {
             let low = Number(this.low);
             let top = Number(this.high);
 
@@ -15,7 +17,7 @@
                 for (var i = 0; i < this.items.length; i++) {
                     this.items[i].hide = this.items[i].price < low;
                 }
-            } else if ((top - low) > 0) {
+            } else if ((top - low) >= 0) {
                 for (var i = 0; i < this.items.length; i++) {
                     this.items[i].hide = (this.items[i].price < low) || (this.items[i].price > top);
                 }
@@ -25,10 +27,26 @@
                 }
             }
         },
+        sortByPrice() {
+            this.priceOrderDesc = !this.priceOrderDesc;
+            if (this.priceOrderDesc) {
+                this.items.sort((a, b) => {
+                    return a.price < b.price;
+                });
+            } else {
+                this.items.sort((a, b) => {
+                    return a.price > b.price;
+                });
+            }
+        }
     },
     computed: {
         filteredList() {
-            return this.items.filter(x => !x.hide);
+            if (this.source === "all") {
+                return this.items.filter(x => !x.hide);
+            } else {
+                return this.items.filter(x => !x.hide && x.source === this.source);
+            }
         }
     },
     watch: {
@@ -48,6 +66,7 @@
                 this.items.push({
                     title: data[i].title,
                     source: data[i].source,
+                    sourceImage: data[i].sourceImage,
                     price: data[i].price,
                     fprice: data[i].fprice,
                     url: data[i].url,

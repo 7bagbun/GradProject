@@ -48,7 +48,7 @@ function placeComments(comments) {
 
     for (let i = 0; i < comments.length; i++) {
         let commEle = temp.clone();
-        commEle.removeAttr("id");
+        commEle.removeAttr("id").removeClass("hidden");
         if (comments[i].IsAuthor) {
             commEle.find(".comment-header").addClass("comment-owner");
         } else {
@@ -60,8 +60,9 @@ function placeComments(comments) {
         commEle.find(".comment-stars").html(placeStars(comments[i].Rating));
         commEle.find(".comment-content").text(comments[i].Content);
         commEle.find(".profile-picture")
-            .attr("src", "/member/getpfpbyusername?username=" + comments[i].Author)
-        commEle.clone().appendTo("#comments");
+            .attr("src", "/member/getpfpbyusername?username=" + comments[i].Author);
+
+        commEle.appendTo("#comments");
     }
 
     temp.remove();

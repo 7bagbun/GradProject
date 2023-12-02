@@ -66,29 +66,46 @@
     </ul>
     <div class="tab-content" id="tabContent">
         <div class="tab-pane fade show active" id="list-section" role="tabpanel">
-            <div class="filter d-flex justify-content-end align-items-center p-3 mb-3 rounded-lg" style="background-color: #d8dee9">
-                <span class="mx-3">價格範圍：</span>
-                <input class="form-control" type="text" name="low" v-model="low" @@change="filter" value="" />
-                <span class="mx-3">~</span>
-                <input class="form-control" type="text" name="high" v-model="high" @@change="filter" value="" />
+            <div class="filter d-flex justify-content-between p-3 mb-3 rounded-lg">
+                <div class="d-flex align-items-center">
+                    <button @@click="sortByPrice" class="btn btn-primary mr-4">依價格排序 <i :class="{'rotate-180': priceOrderDesc}" class="fa fa-arrow-down rotate"></i></button>
+                    <span class="mx-3">賣場來源：</span>
+                    <select v-model="source" class="d-inline form-control w-auto">
+                        <option value="all">全部</option>
+                        <option value="PChome24H購物網">PChome24H</option>
+                        <option value="PChome商店街">PChome商店街</option>
+                        <option value="momo購物網">momo購物網</option>
+                    </select>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="mx-3">價格範圍：</span>
+                    <input @@change="filterPrice" class="form-control" type="text" name="low" v-model="low" value="" />
+                    <span class="mx-3">~</span>
+                    <input @@change="filterPrice" class="form-control" type="text" name="high" v-model="high" value="" />
+                </div>
             </div>
             <div class="gallery">
                 <div class="item" v-for="item in filteredList">
                     <div class="d-flex rounded-lg p-3 mb-3" style="background-color:#eee;">
                         <div class="mr-4">
                             <a :href="item.image" target="_blank">
-                                <img :src="item.image" id="img-" class="image"
+                                <img :src="item.image" id="img-" class="image rounded-lg"
                                      style="max-width:150px" />
                             </a>
                         </div>
                         <div class="d-flex flex-column justify-content-between" style="flex:1;">
-                            <div>
-                                <h5 class="mb-0">{{item.title}}</h5>
-                                <p class="text-secondary">{{item.source}}</p>
-                                <span id="price" class="hidden">{{item.price}}</span>
+                            <div class="d-flex">
+                                <div class="mr-3">
+                                    <img class="pfp-md" :src="item.sourceImage" />
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">{{item.title}}</h5>
+                                    <p class="text-secondary">{{item.source}}</p>
+                                    <span id="price" class="hidden">{{item.price}}</span>
+                                </div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">{{item.fprice}}</h5>
+                                <h3 class="mb-0 text-success font-weight-bold">{{item.fprice}}</h3>
                                 <a :href="item.url" class="btn btn-info" target="_blank">前往購買 <i class="fa fa-external-link-alt"></i></a>
                             </div>
                         </div>
@@ -96,17 +113,17 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="comment-section" role="tabpanel" aria-labelledby="profile-tab">
-            <div id="articles">
+        <div class="tab-pane fade comment-container" id="comment-section" role="tabpanel" aria-labelledby="profile-tab">
+            <div id="articles" class="comment-container">
                 <div id="article-template" class="container comment hidden">
-                    <div class="row">
-                        <div class="col-2 d-flex justify-content-end"><img class="profile-picture" /></div>
-                        <div class="col-8 list-group">
+                    <div class="d-flex justify-content-center">
+                        <img class="profile-picture mr-4" />
+                        <div class="list-group">
                             <div class="row list-group-item comment-header mx-0">
-                                <div class="col px-0">
+                                <div class="col-sm px-0">
                                     <a class="comment-author" href="#" target="_blank"></a><span class="comment-date"></span>
                                 </div>
-                                <div class="col comment-btn px-0">
+                                <div class="col-sm comment-btn px-0">
                                     <button class="tool-btn"><i class="fa fa-ellipsis-h"></i></button>
                                 </div>
                             </div>
@@ -118,22 +135,22 @@
                     </div>
                 </div>
             </div>
-            <div id="comments">
+            <div id="comments" class="comment-container">
                 <div id="comment-template" class="container comment hidden">
-                    <div class="row">
-                        <div class="col-2 d-flex justify-content-end"><img class="profile-picture" /></div>
-                        <div class="col-8 list-group">
+                    <div class="d-flex justify-content-center">
+                        <img class="profile-picture mr-4" />
+                        <div class="list-group flex-grow-1">
                             <div class="row list-group-item comment-header mx-0">
-                                <div class="col px-0">
+                                <div class="col-md px-0">
                                     <span class="comment-author"></span><span class="comment-date"></span>
                                 </div>
-                                <div class="col-2 comment-stars"></div>
-                                <div class="col comment-btn px-0">
+                                <div class="col-md-3 comment-stars px-0"></div>
+                                <div class="col-md comment-btn px-0">
                                     <button class="tool-btn"><i class="fa fa-ellipsis-h"></i></button>
                                 </div>
                             </div>
-                            <div class="row list-group-item comment-body mx-0">
-                                <div class="col comment-content px-0">
+                            <div class="list-group-item comment-body flex-fill mx-0">
+                                <div class="col-lg comment-content px-0">
                                 </div>
                             </div>
                         </div>
@@ -146,7 +163,7 @@
                 {
                     @Html.AntiForgeryToken()
                     <div class="row justify-content-center">
-                        <div class="col-6">
+                        <div class="col-lg-6">
                             <div class="star-rating">
                                 <div class="star-input">
                                     <input type="radio" name="rating" id="rating-5" value="5" required @(Model.Comment?.Rating == 5 ? "checked" : "")>
@@ -168,7 +185,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <div class="col-6">
+                        <div class="col-8">
                             <input type="text" name="product" class="hidden" value="@ViewBag.ProductId" />
                             <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" required
                                       onkeyup="updateCount(this)" style="height: 250px" disabled>@(Model.Comment?.Content)</textarea>
@@ -202,5 +219,3 @@
     <img class="modal-content" id="display">
     <div id="caption"></div>
 </div>
-
-@Scripts.Render("~/bundles/jquery")

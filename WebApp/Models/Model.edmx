@@ -102,6 +102,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SourceName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="15" />
           <Property Name="Domain" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="ImageName" Type="varchar" MaxLength="100" />
         </EntityType>
@@ -126,7 +127,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Article__Source__73501C2F">
+        <Association Name="FK__Article__Source__7DCDAAA2">
           <End Role="Source" Type="Self.Source" Multiplicity="1" />
           <End Role="Article" Type="Self.Article" Multiplicity="*" />
           <ReferentialConstraint>
@@ -212,7 +213,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Selling__Source__793DFFAF">
+        <Association Name="FK__Selling__Source__7CD98669">
           <End Role="Source" Type="Self.Source" Multiplicity="1" />
           <End Role="Selling" Type="Self.Selling" Multiplicity="*" />
           <ReferentialConstraint>
@@ -263,7 +264,7 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="Article" EntitySet="Article" />
           </AssociationSet>
-          <AssociationSet Name="FK__Article__Source__73501C2F" Association="Self.FK__Article__Source__73501C2F">
+          <AssociationSet Name="FK__Article__Source__7DCDAAA2" Association="Self.FK__Article__Source__7DCDAAA2">
             <End Role="Source" EntitySet="Source" />
             <End Role="Article" EntitySet="Article" />
           </AssociationSet>
@@ -291,7 +292,7 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="Selling" EntitySet="Selling" />
           </AssociationSet>
-          <AssociationSet Name="FK__Selling__Source__793DFFAF" Association="Self.FK__Selling__Source__793DFFAF">
+          <AssociationSet Name="FK__Selling__Source__7CD98669" Association="Self.FK__Selling__Source__7CD98669">
             <End Role="Source" EntitySet="Source" />
             <End Role="Selling" EntitySet="Selling" />
           </AssociationSet>
@@ -470,6 +471,7 @@
           <NavigationProperty Name="Selling" Relationship="TestDbModel.FK__Selling__Source__793DFFAF" FromRole="Source" ToRole="Selling" />
           <NavigationProperty Name="Article" Relationship="TestDbModel.FK__Article__Source__73501C2F" FromRole="Source" ToRole="Article" />
           <Property Name="ImageName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TrackProduct">
           <Key>
@@ -725,6 +727,7 @@
           <EntitySetMapping Name="Source">
             <EntityTypeMapping TypeName="TestDbModel.Source">
               <MappingFragment StoreEntitySet="Source">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
                 <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="Domain" ColumnName="Domain" />
                 <ScalarProperty Name="SourceName" ColumnName="SourceName" />

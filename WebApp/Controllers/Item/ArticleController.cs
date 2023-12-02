@@ -14,14 +14,13 @@ namespace WebApp.Controllers.Item
 
         public ActionResult GetById(int productId)
         {
-            string serverPath = Server.MapPath("~/Assets/Images");
             var articles = _db.Article.Include("Source1").Where(x => x.Product == productId).Select(x =>
                 new
                 {
                     link = x.Source1.Domain + x.Link,
                     title = x.Title,
                     content = x.Content,
-                    image = serverPath + x.Source1.ImageName
+                    image = "/Assets/Images/" + x.Source1.ImageName
                 }).ToArray();
 
             var json = JsonConvert.SerializeObject(articles);

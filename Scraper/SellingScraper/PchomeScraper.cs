@@ -15,21 +15,22 @@ namespace Scraper
         private const float _price_interval = 0.15f;
         private const int _source_id = 2;
 
+        private readonly Product[] _prods;
         private readonly IBrowsingContext _browser;
         private readonly TestDb _db;
 
-        public PchomeScraper(IBrowsingContext ctx, TestDb db)
+        public PchomeScraper(IBrowsingContext ctx, Product[] prods, TestDb db)
         {
-            _browser = ctx;
             _db = db;
+            _browser = ctx;
+            _prods = prods;
         }
 
         public async Task<Selling[]> Scrape()
         {
-            var prods = _db.Product.ToArray();
             var buffer = new List<Selling>();
 
-            foreach (var p in prods)
+            foreach (var p in _prods)
             {
                 //Using price gap to filter out unwanted sellings
                 int pLow = (int)(p.RetailPrice * (1 - _price_interval));
@@ -57,7 +58,7 @@ namespace Scraper
         private async Task<Selling[]> ParseData(string model, string json)
         {
             var obj = JsonConvert.DeserializeObject<JObject>(json);
-            int count = obj["prods"].Count();
+            int count = obj["prods"] != null ? obj["prods"].Count() : 0;
             var prod = _db.Product.FirstOrDefault(x => x.Model == model);
             var buffer = new Selling[count];
 

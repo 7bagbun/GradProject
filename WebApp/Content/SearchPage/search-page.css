@@ -1,0 +1,44 @@
+﻿.box {
+    background-color: #eee;
+}
+
+.title-bar {
+    background-color: #eee;
+}
+
+.prod-section .container {
+    margin-top: 2em;
+}
+
+.prod-section > .container > div {
+    padding: 0.5em;
+}
+
+.no-result-title {
+    color: #aaa;
+    font-size: 3em;
+    text-align: center;
+}
+
+.no-result-body {
+    color: #aaa;
+    font-size: 1em;
+    text-align: center;
+}
+
+.filter {
+    background-color: #d8dee9;
+}
+
+    .filter input {
+        max-width: 100px;
+    }
+
+.rotate-180 {
+    transform: rotate(-180deg);
+}
+
+.rotate {
+    transition: transform ease-out 0.3s;
+}
+

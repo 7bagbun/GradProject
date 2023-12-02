@@ -51,6 +51,11 @@
     margin-left: 0.7em
 }
 
+.comment-container {
+    max-width: 900px;
+    margin: auto;
+}
+
 .tool-btn {
     background-color: transparent;
     outline: none;

@@ -14,21 +14,22 @@ namespace Scraper
         private const float _price_interval = 0.15f;
         private const int _source_id = 5;
 
+        private readonly Product[] _prods;
         private readonly TestDb _db;
         private static HttpClient _client;
 
-        public MomoScraper(TestDb db)
+        public MomoScraper(Product[] prods, TestDb db)
         {
             _db = db;
             _client = new HttpClient();
+            _prods = prods;
         }
 
         public async Task<Selling[]> Scrape()
         {
-            var prods = _db.Product.ToArray();
             var buffer = new List<Selling>();
 
-            foreach (var p in prods)
+            foreach (var p in _prods)
             {
                 //Using price gap to filter out unwanted sellings
                 int pLow = (int)(p.RetailPrice * (1 - _price_interval));

@@ -140,6 +140,7 @@
     <Compile Include="SellingScraper\PchomeScraper.cs" />
     <Compile Include="SellingScraper\PcstoreScraper.cs" />
     <Compile Include="SellingScraper\SellingScraper.cs" />
+    <Compile Include="Showcase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

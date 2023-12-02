@@ -19,19 +19,31 @@ namespace Scraper
         public SellingScraper()
         {
             var cfg = Configuration.Default.WithDefaultLoader();
+            var prods = _db.Product.ToArray();
             _browser = BrowsingContext.New(cfg);
             _scrapers = new ISellingScraper[]
             {
-                new PcstoreScraper(_browser, _db),
-                new PchomeScraper(_browser, _db),
-                new MomoScraper(_db),
+                new PcstoreScraper(_browser, prods, _db),
+                new PchomeScraper(_browser, prods, _db),
+                new MomoScraper(prods, _db),
+            };
+        }
+
+        //for showcase purpose
+        public SellingScraper(Product[] prods)
+        {
+            var cfg = Configuration.Default.WithDefaultLoader();
+            _browser = BrowsingContext.New(cfg);
+            _scrapers = new ISellingScraper[]
+            {
+                new PcstoreScraper(_browser, prods, _db),
+                new PchomeScraper(_browser, prods, _db),
+                new MomoScraper(prods, _db),
             };
         }
 
         public async Task StartScraping()
         {
-            await ClearSellings();
-
             var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
             {
                 var sellings = await _scrapers[i].Scrape();
@@ -69,15 +81,15 @@ namespace Scraper
                 });
             });
 
+            await _db.SaveChangesAsync();
+
             if (isCheaper)
             {
                 await HttpHelper.SendRequest("http://localhost:43369/priceHistory/checkPrice");
             }
-
-            await _db.SaveChangesAsync();
         }
 
-        private async Task ClearSellings()
+        public async Task ClearSellings()
         {
             await _db.Database.ExecuteSqlCommandAsync("DELETE FROM [Image] WHERE Id IN (SELECT Image FROM Selling)");
             await _db.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE Selling");
