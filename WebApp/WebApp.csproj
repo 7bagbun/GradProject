@@ -318,6 +318,7 @@
     <Content Include="Content\Index\style.css.map" />
     <Content Include="Content\Index\style.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\ItemList\comments.js" />
     <Content Include="Scripts\ItemList\image-list.js" />
     <Content Include="Scripts\ItemList\load-article.js" />
     <Content Include="Scripts\ItemList\load-comment.js" />

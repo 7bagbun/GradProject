@@ -37,7 +37,7 @@
             </div>
             <div class="col-xl-10">
                 <div v-if="list.length" class="row">
-                    <div v-for="item in filteredList" class="box rounded-lg flex-fill shadow-sm p-3 m-3" style="width: 250px">
+                    <div v-cloak v-for="item in filteredList" class="box rounded-lg flex-fill shadow-sm p-3 m-3" style="width: 250px">
                         <a class="card-text mb-2" :href="'/item/list/' + item.id">
                             <div class="text-center mb-3 flex-fill text-center">
                                 <img class="card-img-top rounded-lg" :src="'/image/get/' + item.image" style="max-width:200px">

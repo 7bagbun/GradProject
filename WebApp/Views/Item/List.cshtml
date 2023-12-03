@@ -15,9 +15,8 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js"></script>
+    <script src="~/Scripts/ItemList/comments.js"></script>
     <script src="~/Scripts/ItemList/image-list.js"></script>
-    <script src="~/Scripts/ItemList/load-comment.js"></script>
-    <script src="~/Scripts/ItemList/load-article.js"></script>
     <script src="~/Scripts/ItemList/track-item.js"></script>
     <script src="~/Scripts/ItemList/price-chart.js"></script>
     <script src="~/Scripts/ItemList/page-init.js"></script>
@@ -79,13 +78,13 @@
                 </div>
                 <div class="d-flex align-items-center">
                     <span class="mx-3">價格範圍：</span>
-                    <input @@change="filterPrice" class="form-control" type="text" name="low" v-model="low" value="" />
+                    <input @@change="onInputLow" class="form-control" type="text" name="low" value="" />
                     <span class="mx-3">~</span>
-                    <input @@change="filterPrice" class="form-control" type="text" name="high" v-model="high" value="" />
+                    <input @@change="onInputHigh" class="form-control" type="text" name="high" value="" />
                 </div>
             </div>
             <div class="gallery">
-                <div class="item" v-for="item in filteredList">
+                <div v-cloak class="item" v-for="item in filteredList">
                     <div class="d-flex rounded-lg p-3 mb-3" style="background-color:#eee;">
                         <div class="mr-4">
                             <a :href="item.image" target="_blank">
@@ -114,6 +113,90 @@
             </div>
         </div>
         <div class="tab-pane fade comment-container" id="comment-section" role="tabpanel" aria-labelledby="profile-tab">
+            <div id="app-comment">
+                <div class="article-container">
+                    <div v-cloak v-for="item in articles" id="temp-article" class="container comment">
+                        <div class="d-flex justify-content-center">
+                            <img :src="item.image" class="profile-picture mr-4" />
+                            <div class="list-group">
+                                <div class="row list-group-item comment-header mx-0">
+                                    <div class="col-sm px-0">
+                                        <a class="comment-author" :href="item.link" target="_blank">{{item.title}}</a>
+                                    </div>
+                                    <div class="col-sm comment-btn px-0">
+                                        <button class="tool-btn"><i class="fa fa-ellipsis-h"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row list-group-item comment-body mx-0">
+                                    <div class="col comment-content px-0">
+                                        {{item.content}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-container">
+                    <div v-cloak v-for="item in comments" id="comment-template" class="container comment">
+                        <div class="d-flex justify-content-center">
+                            <img :src="'/member/getPfpByUsername?username=' + item.Author" class="profile-picture mr-4" />
+                            <div class="list-group flex-grow-1">
+                                <div class="row list-group-item comment-header mx-0">
+                                    <div class="col-md px-0">
+                                        <span :class="{'comment-owner': item.IsAuthor}" class="comment-author mr-2">{{item.Author}}</span>{{getDaysFromToday(item.CreatedAt)}}<span class="comment-date"></span>
+                                    </div>
+                                    <div v-html="getStars(item.Rating)" class="col-md-3 comment-stars px-0"></div>
+                                    <div class="col-md comment-btn px-0">
+                                        <button class="tool-btn"><i class="fa fa-ellipsis-h"></i></button>
+                                    </div>
+                                </div>
+                                <div class="list-group-item comment-body flex-fill mx-0">
+                                    <div class="col-lg comment-content px-0">
+                                        {{item.Content}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-5" />
+                <div class="edit-container container">
+                    <form @@submit="submitForm" id="post-form" action="/comment/@(Model.Comment == null ? "create" : "edit")" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="star-rating">
+                                    <div class="star-input">
+                                        <input v-model="myComment.Rating" :disabled="!isLogin" type="radio" name="rating" id="rating-5" value="5">
+                                        <label for="rating-5" class="fa fa-star"> </label>
+
+                                        <input v-model="myComment.Rating" :disabled="!isLogin" type="radio" name="rating" id="rating-4" value="4">
+                                        <label for="rating-4" class="fa fa-star"> </label>
+
+                                        <input v-model="myComment.Rating" :disabled="!isLogin" type="radio" name="rating" id="rating-3" value="3">
+                                        <label for="rating-3" class="fa fa-star"> </label>
+
+                                        <input v-model="myComment.Rating" :disabled="!isLogin" type="radio" name="rating" id="rating-2" value="2">
+                                        <label for="rating-2" class="fa fa-star"> </label>
+
+                                        <input v-model="myComment.Rating" :disabled="!isLogin" type="radio" name="rating" id="rating-1" value="1">
+                                        <label for="rating-1" class="fa fa-star"> </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-8">
+                                <input type="text" name="product" class="hidden" value="@ViewBag.ProductId" />
+                                <textarea v-model="myComment.Content" :disabled="!isLogin" type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。"
+                                          style="height: 250px" :value="myComment.Content"></textarea>
+                                <p class="text-counter"><span id="text-count" :class="warningLength">{{textCount}}</span>/500</p>
+                                <input :disabled="!isLogin" type="submit" id="btn-post" class="btn btn-info form-control" :value="saveButtonText" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div id="articles" class="comment-container">
                 <div id="article-template" class="container comment hidden">
                     <div class="d-flex justify-content-center">
@@ -158,54 +241,6 @@
                 </div>
             </div>
             <hr />
-            <div class="container">
-                @using (Html.BeginForm(Model.Comment == null ? "create" : "edit", "comment", FormMethod.Post, new { id = "post-form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="row justify-content-center">
-                        <div class="col-lg-6">
-                            <div class="star-rating">
-                                <div class="star-input">
-                                    <input type="radio" name="rating" id="rating-5" value="5" required @(Model.Comment?.Rating == 5 ? "checked" : "")>
-                                    <label for="rating-5" class="fa fa-star"> </label>
-
-                                    <input type="radio" name="rating" id="rating-4" value="4" @(Model.Comment?.Rating == 4 ? "checked" : "")>
-                                    <label for="rating-4" class="fa fa-star"> </label>
-
-                                    <input type="radio" name="rating" id="rating-3" value="3" @(Model.Comment?.Rating == 3 ? "checked" : "")>
-                                    <label for="rating-3" class="fa fa-star"> </label>
-
-                                    <input type="radio" name="rating" id="rating-2" value="2" @(Model.Comment?.Rating == 2 ? "checked" : "")>
-                                    <label for="rating-2" class="fa fa-star"> </label>
-
-                                    <input type="radio" name="rating" id="rating-1" value="1" @(Model.Comment?.Rating == 1 ? "checked" : "")>
-                                    <label for="rating-1" class="fa fa-star"> </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-8">
-                            <input type="text" name="product" class="hidden" value="@ViewBag.ProductId" />
-                            <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" required
-                                      onkeyup="updateCount(this)" style="height: 250px" disabled>@(Model.Comment?.Content)</textarea>
-                            <p class="text-counter"><span id="text-count">@(Model.Comment?.Content.Length ?? 0)</span>/500</p>
-                            @if (Session["userId"] == null)
-                            {
-                                <input type="submit" id="btn-post" class="btn btn-info form-control" value="登入後即可發布評論" disabled />
-                            }
-                            else if (Model.Comment != null)
-                            {
-                                <input type="submit" id="btn-post" class="btn btn-info form-control" value="編輯並儲存" />
-                            }
-                            else
-                            {
-                                <input type="submit" id="btn-post" class="btn btn-info form-control" value="發布" />
-                            }
-                        </div>
-                    </div>
-                }
-            </div>
         </div>
     </div>
 </div>

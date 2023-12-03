@@ -1,4 +1,8 @@
-﻿h2 {
+﻿[v-cloak] {
+    display: none;
+}
+
+h2 {
     text-align: center;
     margin: 1em;
 }

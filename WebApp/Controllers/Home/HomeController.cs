@@ -15,6 +15,7 @@ namespace WebApp.Controllers
         {
             var sellings = new Selling[_displayAmount];
             var prods = _db.Product.Include("Selling")
+                .Where(x => x.Selling.FirstOrDefault() != null)
                 .OrderByDescending(x => x.Views).Take(_displayAmount).ToArray();
 
             for (int i = 0; i < _displayAmount; i++)

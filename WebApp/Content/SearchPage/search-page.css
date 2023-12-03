@@ -1,4 +1,8 @@
-﻿.box {
+﻿[v-cloak] {
+    display: none;
+}
+
+.box {
     background-color: #eee;
 }
 

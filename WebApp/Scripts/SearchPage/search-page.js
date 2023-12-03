@@ -18,7 +18,7 @@
             let top = Number(this.high);
 
             if (low > top && this.high === "") {
-                price > low;
+                return price > low;
             } else if ((top - low) >= 0) {
                 return price >= low && price <= top;
             } else {
@@ -32,11 +32,11 @@
 
             if (this.priceOrderDesc) {
                 this.list.sort((a, b) => {
-                    return a.price < b.price;
+                    return a.price - b.price;
                 });
             } else {
                 this.list.sort((a, b) => {
-                    return a.price > b.price;
+                    return b.price - a.price;
                 });
             }
 
@@ -44,7 +44,7 @@
         },
         sortByViews() {
             this.list.sort((a, b) => {
-                return a.popularity > b.popularity;
+                return a.popularity - b.popularity;
             });
 
             this.sortMethod = 1;

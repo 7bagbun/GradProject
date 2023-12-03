@@ -153,5 +153,17 @@ namespace WebApp.Controllers.Account
 
             return View(target);
         }
+
+        public ActionResult IsLogin()
+        {
+            if (Session["userId"] != null)
+            {
+                return Content("{\"isLogin\":true}", "application/json");
+            }
+            else
+            {
+                return Content("{\"isLogin\":false}", "application/json");
+            }
+        }
     }
 }

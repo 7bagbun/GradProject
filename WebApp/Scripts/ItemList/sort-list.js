@@ -9,54 +9,56 @@
         }
     },
     methods: {
-        filterPrice() {
+        filterPrice(price) {
+            if (this.low === "" && this.high === "") {
+                return true;
+            }
+
             let low = Number(this.low);
             let top = Number(this.high);
 
             if (low > top && this.high === "") {
-                for (var i = 0; i < this.items.length; i++) {
-                    this.items[i].hide = this.items[i].price < low;
-                }
+                return price > low;
             } else if ((top - low) >= 0) {
-                for (var i = 0; i < this.items.length; i++) {
-                    this.items[i].hide = (this.items[i].price < low) || (this.items[i].price > top);
-                }
+                return price >= low && price <= top;
             } else {
-                for (var i = 0; i < this.items.length; i++) {
-                    this.items[i].hide = false;
-                }
+                return true;
             }
         },
         sortByPrice() {
             this.priceOrderDesc = !this.priceOrderDesc;
             if (this.priceOrderDesc) {
                 this.items.sort((a, b) => {
-                    return a.price < b.price;
+                    return b.price - a.price;
                 });
             } else {
                 this.items.sort((a, b) => {
-                    return a.price > b.price;
+                    return a.price - b.price;
                 });
             }
+        },
+        onInputLow(e) {
+            this.low = e.target.value;
+        },
+        onInputHigh(e) {
+            this.high = e.target.value;
         }
     },
     computed: {
         filteredList() {
             if (this.source === "all") {
-                return this.items.filter(x => !x.hide);
+                return this.items.filter(x => this.filterPrice(x.price));
             } else {
-                return this.items.filter(x => !x.hide && x.source === this.source);
+                return this.items.filter(x => this.filterPrice(x.price) && x.source === this.source);
             }
         }
     },
     watch: {
         filteredList() {
             this.$nextTick(() => {
-                let a = baguetteBox.run(".gallery", {
+                baguetteBox.run(".gallery", {
                     filter: /image\/get\/.*/
                 });
-
-                console.log(a);
             })
         }
     },
@@ -77,4 +79,3 @@
         });
     }
 }).mount("#list-section");
-
