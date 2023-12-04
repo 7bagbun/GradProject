@@ -3,14 +3,10 @@
 }
 
 @section scripts {
-    @if (ViewBag == null)
-    {
-        <script>var query = ""</script>
-    }
-    else
-    {
-        <script>var query = "@ViewBag.Query" </script>
-    }
+    <script>
+        var query = "@ViewBag.Query";
+        var cateId = @ViewBag.CateId;
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.9/vue.global.min.js"
             integrity="sha512-01DXK8J/RTf+INWJaGSa1a8ePsny+wTV63r5e+qcW4Gx7cgYKeX7uNvJminP4WvBthCi03aWdTmGLcZk/DTKKQ=="
@@ -20,20 +16,29 @@
 
 <div class="prod-section">
     <div id="app" class="container">
-        <div class="filter row justify-content-between rounded-lg p-3">
-            <div class="d-flex align-items-center">
-                <button @@click="sortByPrice" :class="priceButtonColor" class="btn mr-4">依價格排序 <i :class="{'rotate-180': priceOrderDesc}" class="fa fa-arrow-down rotate"></i></button>
-                <button @@click="sortByViews" :class="viewButtonColor" class="btn mr-4">依熱門度排序</button>
-            </div>
-            <div class="d-flex align-items-center">
-                <span class="mx-3">價格範圍：</span>
-                <input @@change="onInputLow" class="form-control" type="text" />
-                <span class="mx-3">~</span>
-                <input @@change="onInputHigh" class="form-control" type="text" />
+        <div class="row ">
+            <div class="col">
+                <div class="filter d-flex justify-content-between rounded-lg p-3">
+                    <div class="d-flex align-items-center">
+                        <button @@click="sortByPrice" :class="priceButtonColor" class="btn mr-4">依價格排序 <i :class="{'rotate-180': priceOrderDesc}" class="fa fa-arrow-down rotate"></i></button>
+                        <button @@click="sortByViews" :class="viewButtonColor" class="btn mr-4">依熱門度排序</button>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="mx-3">價格範圍：</span>
+                        <input @@change="onInputLow" class="form-control" type="text" />
+                        <span class="mx-3">~</span>
+                        <input @@change="onInputHigh" class="form-control" type="text" />
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-xl-2 bg-info rounded-lg">
+            <div class="col-xl-2">
+                <div class="panel-left rounded-lg" style="min-height:900px">
+                    <div class="d-flex flex-column px-2 py-3 my-3">
+                        <a v-cloak @@click.prevent="onTypeClick(item.id)" v-for="item in typeList" :href="'/item/list/' + item.id" class="type px-2 py-2 mx-2 rounded-lg">{{item.type}}</a>
+                    </div>
+                </div>
             </div>
             <div class="col-xl-10">
                 <div v-if="list.length" class="row">

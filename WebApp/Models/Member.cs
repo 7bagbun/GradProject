@@ -19,6 +19,7 @@ namespace WebApp.Models
         {
             this.Comment = new HashSet<Comment>();
             this.TrackProduct = new HashSet<TrackProduct>();
+            this.ReportComment = new HashSet<ReportComment>();
         }
     
         public int Id { get; set; }
@@ -37,5 +38,7 @@ namespace WebApp.Models
         public virtual Image Image { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TrackProduct> TrackProduct { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReportComment> ReportComment { get; set; }
     }
 }

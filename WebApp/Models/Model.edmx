@@ -82,6 +82,25 @@
           <Property Name="Views" Type="int" Nullable="false" />
           <Property Name="CurrentLow" Type="int" Nullable="false" />
           <Property Name="PreviousLow" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportMember" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="int" Nullable="false" />
+          <Property Name="Status" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ReportReason" Type="nvarchar" MaxLength="500" />
+          <Property Name="ReportTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Selling">
           <Key>
@@ -187,6 +206,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Product__Type__0EF836A4">
+          <End Role="ProductType" Type="Self.ProductType" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportCom__Comme__056ECC6A">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="1" />
+          <End Role="ReportComment" Type="Self.ReportComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportComment">
+              <PropertyRef Name="Comment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportCom__Repor__047AA831">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="ReportComment" Type="Self.ReportComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportComment">
+              <PropertyRef Name="ReportMember" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Selling__Image__5CD6CB2B">
           <End Role="Image" Type="Self.Image" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -257,6 +312,8 @@
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PriceHistory" EntityType="Self.PriceHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductType" EntityType="Self.ProductType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportComment" EntityType="Self.ReportComment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Selling" EntityType="Self.Selling" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Source" EntityType="Self.Source" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrackProduct" EntityType="Self.TrackProduct" Schema="dbo" store:Type="Tables" />
@@ -283,6 +340,18 @@
           <AssociationSet Name="FK__PriceHist__Produ__76619304" Association="Self.FK__PriceHist__Produ__76619304">
             <End Role="Product" EntitySet="Product" />
             <End Role="PriceHistory" EntitySet="PriceHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__Type__0EF836A4" Association="Self.FK__Product__Type__0EF836A4">
+            <End Role="ProductType" EntitySet="ProductType" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportCom__Comme__056ECC6A" Association="Self.FK__ReportCom__Comme__056ECC6A">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="ReportComment" EntitySet="ReportComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportCom__Repor__047AA831" Association="Self.FK__ReportCom__Repor__047AA831">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="ReportComment" EntitySet="ReportComment" />
           </AssociationSet>
           <AssociationSet Name="FK__Selling__Image__5CD6CB2B" Association="Self.FK__Selling__Image__5CD6CB2B">
             <End Role="Image" EntitySet="Image" />
@@ -364,7 +433,21 @@
             <End Role="Source" EntitySet="Source" />
             <End Role="Article" EntitySet="Article" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="ReportComment" EntityType="TestDbModel.ReportComment" />
+          <AssociationSet Name="FK__ReportCom__Comme__056ECC6A" Association="TestDbModel.FK__ReportCom__Comme__056ECC6A">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="ReportComment" EntitySet="ReportComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ReportCom__Repor__047AA831" Association="TestDbModel.FK__ReportCom__Repor__047AA831">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="ReportComment" EntitySet="ReportComment" />
+          </AssociationSet>
+          <EntitySet Name="ProductType" EntityType="TestDbModel.ProductType" />
+          <AssociationSet Name="FK__Product__Type__0EF836A4" Association="TestDbModel.FK__Product__Type__0EF836A4">
+            <End Role="ProductType" EntitySet="ProductType" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Comment">
           <Key>
             <PropertyRef Name="Id" />
@@ -377,6 +460,7 @@
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Member" Relationship="TestDbModel.FK__Comment__Author__40058253" FromRole="Comment" ToRole="Member" />
           <NavigationProperty Name="Product1" Relationship="TestDbModel.FK__Comment__Product__3F115E1A" FromRole="Comment" ToRole="Product" />
+          <NavigationProperty Name="ReportComment" Relationship="TestDbModel.FK__ReportCom__Comme__056ECC6A" FromRole="Comment" ToRole="ReportComment" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -405,6 +489,7 @@
           <Property Name="Verified" Type="Boolean" Nullable="false" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
           <Property Name="Suspended" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ReportComment" Relationship="TestDbModel.FK__ReportCom__Repor__047AA831" FromRole="Member" ToRole="ReportComment" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -444,6 +529,8 @@
           <NavigationProperty Name="Article" Relationship="TestDbModel.FK__Article__Product__74444068" FromRole="Product" ToRole="Article" />
           <Property Name="CurrentLow" Type="Int32" Nullable="false" />
           <Property Name="PreviousLow" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" />
+          <NavigationProperty Name="ProductType1" Relationship="TestDbModel.FK__Product__Type__0EF836A4" FromRole="Product" ToRole="ProductType" />
         </EntityType>
         <EntityType Name="Selling">
           <Key>
@@ -631,6 +718,63 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ReportComment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportMember" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ReportReason" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ReportTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Comment1" Relationship="TestDbModel.FK__ReportCom__Comme__056ECC6A" FromRole="ReportComment" ToRole="Comment" />
+          <NavigationProperty Name="Member" Relationship="TestDbModel.FK__ReportCom__Repor__047AA831" FromRole="ReportComment" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK__ReportCom__Comme__056ECC6A">
+          <End Type="TestDbModel.Comment" Role="Comment" Multiplicity="1" />
+          <End Type="TestDbModel.ReportComment" Role="ReportComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportComment">
+              <PropertyRef Name="Comment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ReportCom__Repor__047AA831">
+          <End Type="TestDbModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="TestDbModel.ReportComment" Role="ReportComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReportComment">
+              <PropertyRef Name="ReportMember" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ProductType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="TestDbModel.FK__Product__Type__0EF836A4" FromRole="ProductType" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Product__Type__0EF836A4">
+          <End Type="TestDbModel.ProductType" Role="ProductType" Multiplicity="0..1" />
+          <End Type="TestDbModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -698,6 +842,7 @@
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="TestDbModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="PreviousLow" ColumnName="PreviousLow" />
                 <ScalarProperty Name="CurrentLow" ColumnName="CurrentLow" />
                 <ScalarProperty Name="Views" ColumnName="Views" />
@@ -753,6 +898,26 @@
                 <ScalarProperty Name="Link" ColumnName="Link" />
                 <ScalarProperty Name="Product" ColumnName="Product" />
                 <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportComment">
+            <EntityTypeMapping TypeName="TestDbModel.ReportComment">
+              <MappingFragment StoreEntitySet="ReportComment">
+                <ScalarProperty Name="ReportTime" ColumnName="ReportTime" />
+                <ScalarProperty Name="ReportReason" ColumnName="ReportReason" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ReportMember" ColumnName="ReportMember" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductType">
+            <EntityTypeMapping TypeName="TestDbModel.ProductType">
+              <MappingFragment StoreEntitySet="ProductType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -1,11 +1,16 @@
-﻿const app = Vue.createApp({
+﻿$("#query").val(query);
+
+const app = Vue.createApp({
     data() {
         return {
             list: [],
+            typeList: [],
             low: "",
             high: "",
             priceOrderDesc: false,
             sortMethod: -1,
+            query: "",
+            cateId: 0,
         }
     },
     methods: {
@@ -54,6 +59,13 @@
         },
         onInputHigh(e) {
             this.high = e.target.value;
+        },
+        onTypeClick(type) {
+            this.cateId = type;
+
+            $.get(`/item/search?query=${query}&cateId=${this.cateId}`, data => {
+                this.list = data;
+            });
         }
     },
     computed: {
@@ -75,10 +87,16 @@
             }
         }
     },
-    mounted() {
-        $.get("/item/search?query=" + query, data => {
+    created() {
+        this.query = query;
+        this.cateId = cateId;
+
+        $.get(`/item/search?query=${this.query}&cateId=${this.cateId}`, data => {
             this.list = data;
-            console.log(this.list);
+        });
+
+        $.get("/item/getTypes", data => {
+            this.typeList = data;
         });
     }
 }).mount("#app");

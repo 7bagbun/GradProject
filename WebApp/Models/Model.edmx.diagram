@@ -26,6 +26,11 @@
         <EntityTypeShape EntityType="TestDbModel.Article" Width="1.5" PointX="0.625" PointY="7.5" />
         <AssociationConnector Association="TestDbModel.FK__Article__Product__74444068" />
         <AssociationConnector Association="TestDbModel.FK__Article__Source__73501C2F" />
+        <EntityTypeShape EntityType="TestDbModel.ReportComment" Width="1.5" PointX="2.625" PointY="0.5" />
+        <AssociationConnector Association="TestDbModel.FK__ReportCom__Comme__056ECC6A" />
+        <AssociationConnector Association="TestDbModel.FK__ReportCom__Repor__047AA831" />
+        <EntityTypeShape EntityType="TestDbModel.ProductType" Width="1.5" PointX="2.5" PointY="10.375" />
+        <AssociationConnector Association="TestDbModel.FK__Product__Type__0EF836A4" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

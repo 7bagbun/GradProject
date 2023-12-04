@@ -25,6 +25,7 @@ namespace WebApp.Controllers.Item
             {
                 comments[index++] = new CommentViewModel
                 {
+                    Id = x.Id,
                     Author = x.Member.Username,
                     Rating = x.Rating,
                     Content = x.Content,
@@ -74,7 +75,7 @@ namespace WebApp.Controllers.Item
             _db.Comment.Add(comment);
             _db.SaveChanges();
 
-            return RedirectToAction("List", "Item", new { id = comment.Product, tab = "comment"});
+            return RedirectToAction("List", "Item", new { id = comment.Product, tab = "comment" });
         }
 
         [HttpPost]
@@ -123,6 +124,31 @@ namespace WebApp.Controllers.Item
             _db.SaveChanges();
 
             return Content("{\"isSucceed\":true}", "application/json");
+        }
+
+        [HttpPost]
+        public ActionResult Report(ReportComment rc, string reasonTemp)
+        {
+            try
+            {
+                if (Session["userId"] == null)
+                {
+                    return Content("{\"result\":false,\"msg\":\"no login\"}");
+                }
+
+                rc.ReportMember = (int)Session["userId"];
+                rc.ReportTime = DateTime.Now;
+                rc.Status = "p";
+                rc.ReportReason = $"[{reasonTemp}]{rc.ReportReason}";
+                _db.ReportComment.Add(rc);
+                _db.SaveChanges();
+
+                return Content("{\"result\":true}");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{{\"result\":false,\"msg\":\"{ex.Message}\"}}");
+            }
         }
     }
 }

@@ -4,7 +4,9 @@
             comments: [],
             articles: [],
             isLogin: false,
+            hasWrote: false,
             myComment: {},
+            reportComment: {},
         }
     },
     methods: {
@@ -32,13 +34,68 @@
             } else if (min < 10080) {
                 text = Math.ceil(days / 1440) + "天前";
             } else {
-                return date;
+                return date.split(" ")[0];
             }
 
             return text;
         },
-        submitForm(e) {
-            console.log("submit");
+        getComments() {
+            $.get("/comment/getById/" + id, data => {
+                this.comments = data;
+                Object.assign(this.myComment, data.find(x => x.IsAuthor));
+                this.hasWrote = Object.keys(this.myComment).length > 1;
+                console.log(this.myComment);
+            });
+
+            $.get("/article/getById?productId=" + id, data => {
+                this.articles = data;
+            });
+        },
+        selectReport(commentId) {
+            if (!this.isLogin) {
+                location.href = "/account/loginPage";
+                return;
+            }
+
+            this.reportComment = this.comments.find(x => x.Id === commentId);
+            $("#report-modal").modal();
+        },
+        submitComment(e) {
+            e.preventDefault();
+            const data = $("#comment-form").serialize();
+            let url = this.hasWrote ? "edit" : "create";
+
+            $.post("/comment/" + url, data, () => {
+                this.getComments();
+            });
+        },
+        submitReport(e) {
+            e.preventDefault();
+            const data = $("#form-report").serialize();
+            $.post("/comment/report", data, () => {
+                $("#report-modal").modal("hide");
+            });
+        },
+        deleteComment(commentId) {
+            swal({
+                text: "你確定要刪除評論嗎?",
+                icon: "warning",
+                buttons: {
+                    cancel: "取消",
+                    confirm: "確定"
+                },
+                dangerMode: true,
+            }).then((decision) => {
+                if (decision) {
+                    $.post("/comment/delete", { commentId: commentId }, (data) => {
+                        if (data.isSucceed) {
+                            this.getComments();
+                            this.myComment = {};
+                        }
+                    });
+                }
+            });
+
         }
     },
     computed: {
@@ -52,7 +109,7 @@
         saveButtonText() {
             if (!this.isLogin) {
                 return "登入後即可發布評論";
-            } else if (Object.keys(this.myComment).length > 1) {
+            } else if (this.hasWrote) {
                 return "編輯並儲存";
             } else {
                 return "發布";
@@ -67,16 +124,16 @@
                 return "";
             }
         },
+        getReportComment() {
+            if (this.reportComment !== {}) {
+                return this.reportComment;
+            } else {
+                return { Id: 0, Content: "", Author: "" };
+            }
+        }
     },
     created() {
-        $.get("/comment/getById/" + id, data => {
-            this.comments = data;
-            Object.assign(this.myComment, data.filter(x => x.IsAuthor)[0]);
-        });
-
-        $.get("/article/getById?productId=" + id, data => {
-            this.articles = data;
-        });
+        this.getComments();
 
         $.get("/account/isLogin", data => {
             this.isLogin = data.isLogin;

@@ -102,45 +102,53 @@ namespace WebApp.Controllers.Item
             return Content(json, "application/json");
         }
 
-        public ActionResult SearchPage(string query)
+        public ActionResult GetTypes()
         {
-            ViewBag.Query = query == "" ? null : query;
+            var types = _db.ProductType.Select(
+                x => new
+                {
+                    id = x.Id,
+                    type = x.Type
+                }).ToArray();
+
+            string json = JsonConvert.SerializeObject(types);
+            return Content(json, "application/json");
+        }
+
+        public ActionResult SearchPage(string query = "", int cateId = 0)
+        {
+            ViewBag.Query = query;
+            ViewBag.CateId = cateId;
             return View();
         }
 
-        public ActionResult Search(string query)
+        public ActionResult Search(string query, int cateId = 0)
         {
-            if (query == "" || query == null)
+            query = query ?? "";
+            Product[] result;
+
+            if (cateId > 0)
             {
-                var list = _db.Product.Include("Selling")
-                    .Where(x => x.Selling.FirstOrDefault() != null).Take(12).ToArray();
-
-                var filtered = list.Select(x => new
-                {
-                    id = x.Id,
-                    brand = x.Brand,
-                    model = x.Model,
-                    type = x.ProductType,
-                    image = x.Selling.FirstOrDefault().Image,
-                    fprice = x.Selling.FirstOrDefault().Price.ToString("C0"),
-                    price = x.Selling.FirstOrDefault().Price,
-                    popularity = x.Views
-                });
-
-                string js = JsonConvert.SerializeObject(filtered);
-                return Content(js, "application/json");
+                result = _db.Product.Include("Selling")
+                    .Where(x => x.Type == cateId)
+                    .Where(x => x.Selling.FirstOrDefault() != null)
+                    .Where(x =>
+                        x.Model.Contains(query) ||
+                        x.Brand.Contains(query) ||
+                        x.ProductType.Contains(query) ||
+                        x.Token.Contains(query)).Take(20).ToArray();
+            }
+            else
+            {
+                result = _db.Product.Include("Selling")
+                    .Where(x => x.Selling.FirstOrDefault() != null)
+                    .Where(x =>
+                        x.Model.Contains(query) ||
+                        x.Brand.Contains(query) ||
+                        x.ProductType.Contains(query) ||
+                        x.Token.Contains(query)).Take(20).ToArray();
             }
 
-            var result = _db.Product.Include("Selling")
-                .Where(x => x.Selling.FirstOrDefault() != null)
-                .Where(x =>
-                    x.Model.Contains(query) ||
-                    x.Brand.Contains(query) ||
-                    x.ProductType.Contains(query) ||
-                    x.Token.Contains(query)).ToArray();
-
-            //order by price
-            result.ForEach(x => x.Selling = x.Selling.OrderByDescending(t => t.Price).ToList());
             var obj = result.Select(x => new
             {
                 id = x.Id,

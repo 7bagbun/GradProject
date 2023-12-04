@@ -38,6 +38,24 @@
         max-width: 100px;
     }
 
+.panel-left {
+    background-color: #E5E9F0;
+}
+
+.type {
+    color: #434c5e;
+}
+
+.type:hover {
+    color: #2e3440;
+    background-color: #F8F9FA;
+    text-decoration: none;
+}
+
+.type:active {
+    background-color: #F8F9FA;
+}
+
 .rotate-180 {
     transform: rotate(-180deg);
 }
@@ -45,4 +63,3 @@
 .rotate {
     transition: transform ease-out 0.3s;
 }
-
