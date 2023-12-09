@@ -37,7 +37,7 @@ namespace Scraper
                 string json = await RequestSellingData(p.Model, pLow, pHigh);
                 buffer.AddRange(await ParseData(p.Id, json));
 
-                await Task.Delay(500);
+                await Task.Delay(750);
             }
 
             return buffer.ToArray();
