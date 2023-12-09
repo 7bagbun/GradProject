@@ -28,10 +28,11 @@
         },
         resolve(decision) {
             let report = this.selectedReport;
+
             if (decision) {
-                $.post("/moderation/resolveReport", { reportId: report.id, approve: true });
+                $.post("/moderation/resolveReport", { commentId: report.commentId, approve: true });
             } else {
-                $.post("/moderation/resolveReport", { reportId: report.id, approve: false });
+                $.post("/moderation/resolveReport", { commentId: report.commentId, approve: false });
             }
 
             this.getReport();

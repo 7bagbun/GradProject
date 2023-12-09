@@ -20,6 +20,7 @@ namespace WebApp.Controllers.Admin
                     id = x.Id,
                     reportMember = x.Member.Username,
                     author = x.Comment1.Member.Username,
+                    commentId = x.Comment,
                     comment = x.Comment1.Content,
                     status = x.Status,
                     reason = x.ReportReason,

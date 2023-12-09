@@ -7,6 +7,7 @@
             hasWrote: false,
             myComment: {},
             reportComment: {},
+            report: { temp: "0", reason: "" }
         }
     },
     methods: {
@@ -70,9 +71,18 @@
         },
         submitReport(e) {
             e.preventDefault();
+
             const data = $("#form-report").serialize();
             $.post("/comment/report", data, () => {
                 $("#report-modal").modal("hide");
+
+                swal({
+                    text: "檢舉成功",
+                    icon: "info",
+                    buttons: {
+                        confirm: "確定"
+                    },
+                });
             });
         },
         deleteComment(commentId) {
@@ -83,7 +93,7 @@
                     cancel: "取消",
                     confirm: "確定"
                 },
-                dangerMode: true,
+                dangerMode: true
             }).then((decision) => {
                 if (decision) {
                     $.post("/comment/delete", { commentId: commentId }, (data) => {
@@ -94,7 +104,6 @@
                     });
                 }
             });
-
         }
     },
     computed: {
@@ -117,7 +126,7 @@
         warningLength() {
             let len = this.textCount;
 
-            if (len > 500) {
+            if (len === 0 || len > 500) {
                 return "text-danger";
             } else {
                 return "";
@@ -128,6 +137,31 @@
                 return this.reportComment;
             } else {
                 return { Id: 0, Content: "", Author: "" };
+            }
+        },
+        validateMyComment() {
+            if (this.myComment.Content === undefined) {
+                return false;
+            }
+
+            let len = this.myComment.Content.length;
+            let rating = this.myComment.Rating;
+
+            if (len < 1 || len > 500 || rating === undefined) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        validateReport() {
+            if (this.report.temp === "0") {
+                return false;
+            } else if (this.report.temp === "其他" && this.report.reason === "") {
+                return false;
+            } else if (this.report.reason.length > 500) {
+                return false;
+            } else {
+                return true;
             }
         }
     },

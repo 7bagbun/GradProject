@@ -15,7 +15,7 @@ namespace Scraper
 
             var prods = _db.Product.Take(10).ToArray();
             var scrp = new SellingScraper(prods);
-            await scrp.StartScraping();
+            await scrp.StartShowcasing();
         }
     }
 }

@@ -18,18 +18,21 @@ namespace Scraper
 
             if (args[0].Contains("m"))
             {
+                await Console.Out.WriteLineAsync("Getting product models...");
                 var ms = new ModelScraperBase();
                 await ms.StartScrapingModel();
             }
 
             if (args[0].Contains("s"))
             {
+                await Console.Out.WriteLineAsync("Getting selling data...");
                 var scrp = new SellingScraper();
                 await scrp.StartScraping();
             }
 
             if (args[0].Contains("a"))
             {
+                await Console.Out.WriteLineAsync("Getting related articles...");
                 var artScrp = new ArticleScraper();
                 await artScrp.StartScraping();
             }

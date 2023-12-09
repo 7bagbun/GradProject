@@ -22,6 +22,7 @@ namespace WebApp.Controllers.Admin
                 x => x.Verified == true && x.Suspended == false && x.IsAdmin == false).Count();
 
             ViewBag.CommentCount = _db.Comment.Count();
+            ViewBag.ReportCount = _db.ReportComment.Where(x => x.Status == "p").Count();
 
             return View(vm);
         }

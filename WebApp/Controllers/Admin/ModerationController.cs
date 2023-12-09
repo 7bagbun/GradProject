@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using WebApp.Models;
@@ -116,17 +117,19 @@ namespace WebApp.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult ResolveReport(int reportId, bool approve)
+        public ActionResult ResolveReport(int commentId, bool approve)
         {
             if (Session["admin"] == null)
             {
                 return new HttpStatusCodeResult(401);
             }
 
-            var report = _db.ReportComment.Include("Comment1").FirstOrDefault(x => x.Id ==  reportId);
+            var comment = _db.Comment.FirstOrDefault(x => x.Id == commentId);
+            var reports = _db.ReportComment.Where(x => x.Comment == commentId); //resolve the reports for same comment
+            string status = approve ? "a" : "r";
 
-            report.Status = approve ? "a" : "r";
-            report.Comment1.IsHidden = approve;
+            reports.ForEach(x => { x.Status = status; });
+            comment.IsHidden = approve;
             _db.SaveChanges();
 
             return Content("{\"isSucceed\":true}", "application/json");

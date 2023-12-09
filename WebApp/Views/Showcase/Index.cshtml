@@ -46,9 +46,8 @@
 
             $.get("/showcase/startRunning", data => {
                 $("#output1").val(data.msg);
+                $("#btn-scraper").attr("disabled", false).text("開始執行")
             });
-
-            $("#btn-scraper").attr("disabled", false).text("開始執行")
         }
 
         function runEmail() {
@@ -56,9 +55,8 @@
 
             $.get("/showcase/fakeEmail", data => {
                 $("#output2").val(data.msg);
+                $("#btn-email").attr("disabled", false).text("開始執行")
             });
-
-            $("#btn-email").attr("disabled", false).text("開始執行")
         }
     </script>
 </body>

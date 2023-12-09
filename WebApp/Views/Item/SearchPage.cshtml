@@ -44,7 +44,7 @@
                 <div class="panel-left rounded-lg" style="min-height:900px">
                     <div class="d-flex flex-column px-2 py-3 my-3">
                         <a v-cloak v-for="type in typeList" @@click.prevent="onTypeClick(type.id)" :href="'/item/list?cateId=' + type.id"
-                          :class="{'type-active':cateId === type.id}" class="type px-2 py-2 mx-2 rounded-lg">{{type.type}}</a>
+                           :class="{'type-active':cateId === type.id}" class="type px-2 py-2 mx-2 rounded-lg">{{type.type}}</a>
                     </div>
                 </div>
             </div>
@@ -62,17 +62,9 @@
                         </div>
                     </div>
                 </div>
-                <div v-else>
-                    <div class="row">
-                        <div class="col no-result-title">
-                            查無結果
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col no-result-body">
-                            請嘗試提供其他關鍵字
-                        </div>
-                    </div>
+                <div v-else class="my-5">
+                    <h2 class="no-result-title text-center">查無結果</h2>
+                    <p class="no-result-body text-center">請嘗試提供其他關鍵字</p>
                 </div>
             </div>
         </div>

@@ -136,9 +136,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-if="filteredReport.length > 0" v-for="(report, i) in filteredReport" @@click="selected = i" class="cursor-pointer">
+            <tr v-if="filteredReport.length > 0" v-for="report in filteredReport" @@click="selected = report.id" class="cursor-pointer">
                 <td scope="col" class="text-center">
-                    <input v-model="selected" type="radio" name="selected" :value="i" />
+                    <input v-model="selected" type="radio" name="selected" :value="report.id" />
                 </td>
                 <td scope="col">{{report.reportMember}}</td>
                 <td scope="col">{{report.author}}</td>
