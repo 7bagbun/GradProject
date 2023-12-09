@@ -142,7 +142,6 @@
     <Compile Include="Controllers\Admin\AdminApiController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs" />
     <Compile Include="Controllers\Admin\ModerationController.cs" />
-    <Compile Include="Controllers\Identity\IdentityController.cs" />
     <Compile Include="Controllers\Item\ArticleController.cs" />
     <Compile Include="Controllers\Redirect\RedirectController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
