@@ -25,7 +25,6 @@ namespace Scraper
             if (args[0].Contains("s"))
             {
                 var scrp = new SellingScraper();
-                await scrp.ClearSellings();
                 await scrp.StartScraping();
             }
 

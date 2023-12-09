@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp;
 using Scraper.Model;
@@ -51,6 +52,7 @@ namespace Scraper
             });
 
             await Task.WhenAll(tasks);
+            await ClearSellings();
             await _db.SaveChangesAsync();
             await UpdatePriceHistory();
         }
@@ -68,10 +70,11 @@ namespace Scraper
 
                 if (x.CurrentLow > lowest)
                 {
-                    x.PreviousLow = x.CurrentLow;
-                    x.CurrentLow = lowest;
                     isCheaper = true;
                 }
+
+                x.PreviousLow = x.CurrentLow;
+                x.CurrentLow = lowest;
 
                 _db.PriceHistory.Add(new PriceHistory
                 {

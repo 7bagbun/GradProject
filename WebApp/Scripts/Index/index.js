@@ -57,12 +57,10 @@ function displayNews(news) {
         if (days >= 365) {
             days = Math.floor(days / 365);
             days = days + "年前";
-        }
-        if (days >= 30) {
+        } else if (days >= 30) {
             days = Math.floor(days / 30);
             days = days + "個月前";
-        }
-        if (days >= 1) {
+        } else if (days >= 1) {
             days = Math.floor(days);
             days = days + "天前";
         } else {
@@ -78,7 +76,7 @@ function displayNews(news) {
         el.attr("onclick", `displayNewsDetail(${i})`);
         el.find("small").text(days);
         el.find("h5").text(news[i].Title);
-        el.find("p").text(news[i].Content);
+        el.find("p").text(addLink(newsJson[i].Content));
     }
 }
 
@@ -99,7 +97,7 @@ function displayNewsDetail(i) {
     el.find(".news-title").text(newsJson[i].Title);
     el.find(".news-date").text(newsJson[i].CreatedDate);
     el.find(".news-type").text(type);
-    el.find(".news-content").text(newsJson[i].Content);
+    el.find(".news-content").html(addLink(newsJson[i].Content));
 }
 
 function setPagination(pages) {
@@ -167,4 +165,9 @@ function changeSection(direction) {
 function changePage(pageNum) {
     curr = pageNum;
     getNews(curr + 1);
+}
+
+function addLink(news) {
+    const re = /\[(.+)\]\((https:\/\/.+)\)/;
+    return news.replace(re, "<a href='$2'>$1</a>").replace("\n", "<br>");
 }

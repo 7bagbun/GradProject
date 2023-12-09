@@ -18,7 +18,7 @@ namespace WebApp.Controllers.Item
             //identify if login user is also who wrote comment
             int userId = Session["userId"] == null ? -1 : (int)Session["userId"];
 
-            var data = _db.Comment.Include("Member").OrderByDescending(x => x.CreatedDate).Where(x => x.Product == id);
+            var data = _db.Comment.Include("Member").OrderByDescending(x => x.CreatedDate).Where(x => x.Product == id && !x.IsHidden);
             var comments = new CommentViewModel[data.Count()];
             int index = 0;
             data.ForEach(x =>

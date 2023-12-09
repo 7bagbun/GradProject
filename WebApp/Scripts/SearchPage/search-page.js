@@ -10,7 +10,9 @@ const app = Vue.createApp({
             priceOrderDesc: false,
             sortMethod: -1,
             query: "",
-            cateId: 0,
+            cateId: 1,
+            totalPages: 1,
+            currentPage: 1,
         }
     },
     methods: {
@@ -62,10 +64,38 @@ const app = Vue.createApp({
         },
         onTypeClick(type) {
             this.cateId = type;
+            this.resetCurrentPage();
+            this.getItemData();
+        },
+        onPageNextClick() {
+            if (++this.currentPage > this.totalPages) {
+                this.currentPage = this.totalPages;
+            }
 
-            $.get(`/item/search?query=${query}&cateId=${this.cateId}`, data => {
-                this.list = data;
+            this.getItemData();
+        },
+        onPagePrevClick() {
+            if (--this.currentPage < 1) {
+                this.currentPage = 1;
+            }
+
+            this.getItemData();
+        },
+        getItemData() {
+            $.get(`/item/search?query=${this.query}&cateId=${this.cateId}&page=${this.currentPage}`, data => {
+                this.list = data.products;
+                this.totalPages = data.totalPages;
             });
+        },
+        resetCurrentPage() {
+            this.currentPage = 1;
+        },
+        checkCurrentPage() {
+            if (this.currentPage > this.totalPages) {
+                this.currentPage = this.totalPages;
+            } else if (this.currentPage < 1) {
+                this.currentPage = 1;
+            }
         }
     },
     computed: {
@@ -92,7 +122,8 @@ const app = Vue.createApp({
         this.cateId = cateId;
 
         $.get(`/item/search?query=${this.query}&cateId=${this.cateId}`, data => {
-            this.list = data;
+            this.list = data.products;
+            this.totalPages = data.totalPages;
         });
 
         $.get("/item/getTypes", data => {

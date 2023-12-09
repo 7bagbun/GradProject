@@ -1,8 +1,4 @@
-﻿[v-cloak] {
-    display: none;
-}
-
-.box {
+﻿.box {
     background-color: #eee;
 }
 
@@ -43,17 +39,18 @@
 }
 
 .type {
-    color: #434c5e;
+    color: #4C566A;
 }
 
-.type:hover {
+    .type:hover {
+        color: #2e3440;
+        text-decoration: none;
+    }
+
+.type-active {
     color: #2e3440;
     background-color: #F8F9FA;
     text-decoration: none;
-}
-
-.type:active {
-    background-color: #F8F9FA;
 }
 
 .rotate-180 {
@@ -62,4 +59,21 @@
 
 .rotate {
     transition: transform ease-out 0.3s;
+}
+
+.input-page {
+    width: 40px;
+    border-width: 0 0 2px 0;
+    border-style: solid;
+    border-color: #2e3440;
+    background-color: transparent;
+}
+
+    .input-page:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+
+.page-nav {
+    color: gray;
 }

@@ -36,7 +36,7 @@ namespace Scraper
                 int pLow = (int)(p.RetailPrice * (1 - _price_interval));
                 int pHigh = (int)(p.RetailPrice * (1 + _price_interval));
                 string json = await RequestSellingData(p.Model, pLow, pHigh);
-                buffer.AddRange(await ParseData(p.Model, json));
+                buffer.AddRange(await ParseData(p.Id, json));
 
                 await Task.Delay(500);
             }
@@ -56,11 +56,10 @@ namespace Scraper
             return resp;
         }
 
-        private async Task<Selling[]> ParseData(string model, string json)
+        private async Task<Selling[]> ParseData(int prodId, string json)
         {
             var obj = JsonConvert.DeserializeObject<JObject>(json);
             int count = obj["prod"].Count();
-            var prod = _db.Product.FirstOrDefault(x => x.Model == model);
             var buffer = new Selling[count];
 
             for (int i = 0; i < count; i++)
@@ -88,7 +87,7 @@ namespace Scraper
                         LowresImage = ImageHelper.DownsizeImage(await imageBytes),
                     },
                     Source = _source_id,
-                    Product1 = prod,
+                    Product = prodId,
                     UpdatedTime = DateTime.Now
                 };
 

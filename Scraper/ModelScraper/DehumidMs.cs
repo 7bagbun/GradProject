@@ -56,7 +56,7 @@ namespace Scraper
                     }
 
                     var prod = new Product();
-                    prod.Brand = "樂金 lg";
+                    prod.Brand = "樂金 LG";
                     prod.ProductType = "除濕機";
                     prod.Model = model;
                     prod.RetailPrice = obj[i]["Price"].Value<int>("P");
@@ -97,7 +97,7 @@ namespace Scraper
                     }
 
                     var prod = new Product();
-                    prod.Brand = "三菱 mitsubishi";
+                    prod.Brand = "三菱 MITSUBISHI";
                     prod.ProductType = "除濕機";
                     prod.Model = model;
                     prod.RetailPrice = obj[i]["Price"].Value<int>("P");

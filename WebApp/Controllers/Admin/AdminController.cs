@@ -82,6 +82,11 @@ namespace WebApp.Controllers.Admin
 
             return View(comments);
         }
+
+        public ActionResult ReportList()
+        {
+            return View();
+        }
         
         public ActionResult CommentDetail(int id)
         {
@@ -89,6 +94,5 @@ namespace WebApp.Controllers.Admin
 
             return View(target);
         }
-
     }
 }

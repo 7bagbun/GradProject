@@ -139,6 +139,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\Admin\AdminApiController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs" />
     <Compile Include="Controllers\Admin\ModerationController.cs" />
     <Compile Include="Controllers\Identity\IdentityController.cs" />
@@ -218,7 +219,6 @@
     <Compile Include="Models\TrackProduct.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ViewModels\ItemListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +289,7 @@
     <Content Include="Scripts\Admin\create-announcement.js" />
     <Content Include="Scripts\Admin\edit-anncouncement.js" />
     <Content Include="Scripts\Admin\member-list.js" />
+    <Content Include="Scripts\Admin\Report\report.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -410,9 +411,11 @@
     <Content Include="Views\Admin\CommentDetail.cshtml" />
     <Content Include="Views\Account\LoginPage.cshtml" />
     <Content Include="Views\Showcase\Index.cshtml" />
+    <Content Include="Views\Admin\ReportList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fonts\" />
+    <Folder Include="Views\AdminApi\" />
     <Folder Include="Views\Article\" />
     <Folder Include="Views\Moderation\" />
   </ItemGroup>

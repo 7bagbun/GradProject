@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using System.Web.UI.WebControls;
 using Microsoft.Ajax.Utilities;
 using WebApp.Models.ViewModels;
+using System;
+using System.Collections;
 
 namespace WebApp.Controllers.Item
 {
@@ -12,54 +14,39 @@ namespace WebApp.Controllers.Item
     {
         private readonly TestDbEntities _db = new TestDbEntities();
 
-        public ActionResult List(int id, string tab, string sort)
+        public ActionResult List(int id, string tab)
         {
-            var vm = new ItemListViewModel();
-
-            if (Session["userId"] != null)
+            var product = _db.Product.Include("PriceHistory").Include("Selling").FirstOrDefault(x => x.Id == id);
+            if (product == null)
             {
-                int userId = (int)Session["userId"];
-                vm.Comment = _db.Comment.FirstOrDefault(x => x.Product == id && x.Author == userId);
+                return HttpNotFound();
             }
 
-            vm.Items = _db.Selling.Include("Source1")
-                            .Where(x => x.Product == id);
-            if (vm.Items.FirstOrDefault() == null) return HttpNotFound();
-
-            switch (sort)
+            switch (tab)
             {
-                case "p":
-                    vm.Items = vm.Items.OrderBy(x => x.Price);
+                case "list":
+                    tab = "list";
                     break;
-                case "pr":
-                    vm.Items = vm.Items.OrderByDescending(x => x.Price);
-                    break;
-                case "s":
-                    vm.Items = vm.Items.OrderBy(x => x.Source);
-                    break;
-                case "sr":
-                    vm.Items = vm.Items.OrderByDescending(x => x.Source);
+                case "comment":
+                    tab = "comment";
                     break;
                 default:
-                    vm.Items = vm.Items.OrderBy(x => x.Price);
+                    tab = "list";
                     break;
             }
 
-
-            int modelId = vm.Items.First().Product;
-            var model = _db.Product.FirstOrDefault(x => x.Id == modelId);
-
-            ViewBag.UpdatedTime = vm.Items.First().UpdatedTime;
-            ViewBag.Model = model.Model;
-            ViewBag.Brand = model.Brand;
-            ViewBag.Type = model.ProductType;
-            ViewBag.ProductId = modelId;
+            ViewBag.ProductId = product.Id;
+            ViewBag.UpdatedTime = product.PriceHistory.FirstOrDefault(x => x.Product == id).UpdatedTime;
+            ViewBag.Image = product.Selling.FirstOrDefault(x => x.Product == id).Image;
+            ViewBag.Model = product.Model;
+            ViewBag.Brand = product.Brand;
+            ViewBag.Type = product.ProductType;
             ViewBag.Tab = tab;
 
-            _db.Product.FirstOrDefault(x => x.Id == id).Views++;
+            product.Views++;
             _db.SaveChanges();
 
-            return View(vm);
+            return View();
         }
 
         /*
@@ -115,19 +102,20 @@ namespace WebApp.Controllers.Item
             return Content(json, "application/json");
         }
 
-        public ActionResult SearchPage(string query = "", int cateId = 0)
+        public ActionResult SearchPage(string query = "", int cateId = 1)
         {
             ViewBag.Query = query;
             ViewBag.CateId = cateId;
             return View();
         }
 
-        public ActionResult Search(string query, int cateId = 0)
+        public ActionResult Search(string query, int cateId = 0, int page = 1)
         {
             query = query ?? "";
-            Product[] result;
+            var result = Enumerable.Empty<Product>();
+            page = --page < 0 ? 0 : page * 20;
 
-            if (cateId > 0)
+            if (cateId > 1)
             {
                 result = _db.Product.Include("Selling")
                     .Where(x => x.Type == cateId)
@@ -136,7 +124,7 @@ namespace WebApp.Controllers.Item
                         x.Model.Contains(query) ||
                         x.Brand.Contains(query) ||
                         x.ProductType.Contains(query) ||
-                        x.Token.Contains(query)).Take(20).ToArray();
+                        x.Token.Contains(query));
             }
             else
             {
@@ -146,8 +134,11 @@ namespace WebApp.Controllers.Item
                         x.Model.Contains(query) ||
                         x.Brand.Contains(query) ||
                         x.ProductType.Contains(query) ||
-                        x.Token.Contains(query)).Take(20).ToArray();
+                        x.Token.Contains(query));
             }
+
+            int totalPages = (int)Math.Ceiling((double)result.Count() / 20);
+            result = result.Skip(page).Take(20);
 
             var obj = result.Select(x => new
             {
@@ -160,7 +151,9 @@ namespace WebApp.Controllers.Item
                 price = x.Selling.FirstOrDefault().Price,
                 popularity = x.Views
             });
-            string json = JsonConvert.SerializeObject(obj);
+
+
+            string json = JsonConvert.SerializeObject(new { totalPages, products = obj });
 
             return Content(json, "application/json");
         }

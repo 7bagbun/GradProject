@@ -1,4 +1,8 @@
-﻿.hidden {
+﻿[v-cloak] {
+    display: none !important;
+}
+
+.hidden {
     display: none;
 }
 

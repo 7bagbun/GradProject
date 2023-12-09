@@ -55,7 +55,7 @@ namespace Scraper.ModelScraper
                     }
 
                     var prod = new Product();
-                    prod.Brand = "國際 panasonic";
+                    prod.Brand = "國際 Panasonic";
                     prod.ProductType = "吹風機";
                     prod.Model = model;
                     prod.RetailPrice = obj[i]["Price"].Value<int>("P");

@@ -23,6 +23,13 @@
                         <button @@click="sortByPrice" :class="priceButtonColor" class="btn mr-4">依價格排序 <i :class="{'rotate-180': priceOrderDesc}" class="fa fa-arrow-down rotate"></i></button>
                         <button @@click="sortByViews" :class="viewButtonColor" class="btn mr-4">依熱門度排序</button>
                     </div>
+                    <div id="page" class="d-flex align-items-center">
+                        <i v-cloak @@click="onPagePrevClick" :class="{'text-primary': currentPage > 1}" class="active page-nav fa fa-chevron-left fa-lg cursor-pointer p-2"></i>
+                        <input v-model="currentPage" @@change="checkCurrentPage" class="input-page text-center" type="text" name="name" value="1" />
+                        <span class="mx-3">/</span>
+                        <span> {{totalPages}}</span>
+                        <i @@click="onPageNextClick" :class="{'text-primary': currentPage < totalPages}" class="page-nav fa fa-chevron-right fa-lg cursor-pointer p-2"></i>
+                    </div>
                     <div class="d-flex align-items-center">
                         <span class="mx-3">價格範圍：</span>
                         <input @@change="onInputLow" class="form-control" type="text" />
@@ -36,7 +43,8 @@
             <div class="col-xl-2">
                 <div class="panel-left rounded-lg" style="min-height:900px">
                     <div class="d-flex flex-column px-2 py-3 my-3">
-                        <a v-cloak @@click.prevent="onTypeClick(item.id)" v-for="item in typeList" :href="'/item/list/' + item.id" class="type px-2 py-2 mx-2 rounded-lg">{{item.type}}</a>
+                        <a v-cloak v-for="type in typeList" @@click.prevent="onTypeClick(type.id)" :href="'/item/list?cateId=' + type.id"
+                          :class="{'type-active':cateId === type.id}" class="type px-2 py-2 mx-2 rounded-lg">{{type.type}}</a>
                     </div>
                 </div>
             </div>

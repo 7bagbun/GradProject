@@ -26,6 +26,7 @@ namespace WebApp.Models
         public short Rating { get; set; }
         public string Content { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        public bool IsHidden { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual Product Product1 { get; set; }

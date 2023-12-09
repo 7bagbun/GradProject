@@ -33,7 +33,7 @@
                 }
 
                 if (data.result) {
-                    if (data.referer === undefined) {
+                    if (data.referer === "") {
                         location = "/";
                     } else {
                         location = data.referer;

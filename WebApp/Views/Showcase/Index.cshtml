@@ -21,7 +21,7 @@
                 </div>
                 <h5 class="card-text mb-4">更新資料庫中前10筆產品型號的價格資料。</h5>
                 <textarea id="output1" class="form-control mb-4" readonly></textarea>
-                <button class="btn btn-primary form-control" onclick="runScraper()">開始執行</button>
+                <button id="btn-scraper" class="btn btn-primary form-control" onclick="runScraper()">開始執行</button>
             </div>
         </div>
         <div class="card mr-5" style="width: 25em;">
@@ -32,7 +32,7 @@
                 </div>
                 <h5 class="card-text mb-4">於資料庫中前10筆商品添加假的優惠價格，寄送email給追蹤該商品的使用者。</h5>
                 <textarea id="output2" class="form-control mb-4" readonly></textarea>
-                <button class="btn btn-primary form-control" onclick="runEmail()">開始執行</button>
+                <button id="btn-email" class="btn btn-primary form-control" onclick="runEmail()">開始執行</button>
             </div>
         </div>
     </div>
@@ -42,15 +42,23 @@
 
     <script>
         function runScraper() {
+            $("#btn-scraper").attr("disabled", true).text("處理中")
+
             $.get("/showcase/startRunning", data => {
                 $("#output1").val(data.msg);
             });
+
+            $("#btn-scraper").attr("disabled", false).text("開始執行")
         }
 
         function runEmail() {
+            $("#btn-email").attr("disabled", true).text("處理中")
+
             $.get("/showcase/fakeEmail", data => {
                 $("#output2").val(data.msg);
             });
+
+            $("#btn-email").attr("disabled", false).text("開始執行")
         }
     </script>
 </body>

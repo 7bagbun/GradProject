@@ -31,9 +31,9 @@ namespace Scraper
 
             _modelScrapers = new IModelScraper[]
             {
-                //new DehumidMs(_ctx),
-                //new HairDryerMs(_ctx),
-                //new FridgeMs(_ctx),
+                new DehumidMs(_ctx),
+                new HairDryerMs(_ctx),
+                new FridgeMs(_ctx),
                 new WashMachineMS(_ctx),
             };
         }
@@ -43,10 +43,37 @@ namespace Scraper
             foreach (var item in _modelScrapers)
             {
                 var models = await item.GetModels();
+                models = RemoveDuplicate(models);
+                models = RemoveDuplicateInDb(models);
                 _db.Product.AddRange(models);
             }
 
             await _db.SaveChangesAsync();
+        }
+
+        private Product[] RemoveDuplicate(Product[] array)
+        {
+            var set = new HashSet<Product>(array, new Comparer.ProductComparer());
+            var result = new Product[set.Count];
+            set.CopyTo(result);
+
+            return result;
+        }
+
+        private Product[] RemoveDuplicateInDb(Product[] array)
+        {
+            var exist = _db.Product.Select(x => x.Model).ToArray();
+            var map = new HashSet<string>(exist);
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (map.Contains(array[i].Model))
+                {
+                    array[i] = null;
+                }
+            }
+
+            return array.Where(x => x != null).ToArray();
         }
     }
 }

@@ -26,6 +26,7 @@
           <Property Name="Rating" Type="smallint" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsHidden" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -461,6 +462,7 @@
           <NavigationProperty Name="Member" Relationship="TestDbModel.FK__Comment__Author__40058253" FromRole="Comment" ToRole="Member" />
           <NavigationProperty Name="Product1" Relationship="TestDbModel.FK__Comment__Product__3F115E1A" FromRole="Comment" ToRole="Product" />
           <NavigationProperty Name="ReportComment" Relationship="TestDbModel.FK__ReportCom__Comme__056ECC6A" FromRole="Comment" ToRole="ReportComment" />
+          <Property Name="IsHidden" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -784,6 +786,7 @@
           <EntitySetMapping Name="Comment">
             <EntityTypeMapping TypeName="TestDbModel.Comment">
               <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="IsHidden" ColumnName="IsHidden" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Rating" ColumnName="Rating" />

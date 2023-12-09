@@ -51,6 +51,7 @@ namespace WebApp.Controllers.Admin
             return Content("{\"isSucceed\":true}", "application/json");
         }
 
+        [HttpPost]
         public ActionResult EditAnnouncement(Models.News news)
         {
             if (Session["admin"] == null)
@@ -73,6 +74,7 @@ namespace WebApp.Controllers.Admin
             return Content("{\"isSucceed\":true}", "application/json");
         }
 
+        [HttpPost]
         public ActionResult DeleteAnnouncement(int id)
         {
             if (Session["admin"] == null)
@@ -93,6 +95,7 @@ namespace WebApp.Controllers.Admin
             return Content("{\"isSucceed\":true}", "application/json");
         }
 
+        [HttpPost]
         public ActionResult CreateAnnouncement(Models.News news)
         {
             if (Session["admin"] == null)
@@ -112,5 +115,21 @@ namespace WebApp.Controllers.Admin
             return Content("{\"isSucceed\":true}", "application/json");
         }
 
+        [HttpPost]
+        public ActionResult ResolveReport(int reportId, bool approve)
+        {
+            if (Session["admin"] == null)
+            {
+                return new HttpStatusCodeResult(401);
+            }
+
+            var report = _db.ReportComment.Include("Comment1").FirstOrDefault(x => x.Id ==  reportId);
+
+            report.Status = approve ? "a" : "r";
+            report.Comment1.IsHidden = approve;
+            _db.SaveChanges();
+
+            return Content("{\"isSucceed\":true}", "application/json");
+        }
     }
 }

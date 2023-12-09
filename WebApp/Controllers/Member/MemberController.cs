@@ -192,7 +192,16 @@ namespace WebApp.Controllers.Member
 
             var imageBytes = new byte[pfp.InputStream.Length];
             pfp.InputStream.Read(imageBytes, 0, imageBytes.Length);
-            user.Image.ImageContent = imageBytes;
+
+            if (user.Image == null)
+            {
+                user.Image = new Models.Image { ImageContent = imageBytes };
+            }
+            else
+            {
+                user.Image.ImageContent = imageBytes;
+            }
+
             _db.SaveChanges();
 
             return Content("{\"isSucceed\":true}");

@@ -55,7 +55,7 @@ namespace Scraper.ModelScraper
                     }
 
                     var prod = new Product();
-                    prod.Brand = "樂金 lg";
+                    prod.Brand = "樂金 LG";
                     prod.ProductType = "洗衣機";
                     prod.Model = model;
                     prod.RetailPrice = obj[i]["Price"].Value<int>("P");
