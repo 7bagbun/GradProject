@@ -286,6 +286,7 @@
     <Content Include="Scripts\Admin\comment-detail.js" />
     <Content Include="Scripts\Admin\comment-list.js" />
     <Content Include="Scripts\Admin\create-announcement.js" />
+    <Content Include="Scripts\Admin\dismiss-news-alert.js" />
     <Content Include="Scripts\Admin\edit-anncouncement.js" />
     <Content Include="Scripts\Admin\member-list.js" />
     <Content Include="Scripts\Admin\Report\report.js" />
