@@ -1,4 +1,5 @@
-﻿using Scraper.Model;
+﻿using System;
+using Scraper.Model;
 using System.Linq;
 using System.Threading.Tasks;
 

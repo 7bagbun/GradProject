@@ -95,7 +95,6 @@
   <ItemGroup>
     <Compile Include="ArticleScraper\ArticleScraper.cs" />
     <Compile Include="Comparer\ProductComparer.cs" />
-    <Compile Include="ExceptionLogger.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="ModelScraper\FridgeMs.cs" />

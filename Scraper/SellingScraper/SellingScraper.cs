@@ -46,45 +46,29 @@ namespace Scraper
         //for showcase purpose
         public async Task StartShowcasing()
         {
-            try
+            var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
             {
-                var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
-                {
-                    var sellings = await _scrapers[i].Scrape();
-                    _db.Selling.AddRange(sellings);
-                });
+                var sellings = await _scrapers[i].Scrape();
+                _db.Selling.AddRange(sellings);
+            });
 
-                await Task.WhenAll(tasks);
-                await _db.SaveChangesAsync();
-                await UpdatePriceHistory();
-            }
-            catch (Exception ex)
-            {
-                ExceptionLogger.LogException(ex);
-                throw;
-            }
+            await Task.WhenAll(tasks);
+            await _db.SaveChangesAsync();
+            await UpdatePriceHistory();
         }
 
         public async Task StartScraping()
         {
-            try
+            var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
             {
-                var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
-                {
-                    var sellings = await _scrapers[i].Scrape();
-                    _db.Selling.AddRange(sellings);
-                });
+                var sellings = await _scrapers[i].Scrape();
+                _db.Selling.AddRange(sellings);
+            });
 
-                await Task.WhenAll(tasks);
-                await ClearSellings();
-                await _db.SaveChangesAsync();
-                await UpdatePriceHistory();
-            }
-            catch (Exception ex)
-            {
-                ExceptionLogger.LogException(ex);
-                throw;
-            }
+            await Task.WhenAll(tasks);
+            await ClearSellings();
+            await _db.SaveChangesAsync();
+            await UpdatePriceHistory();
         }
 
         private async Task UpdatePriceHistory()

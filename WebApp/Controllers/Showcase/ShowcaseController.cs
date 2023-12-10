@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
@@ -28,12 +30,19 @@ namespace WebApp.Controllers.Showcase
                 {
                     FileName = path,
                     Arguments = "-S",
-                    CreateNoWindow = false,
-                    UseShellExecute = true
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
                 };
 
                 var proc = Process.Start(info);
                 proc.WaitForExit();
+                string msg = proc.StandardError.ReadToEnd();
+
+                if (proc.ExitCode != 0)
+                {
+                    string json = JsonConvert.SerializeObject(new { msg });
+                    return Content(json, "application/json");
+                }
 
                 return Content("{\"msg\":\"執行成功\"}", "application/json");
             }
