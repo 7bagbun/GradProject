@@ -32,7 +32,7 @@
     <hr />
 
     <div class="row m-0 justify-content-around">
-        <div class="col-xl-2 col-lg-3 col-sm-5 section mb-3">
+        <a class="col-xl-2 col-lg-3 col-sm-5 section mb-3 text-decoration-none" href="/admin/memberList">
             <div class="row">
                 <div class="col-xl-6 d-flex justify-content-center align-items-center">
                     <img class="pfp" src="~/Assets/Images/default-pfp.png" alt="" />
@@ -42,8 +42,8 @@
                     <h3>@ViewBag.MemberCount</h3>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-2 col-lg-3 col-sm-5 section mb-3">
+        </a>
+        <a class="col-xl-2 col-lg-3 col-sm-5 section mb-3 text-decoration-none" href="/admin/commentList">
             <div class="row">
                 <div class="col-xl-6 d-flex justify-content-center align-items-center">
                     <img class="tag" src="~/Assets/Images/comment.png" alt="" />
@@ -53,18 +53,18 @@
                     <h3>@ViewBag.CommentCount</h3>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-2 col-lg-3 col-sm-5 section mb-3">
+        </a>
+        <a class="col-xl-2 col-lg-3 col-sm-5 section mb-3 text-decoration-none" href="/admin/reportList">
             <div class="row">
                 <div class="col-xl-6 d-flex justify-content-center align-items-center">
                     <img class="tag" src="~/Assets/Images/comment.png" alt="" />
                 </div>
                 <div class="col-xl-6">
-                    <h5>待處理的檢舉</h5>
+                    <h5>檢舉案件</h5>
                     <h3>@ViewBag.ReportCount</h3>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <hr />

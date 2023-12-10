@@ -84,7 +84,7 @@ function displayNewsDetail(i) {
     el.find(".news-title").text(newsJson[i].Title);
     el.find(".news-date").text(newsJson[i].CreatedDate);
     el.find(".news-type").text(type);
-    el.find(".news-content").html(addLink(newsJson[i].Content));
+    el.find(".news-content").html(removeTag(newsJson[i].Content));
 }
 
 function setPagination(pages) {
@@ -177,4 +177,9 @@ function deleteAnnouncement(id) {
 function addLink(news) {
     const re = /\[(.+)\]\((https:\/\/.+)\)/;
     return news.replace(re, "<a href='$2'>$1</a>").replace("\n", "<br>");
+}
+
+function removeTag(news) {
+    const re = /\[(.+)\]\(https:\/\/.+\)/;
+    return news.replace(re, "$1").replace("\n", " ");
 }

@@ -32,7 +32,7 @@ namespace WebApp.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult DeleteComment(int commentId)
+        public ActionResult HideComment(int commentId)
         {
             if (Session["admin"] == null)
             {
@@ -43,10 +43,31 @@ namespace WebApp.Controllers.Admin
 
             if (comment == null)
             {
-                return Content("{\"isSucceed\":false,\"msg\":\"您要刪除的評論不存在\"}", "application/json");
+                return Content("{\"isSucceed\":false,\"msg\":\"您要隱藏的評論不存在\"}", "application/json");
             }
 
-            _db.Comment.Remove(comment);
+            comment.IsHidden = true;
+            _db.SaveChanges();
+
+            return Content("{\"isSucceed\":true}", "application/json");
+        }
+        
+        [HttpPost]
+        public ActionResult ShowComment(int commentId)
+        {
+            if (Session["admin"] == null)
+            {
+                return new HttpStatusCodeResult(401);
+            }
+
+            var comment = _db.Comment.FirstOrDefault(x => x.Id == commentId);
+
+            if (comment == null)
+            {
+                return Content("{\"isSucceed\":false,\"msg\":\"您要解除隱藏的評論不存在\"}", "application/json");
+            }
+
+            comment.IsHidden = false;
             _db.SaveChanges();
 
             return Content("{\"isSucceed\":true}", "application/json");

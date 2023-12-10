@@ -65,7 +65,7 @@ namespace WebApp.Controllers.Item
             }
 
             int userId = (int)Session["userId"];
-            if (_db.Comment.Any(x => x.Product == comment.Product && x.Author == userId))
+            if (_db.Comment.Any(x => x.Product == comment.Product && x.Author == userId && !x.IsHidden))
             {
                 return RedirectToAction("Error", "Redirect", new { msg = "您已評論過此產品" });
             }
@@ -87,7 +87,7 @@ namespace WebApp.Controllers.Item
             }
 
             int userId = (int)Session["userId"];
-            var target = _db.Comment.FirstOrDefault(x => x.Product == comment.Product && x.Author == userId);
+            var target = _db.Comment.FirstOrDefault(x => x.Product == comment.Product && x.Author == userId && !x.IsHidden);
 
             if (target == null)
             {
@@ -109,7 +109,7 @@ namespace WebApp.Controllers.Item
                 return new HttpStatusCodeResult(401);
             }
 
-            var comment = _db.Comment.FirstOrDefault(x => x.Id == commentId);
+            var comment = _db.Comment.FirstOrDefault(x => x.Id == commentId && !x.IsHidden);
 
             if (comment == null)
             {

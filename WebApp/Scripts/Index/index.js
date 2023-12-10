@@ -76,7 +76,7 @@ function displayNews(news) {
         el.attr("onclick", `displayNewsDetail(${i})`);
         el.find("small").text(days);
         el.find("h5").text(news[i].Title);
-        el.find("p").text(addLink(newsJson[i].Content));
+        el.find("p").text(removeTag(newsJson[i].Content));
     }
 }
 
@@ -170,4 +170,9 @@ function changePage(pageNum) {
 function addLink(news) {
     const re = /\[(.+)\]\((https:\/\/.+)\)/;
     return news.replace(re, "<a href='$2'>$1</a>").replace("\n", "<br>");
+}
+
+function removeTag(news) {
+    const re = /\[(.+)\]\(https:\/\/.+\)/;
+    return news.replace(re, "$1").replace("\n", " ");
 }
