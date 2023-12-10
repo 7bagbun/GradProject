@@ -2,11 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using System.Web.UI.WebControls;
-using Microsoft.Ajax.Utilities;
-using WebApp.Models.ViewModels;
 using System;
-using System.Collections;
 
 namespace WebApp.Controllers.Item
 {
@@ -36,7 +32,7 @@ namespace WebApp.Controllers.Item
             }
 
             ViewBag.ProductId = product.Id;
-            ViewBag.UpdatedTime = product.PriceHistory.FirstOrDefault(x => x.Product == id).UpdatedTime;
+            ViewBag.UpdatedTime = product.PriceHistory.OrderByDescending(x => x.UpdatedTime).FirstOrDefault(x => x.Product == id).UpdatedTime;
             ViewBag.Image = product.Selling.FirstOrDefault(x => x.Product == id).Image;
             ViewBag.Model = product.Model;
             ViewBag.Brand = product.Brand;

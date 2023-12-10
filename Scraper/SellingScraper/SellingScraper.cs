@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp;
@@ -46,29 +46,45 @@ namespace Scraper
         //for showcase purpose
         public async Task StartShowcasing()
         {
-            var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
+            try
             {
-                var sellings = await _scrapers[i].Scrape();
-                _db.Selling.AddRange(sellings);
-            });
+                var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
+                {
+                    var sellings = await _scrapers[i].Scrape();
+                    _db.Selling.AddRange(sellings);
+                });
 
-            await Task.WhenAll(tasks);
-            await _db.SaveChangesAsync();
-            await UpdatePriceHistory();
+                await Task.WhenAll(tasks);
+                await _db.SaveChangesAsync();
+                await UpdatePriceHistory();
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                throw;
+            }
         }
 
         public async Task StartScraping()
         {
-            var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
+            try
             {
-                var sellings = await _scrapers[i].Scrape();
-                _db.Selling.AddRange(sellings);
-            });
+                var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
+                {
+                    var sellings = await _scrapers[i].Scrape();
+                    _db.Selling.AddRange(sellings);
+                });
 
-            await Task.WhenAll(tasks);
-            await ClearSellings();
-            await _db.SaveChangesAsync();
-            await UpdatePriceHistory();
+                await Task.WhenAll(tasks);
+                await ClearSellings();
+                await _db.SaveChangesAsync();
+                await UpdatePriceHistory();
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.LogException(ex);
+                throw;
+            }
         }
 
         private async Task UpdatePriceHistory()
