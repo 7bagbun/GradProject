@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebApp.Models;
 
@@ -10,11 +7,11 @@ namespace WebApp.Controllers.Admin
 {
     public class AdminApiController : Controller
     {
-        private readonly TestDbEntities _dbEntities = new TestDbEntities();
+        private readonly TestDbEntities _db = new TestDbEntities();
 
         public ActionResult ReportComment()
         {
-            var report = _dbEntities.ReportComment.Include("Member").Include("Comment").Select(
+            var report = _db.ReportComment.Include("Member").Include("Comment").Select(
                 x => new
                 {
                     id = x.Id,
@@ -28,6 +25,26 @@ namespace WebApp.Controllers.Admin
                 });
 
             string json = JsonConvert.SerializeObject(report, new JsonSerializerSettings() { DateFormatString = "yyyy/MM/dd"});
+
+            return Content(json, "application/json");
+        }
+
+        public ActionResult GetProduct()
+        {
+            var prods = _db.Product.Include("ProductType1").Select(
+                x => new
+                {
+                    id = x.Id,
+                    pType = x.ProductType,
+                    type = x.Type,
+                    typeName = x.ProductType1.Type,
+                    brand = x.Brand,
+                    model = x.Model,
+                    token = x.Token,
+                    views = x.Views,
+                });
+
+            string json = JsonConvert.SerializeObject(prods);
 
             return Content(json, "application/json");
         }

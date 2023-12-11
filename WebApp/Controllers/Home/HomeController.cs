@@ -1,8 +1,6 @@
 ﻿using WebApp.Models;
 using System.Linq;
 using System.Web.Mvc;
-using System.Security.Permissions;
-using Microsoft.Ajax.Utilities;
 
 namespace WebApp.Controllers
 {

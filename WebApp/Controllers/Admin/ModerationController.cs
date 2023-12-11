@@ -1,6 +1,7 @@
 ﻿using Microsoft.Ajax.Utilities;
 using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using WebApp.Models;
 
@@ -151,6 +152,24 @@ namespace WebApp.Controllers.Admin
 
             reports.ForEach(x => { x.Status = status; });
             comment.IsHidden = approve;
+            _db.SaveChanges();
+
+            return Content("{\"isSucceed\":true}", "application/json");
+        }
+
+        [HttpPost]
+        public ActionResult EditProduct(Product prod)
+        {
+            if (Session["admin"] == null)
+            {
+                return new HttpStatusCodeResult(401);
+            }
+
+            var target = _db.Product.FirstOrDefault(x => x.Id == prod.Id);
+            target.Model = prod.Model;
+            target.Type = prod.Type;
+            target.Token = prod.Token;
+            target.ProductType = prod.ProductType;
             _db.SaveChanges();
 
             return Content("{\"isSucceed\":true}", "application/json");

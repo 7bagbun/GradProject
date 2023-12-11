@@ -1,11 +1,8 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
-using AngleSharp.Svg.Dom;
 using Scraper.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace Scraper
@@ -37,10 +34,7 @@ namespace Scraper
 
             var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
             {
-                await ClearArticles();
-
                 var articles = await _scrapers[i].Scrape(prods);
-
                 articles = RemoveDuplicate(articles);
                 _db.Article.AddRange(articles);
             });
@@ -63,11 +57,6 @@ namespace Scraper
             }
 
             return array.Where(x => x != null).ToArray();
-        }
-
-        private async Task ClearArticles()
-        {
-            await _db.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE Article");
         }
 
         private class PttCs : IArticleScraper
@@ -139,11 +128,11 @@ namespace Scraper
                     item.Remove();
                 }
 
-                string content = doc.QuerySelector("#main-content").Text();
+                string content = doc.QuerySelector("#main-content").Text().Split('-')[0];
                 doc.Close();
 
                 int length = content.Length > 200 ? 200 : content.Length;
-                return content.Substring(content.Length - length, length);
+                return content.Substring(content.Length - length, length) + "...";
             }
 
             public bool FilterArticle(string title)

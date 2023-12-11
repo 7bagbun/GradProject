@@ -94,7 +94,7 @@ namespace Scraper
                 {
                     Product = x.Id,
                     Price = lowest,
-                    UpdatedTime = System.DateTime.Now
+                    UpdatedTime = DateTime.Now
                 });
             });
 

@@ -31,10 +31,11 @@ namespace Scraper
 
             _modelScrapers = new IModelScraper[]
             {
-                new DehumidMs(_ctx),
-                new HairDryerMs(_ctx),
-                new FridgeMs(_ctx),
-                new WashMachineMS(_ctx),
+                //new DehumidMs(_ctx),
+                //new HairDryerMs(_ctx),
+                //new FridgeMs(_ctx),
+                //new WashMachineMS(_ctx),
+                new TvMs(_ctx),
             };
         }
 

@@ -148,7 +148,6 @@ namespace WebApp.Controllers.Item
                 popularity = x.Views
             });
 
-
             string json = JsonConvert.SerializeObject(new { totalPages, products = obj });
 
             return Content(json, "application/json");

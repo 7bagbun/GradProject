@@ -95,5 +95,10 @@ namespace WebApp.Controllers.Admin
 
             return View(target);
         }
+
+        public ActionResult ProductList()
+        {
+            return View();
+        }
     }
 }

@@ -17,6 +17,8 @@
         <EntityTypeShape EntityType="TestDbModel.Article" Width="1.5" PointX="9.375" PointY="1.25" />
         <AssociationConnector Association="TestDbModel.FK__Article__Source__6D9742D9" />
         <AssociationConnector Association="TestDbModel.FK__Article__Product__74444068" />
+        <EntityTypeShape EntityType="TestDbModel.ProductType" Width="1.5" PointX="2.25" PointY="1" />
+        <AssociationConnector Association="TestDbModel.FK__Product__Type__0EF836A4" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

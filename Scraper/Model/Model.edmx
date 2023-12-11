@@ -46,6 +46,14 @@
           <Property Name="Views" Type="int" Nullable="false" />
           <Property Name="CurrentLow" Type="int" Nullable="false" />
           <Property Name="PreviousLow" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="Selling">
           <Key>
@@ -66,6 +74,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SourceName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="15" />
           <Property Name="Domain" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="ImageName" Type="varchar" MaxLength="100" />
         </EntityType>
@@ -81,7 +90,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Article__Source__73501C2F">
+        <Association Name="FK__Article__Source__7DCDAAA2">
           <End Role="Source" Type="Self.Source" Multiplicity="1" />
           <End Role="Article" Type="Self.Article" Multiplicity="*" />
           <ReferentialConstraint>
@@ -102,6 +111,18 @@
             </Principal>
             <Dependent Role="PriceHistory">
               <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__Type__0EF836A4">
+          <End Role="ProductType" Type="Self.ProductType" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Type" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -131,7 +152,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Selling__Source__793DFFAF">
+        <Association Name="FK__Selling__Source__7CD98669">
           <End Role="Source" Type="Self.Source" Multiplicity="1" />
           <End Role="Selling" Type="Self.Selling" Multiplicity="*" />
           <ReferentialConstraint>
@@ -148,19 +169,24 @@
           <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PriceHistory" EntityType="Self.PriceHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductType" EntityType="Self.ProductType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Selling" EntityType="Self.Selling" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Source" EntityType="Self.Source" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Article__Product__74444068" Association="Self.FK__Article__Product__74444068">
             <End Role="Product" EntitySet="Product" />
             <End Role="Article" EntitySet="Article" />
           </AssociationSet>
-          <AssociationSet Name="FK__Article__Source__73501C2F" Association="Self.FK__Article__Source__73501C2F">
+          <AssociationSet Name="FK__Article__Source__7DCDAAA2" Association="Self.FK__Article__Source__7DCDAAA2">
             <End Role="Source" EntitySet="Source" />
             <End Role="Article" EntitySet="Article" />
           </AssociationSet>
           <AssociationSet Name="FK__PriceHist__Produ__76619304" Association="Self.FK__PriceHist__Produ__76619304">
             <End Role="Product" EntitySet="Product" />
             <End Role="PriceHistory" EntitySet="PriceHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__Type__0EF836A4" Association="Self.FK__Product__Type__0EF836A4">
+            <End Role="ProductType" EntitySet="ProductType" />
+            <End Role="Product" EntitySet="Product" />
           </AssociationSet>
           <AssociationSet Name="FK__Selling__Image__5CD6CB2B" Association="Self.FK__Selling__Image__5CD6CB2B">
             <End Role="Image" EntitySet="Image" />
@@ -170,7 +196,7 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="Selling" EntitySet="Selling" />
           </AssociationSet>
-          <AssociationSet Name="FK__Selling__Source__793DFFAF" Association="Self.FK__Selling__Source__793DFFAF">
+          <AssociationSet Name="FK__Selling__Source__7CD98669" Association="Self.FK__Selling__Source__7CD98669">
             <End Role="Source" EntitySet="Source" />
             <End Role="Selling" EntitySet="Selling" />
           </AssociationSet>
@@ -210,6 +236,11 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="Article" EntitySet="Article" />
           </AssociationSet>
+          <EntitySet Name="ProductType" EntityType="TestDbModel.ProductType" />
+          <AssociationSet Name="FK__Product__Type__0EF836A4" Association="TestDbModel.FK__Product__Type__0EF836A4">
+            <End Role="ProductType" EntitySet="ProductType" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Image">
           <Key>
@@ -246,6 +277,8 @@
           <NavigationProperty Name="Article" Relationship="TestDbModel.FK__Article__Product__74444068" FromRole="Product" ToRole="Article" />
           <Property Name="CurrentLow" Type="Int32" Nullable="false" />
           <Property Name="PreviousLow" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" />
+          <NavigationProperty Name="ProductType1" Relationship="TestDbModel.FK__Product__Type__0EF836A4" FromRole="Product" ToRole="ProductType" />
         </EntityType>
         <EntityType Name="Selling">
           <Key>
@@ -273,6 +306,7 @@
           <NavigationProperty Name="Selling" Relationship="TestDbModel.FK__Selling__Source__793DFFAF" FromRole="Source" ToRole="Selling" />
           <NavigationProperty Name="Article" Relationship="TestDbModel.FK__Article__Source__6D9742D9" FromRole="Source" ToRole="Article" />
           <Property Name="ImageName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__Selling__Image__5CD6CB2B">
           <End Type="TestDbModel.Image" Role="Image" Multiplicity="0..1">
@@ -361,6 +395,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ProductType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="TestDbModel.FK__Product__Type__0EF836A4" FromRole="ProductType" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Product__Type__0EF836A4">
+          <End Type="TestDbModel.ProductType" Role="ProductType" Multiplicity="0..1" />
+          <End Type="TestDbModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -389,6 +443,7 @@
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="TestDbModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="PreviousLow" ColumnName="PreviousLow" />
                 <ScalarProperty Name="CurrentLow" ColumnName="CurrentLow" />
                 <ScalarProperty Name="Views" ColumnName="Views" />
@@ -418,6 +473,7 @@
           <EntitySetMapping Name="Source">
             <EntityTypeMapping TypeName="TestDbModel.Source">
               <MappingFragment StoreEntitySet="Source">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
                 <ScalarProperty Name="ImageName" ColumnName="ImageName" />
                 <ScalarProperty Name="Domain" ColumnName="Domain" />
                 <ScalarProperty Name="SourceName" ColumnName="SourceName" />
@@ -433,6 +489,14 @@
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductType">
+            <EntityTypeMapping TypeName="TestDbModel.ProductType">
+              <MappingFragment StoreEntitySet="ProductType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
