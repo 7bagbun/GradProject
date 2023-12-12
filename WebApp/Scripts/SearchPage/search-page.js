@@ -82,7 +82,10 @@ const app = Vue.createApp({
             this.getItemData();
         },
         getItemData() {
-            $.get(`/item/search?query=${this.query}&cateId=${this.cateId}&page=${this.currentPage}`, data => {
+            let params = `?query=${this.query}&cateId=${this.cateId}&page=${this.currentPage}`;
+            window.history.replaceState(null, null, params);
+
+            $.get("/item/search" + params, data => {
                 this.list = data.products;
                 this.totalPages = data.totalPages;
             });

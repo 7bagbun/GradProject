@@ -32,11 +32,22 @@
     <div class="hero_area">
         <section class="slider_section">
             <div id="carousel" class="slider_container owl-carousel owl-theme carousel slide" data-ride="carousel">
-                <div class="item">
-                    <img src="~/Assets/Images/index-bg.png" alt="" />
+                <div class="item d-flex justify-content-center">
+                    <div>
+                        <a href="https://24h.pchome.com.tw/activity/1212">
+                            <img src="~/Assets/Images/page2.jpg" alt="pchome雙12活動" />
+                        </a>
+                    </div>
                 </div>
-                <div class="item">
-                    <img src="~/Assets/Images/index-bg2.png" alt="" />
+                <div class="item d-flex justify-content-center">
+                    <a href="https://www.momoshop.com.tw/edm/cmmedm.jsp?lpn=O6UiT1QJyFW">
+                        <img src="~/Assets/Images/page1.jpg" alt="momo雙12活動" />
+                    </a>
+                </div>
+                <div class="item d-flex justify-content-center">
+                    <div>
+                        <img src="~/Assets/Images/index-bg.png" alt="" />
+                    </div>
                 </div>
             </div>
         </section>
@@ -55,7 +66,7 @@
                 {
                     <a href="/item/list/@item.Product" class="box d-flex flex-column shadow-sm rounded-lg p-4 m-4 flex-fill" style="width: 300px">
                         <div class="text-center mb-3">
-                            <img class="rounded-lg" src="@Url.Action("get", "image", new { id = item.Image })" alt="Alternate Text" style="width: 200px;" />
+                            <img class="rounded-lg" src="@Url.Action("getCached", "image", new { id = item.Image })" style="width: 200px;" />
                         </div>
                         <div class="flex-grow-1 d-flex flex-column">
                             <div class="model flex-grow-1">

@@ -35,8 +35,10 @@ namespace Scraper
                 //Using price gap to filter out unwanted sellings
                 int pLow = (int)(p.RetailPrice * (1 - _price_interval));
                 int pHigh = (int)(p.RetailPrice * (1 + _price_interval));
-                string json = await RequestSellingData(p.Model, pLow, pHigh);
-                buffer.AddRange(await ParseData(p.Id, json));
+                string query = p.Brand.Split(' ')[1] + " " + p.Model;
+                string json = await RequestSellingData(query, pLow, pHigh);
+                var prods = await ParseData(p.Id, json);
+                buffer.AddRange(prods);
 
                 await Task.Delay(500);
             }
@@ -82,7 +84,7 @@ namespace Scraper
                     Price = price,
                     Link = obj["prod"][i].Value<string>("url").Substring(27),
                     Image1 = new Image()
-                    { 
+                    {
                         ImageContent = await imageBytes,
                         LowresImage = ImageHelper.DownsizeImage(await imageBytes),
                     },

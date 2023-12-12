@@ -1,26 +1,27 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Scraper.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using AngleSharp;
+using AngleSharp.Dom;
+using Scraper.Model;
+using System;
 
 namespace Scraper.ModelScraper
 {
-    internal class FridgeMs : IModelScraper
+    internal class PurifierMs : IModelScraper
     {
         private readonly IBrowsingContext _ctx;
         private readonly IBrandScraper[] _brands;
 
-        public FridgeMs(IBrowsingContext ctx)
+        public PurifierMs(IBrowsingContext ctx)
         {
             _ctx = ctx;
             _brands = new IBrandScraper[]
             {
-                new PanaFridge(),
+                new DysonPurifier(),
             };
         }
 
@@ -35,8 +36,8 @@ namespace Scraper.ModelScraper
 
             return list.ToArray();
         }
-
-        private class PanaFridge : IBrandScraper
+        
+        private class DysonPurifier : IBrandScraper
         {
             public async Task<Product[]> ParseModelData(IBrowsingContext ctx)
             {
@@ -47,7 +48,7 @@ namespace Scraper.ModelScraper
                 for (var i = 0; i < obj.Count; i++)
                 {
                     string name = obj[i].Value<string>("Name");
-                    string model = Regex.Match(name, @"(NR-[A-Z0-9]+-[A-Z0-9]+)|(NR-[A-Z0-9]+)").Value;
+                    string model = Regex.Match(name, @"[A-Z]{2}[A-Z0-9]{2}").Value;
 
                     if (model == string.Empty)
                     {
@@ -55,13 +56,12 @@ namespace Scraper.ModelScraper
                     }
 
                     var prod = new Product();
-                    prod.Brand = "國際 Panasonic";
-                    prod.ProductType = "冰箱";
+                    prod.Brand = "戴森 Dyson";
+                    prod.ProductType = "空氣清淨機";
+                    prod.Type = 8;
                     prod.Model = model;
                     prod.RetailPrice = obj[i]["Price"].Value<int>("P");
-                    prod.Token += Regex.Match(name, @"[\d\.]+((公升)|L)").Value.Replace("公升", "L") + " ";
-                    prod.Token += Regex.Match(name, @".門").Value + " ";
-                    prod.Token += Regex.Match(name, @"變頻").Value;
+                    prod.Token += name.IndexOf("甲醛偵測", StringComparison.OrdinalIgnoreCase) >= 0 ? "甲醛偵測" : "";
                     buffer[i] = prod;
                 }
 
@@ -70,7 +70,7 @@ namespace Scraper.ModelScraper
 
             public async Task<string> RequestModelData(IBrowsingContext ctx)
             {
-                string url = "https://ecapi-cdn.pchome.com.tw/cdn/ecshop/prodapi/v2/store/DPAC1T/prod" +
+                string url = "https://ecapi-cdn.pchome.com.tw/cdn/ecshop/prodapi/v2/store/DMAUCR/prod" +
                     "&offset=1&limit=36&fields=Name,Price&_callback=none";
                 var resp = await ctx.OpenAsync(url);
                 string json = resp.Body.Text();

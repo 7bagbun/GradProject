@@ -47,21 +47,28 @@ namespace WebApp.Controllers.Item
 
         public ActionResult CheckPrice()
         {
-            var prods = _db.Product.Include("TrackProduct").Where(x => x.CurrentLow < x.PreviousLow);
-
-            if (prods.Any())
+            try
             {
-                prods.ForEach(x =>
+                var prods = _db.Product.Include("TrackProduct").Where(x => x.CurrentLow < x.PreviousLow);
+
+                if (prods.Any())
                 {
-                    x.PreviousLow = x.CurrentLow;
-                });
+                    prods.ForEach(x =>
+                    {
+                        x.PreviousLow = x.CurrentLow;
+                    });
 
-                SendEmailNotification(prods);
+                    SendEmailNotification(prods);
 
-                _db.SaveChanges();
+                    _db.SaveChanges();
+                }
+
+                return Content("{\"msg\":\"執行成功\"}", "application/json");
             }
-
-            return new HttpStatusCodeResult(200);
+            catch (System.Exception ex)
+            {
+                return Content($"{{\"msg\":\"執行失敗：{ex.Message}\"}}", "application/json");
+            }
         }
 
         private void SendEmailNotification(IEnumerable<Product> prods)
@@ -74,7 +81,17 @@ namespace WebApp.Controllers.Item
 
             foreach (var item in prods)
             {
-                var addrs = _db.TrackProduct.Include("Follower").Where(x => x.Product == item.Id).Select(x => x.Member.Email).ToArray();
+                var addrs = _db.TrackProduct
+                               .Include("Follower")
+                               .Where(x => x.Product == item.Id)
+                               .Select(x => x.Member.Email)
+                               .ToArray();
+
+                if (!addrs.Any())
+                {
+                    continue;
+                }
+
                 string imgUrl = serverUrl + "image/get/" + _db.Selling.FirstOrDefault(x => x.Product == item.Id).Image;
                 string itemUrl = serverUrl + "item/list/" + item.Id;
                 string content = template;

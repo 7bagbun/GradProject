@@ -98,6 +98,7 @@
     <Compile Include="HttpHelper.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="ModelScraper\FridgeMs.cs" />
+    <Compile Include="ModelScraper\PurifierMs.cs" />
     <Compile Include="ModelScraper\TvMs.cs" />
     <Compile Include="ModelScraper\HairDryerMs.cs" />
     <Compile Include="ModelScraper\ModelScraperBase.cs" />

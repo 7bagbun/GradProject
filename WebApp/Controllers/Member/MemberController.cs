@@ -27,9 +27,9 @@ namespace WebApp.Controllers.Member
                 string msg = string.Empty;
                 bool dupeUsername = _db.Member.Any(m => m.Username == member.Username);
                 bool dupeEmail = _db.Member.Any(m => m.Email == member.Email);
-                bool noNonWordChar = System.Text.RegularExpressions.Regex.IsMatch(member.Username, @"\W");
+                bool nonWordChar = System.Text.RegularExpressions.Regex.IsMatch(member.Username, @"\W");
 
-                if (noNonWordChar || member.Username.Length < 1)
+                if (nonWordChar || member.Username.Length < 1)
                 {
                     msg = $"無效的帳號名稱，請嘗試其他名稱。";
                 }

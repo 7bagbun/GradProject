@@ -39,8 +39,11 @@
             <div class="navbar-collapse collapse w-100" id="navbar-collapse">
                 <ul class="navbar-nav w-100 justify-content-center">
                     <li class="nav-item active">
-                        <form action="/item/searchPage" method="get">
-                            <input id="query" type="text" name="query" class="form-control" placeholder="搜尋商品" />
+                        <form id="form-search" action="/item/searchPage" method="get">
+                            <div class="wrapper">
+                                <input id="query" type="text" name="query" class="form-control" placeholder="搜尋商品" />
+                                <i class="fa fa-search text-secondary cursor-pointer" onclick="search()"></i>
+                            </div>
                         </form>
                     </li>
                 </ul>
@@ -150,6 +153,7 @@
     <script src="~/Scripts/popper.min.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/Login/login-modal.js"></script>
+    <script src="~/Scripts/Index/search-bar.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>

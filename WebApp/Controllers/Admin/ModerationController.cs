@@ -1,5 +1,6 @@
 ﻿using Microsoft.Ajax.Utilities;
 using System;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
@@ -14,6 +15,7 @@ namespace WebApp.Controllers.Admin
         [HttpPost]
         public ActionResult SetSuspend(int id, bool state)
         {
+
             if (Session["admin"] == null)
             {
                 return new HttpStatusCodeResult(401);
@@ -52,7 +54,7 @@ namespace WebApp.Controllers.Admin
 
             return Content("{\"isSucceed\":true}", "application/json");
         }
-        
+
         [HttpPost]
         public ActionResult ShowComment(int commentId)
         {

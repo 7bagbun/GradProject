@@ -10,14 +10,25 @@ namespace Scraper
         public static byte[] DownsizeImage(byte[] imageBytes)
         {
             Image image;
+            int scale = 1;
 
             using (var ms = new MemoryStream(imageBytes))
             {
                 image = Image.FromStream(ms);
             }
 
-            int resH = image.Height / 3;
-            int resW = image.Width / 3;
+
+            if (image.Height > 900 || image.Width > 900)
+            {
+                scale = 3;
+            }
+            else if (image.Height > 500 || image.Width > 500)
+            {
+                scale = 2;
+            }
+
+            int resH = image.Height / scale;
+            int resW = image.Width / scale;
             
             var destRect = new Rectangle(0, 0, resW, resH);
             var destImage = new Bitmap(resW, resH);

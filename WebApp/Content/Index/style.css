@@ -21,6 +21,16 @@
     object-fit: cover;
 }
 
+.wrapper {
+    position: relative;
+}
+
+.wrapper > i {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+}
+
 /*end header section*/
 
 body {
@@ -254,7 +264,7 @@ body {
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
-    margin-top: 45px;
+    margin-top: 25px;
 }
 
     .shop_section .btn-box a {

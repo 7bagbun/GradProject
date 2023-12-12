@@ -4,6 +4,7 @@
 
 .card {
     margin-top: 5em;
+    background-color: #eceff4;
 }
 
 .tab {
@@ -150,3 +151,8 @@ p {
     width: 120px;
 }
 
+.product-image {
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+}

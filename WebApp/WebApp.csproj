@@ -236,6 +236,8 @@
     <Content Include="Assets\Images\index-bg.png" />
     <Content Include="Assets\Images\index-bg2.png" />
     <Content Include="Assets\Images\momo.png" />
+    <Content Include="Assets\Images\page1.jpg" />
+    <Content Include="Assets\Images\page2.jpg" />
     <Content Include="Assets\Images\pchome.png" />
     <Content Include="Assets\Images\pcstore.png" />
     <Content Include="Assets\Images\ptt.png" />
@@ -326,6 +328,7 @@
     <Content Include="Content\Index\style.css.map" />
     <Content Include="Content\Index\style.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Index\search-bar.js" />
     <Content Include="Scripts\ItemList\comments.js" />
     <Content Include="Scripts\ItemList\image-list.js" />
     <Content Include="Scripts\ItemList\load-article.js" />

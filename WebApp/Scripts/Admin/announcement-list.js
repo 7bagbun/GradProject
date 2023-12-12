@@ -63,7 +63,7 @@ function displayNews(news) {
         el.attr("onclick", `displayNewsDetail(${i})`);
         el.find("small").text(days);
         el.find("h5").text(news[i].Title);
-        el.find("p").text(addLink(news[i].Content));
+        el.find("p").text(removeTag(news[i].Content));
     }
 }
 
@@ -84,7 +84,7 @@ function displayNewsDetail(i) {
     el.find(".news-title").text(newsJson[i].Title);
     el.find(".news-date").text(newsJson[i].CreatedDate);
     el.find(".news-type").text(type);
-    el.find(".news-content").html(removeTag(newsJson[i].Content));
+    el.find(".news-content").html(addLink(newsJson[i].Content));
 }
 
 function setPagination(pages) {

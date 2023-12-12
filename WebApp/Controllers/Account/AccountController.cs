@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Remoting;
 using System.Web.Mvc;
@@ -12,6 +13,17 @@ namespace WebApp.Controllers.Account
 
         public ActionResult LoginPage(string referer)
         {
+            if (Session["userId"] != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            //prevent redirect to another domain
+            if (referer.Contains("https://") || referer.Contains("http://"))
+            {
+                referer = "";
+            }
+
             ViewBag.Referer = referer;
             return View();
         }

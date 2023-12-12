@@ -35,7 +35,8 @@ namespace Scraper
                 //new HairDryerMs(_ctx),
                 //new FridgeMs(_ctx),
                 //new WashMachineMS(_ctx),
-                new TvMs(_ctx),
+                //new TvMs(_ctx),
+                new PurifierMs(_ctx),
             };
         }
 

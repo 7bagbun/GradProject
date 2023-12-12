@@ -6,6 +6,9 @@
 
 <div id="list" class="container">
     <div class="row title-row no-hl">
+        <div class="col">
+            商品縮圖
+        </div>
         <div class="col justify-content-center d-flex align-items-center">
             型號
         </div>
@@ -18,6 +21,9 @@
         foreach (var item in Model.TrackProduct)
         {
             <div class="row data-row align-items-center">
+                <div class="col">
+                    <img class="rounded-lg product-image" src="@Url.Action("getByModel", "image", new { model = item.Product1.Model })" alt="" />
+                </div>
                 <div class="col text-left">
                     <span>
                         <a class="align-middle" href="/item/list/@item.Product">@item.Product1.Brand @item.Product1.ProductType @item.Product1.Model</a>
