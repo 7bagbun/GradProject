@@ -81,29 +81,18 @@
                 </div>
                 <div class="col-xl-6">
                     <div class="form-group">
-                        <label class="form-text">信箱驗證</label>
-                        @if (Model.Member.Verified)
+                        <label class="form-text">會員狀態</label>
+                        @if (Model.Member.Suspended)
+                        {
+                            <div class="form-control false"><i class="fas fa-exclamation-triangle"></i> 已停權</div>
+                        }
+                        else if (Model.Member.Verified)
                         {
                             <div class="form-control true"><i class="far fa-check-circle"></i> 已驗證</div>
                         }
                         else
                         {
                             <div class="form-control false"><i class="far fa-times-circle"></i> 未驗證</div>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="form-group">
-                        <label class="form-text">會員狀態</label>
-                        @if (Model.Member.Suspended)
-                        {
-                            <div class="form-control false"><i class="fas fa-exclamation-triangle"></i> 已停權</div>
-                        }
-                        else
-                        {
-                            <div class="form-control true"><i class="far fa-check-circle"></i> 已啟用</div>
                         }
                     </div>
                 </div>
@@ -121,6 +110,65 @@
                         else
                         {
                             <button class="form-control btn btn-danger" onclick="suspendMember(@Model.Member.Id)">停權會員</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="section p-3">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5 class="m-0">會員統計資料</h5>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">否決的檢舉數</label>
+                        @if (Model.FalseReports >= 3)
+                        {
+                            <input class="form-control false" type="text" name="username" disabled value="@Model.FalseReports" />
+                        }
+                        else
+                        {
+                            <input class="form-control" type="text" name="username" disabled value="@Model.FalseReports" />
+                        }
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">通過的檢舉數</label>
+                        <input class="form-control" type="text" name="username" disabled value="@Model.ValidReports">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">違規次數</label>
+                        @if (Model.Violations >= 3)
+                        {
+                            <input class="form-control false" type="text" name="username" disabled value="@Model.Violations">
+                        }
+                        else
+                        {
+                            <input class="form-control" type="text" name="username" disabled value="@Model.Violations">
+                        }
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">最後登入紀錄</label>
+                        @if (Model.LoginRecord != null)
+                        {
+                            <input class="form-control" type="text" name="username" disabled value="@Model.LoginRecord.LoginTime @Model.LoginRecord.IP" />
+                        }
+                        else
+                        {
+                            <input class="form-control" type="text" name="username" disabled value="目前沒有紀錄" />
                         }
                     </div>
                 </div>

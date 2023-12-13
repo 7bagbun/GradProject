@@ -48,6 +48,10 @@ namespace WebApp.Controllers.Admin
                 Member = target,
                 Comments = _db.Comment.Where(x => x.Author == id).OrderByDescending(x => x.CreatedDate).Take(10).ToArray(),
                 TrackProducts = _db.TrackProduct.Where(x => x.Follower == id).OrderByDescending(x => x.FollowTime).Take(10).ToArray(),
+                ValidReports = _db.ReportComment.Where(x => x.ReportMember == id && x.Status == "a").Count(),
+                FalseReports = _db.ReportComment.Where(x => x.ReportMember == id && x.Status == "r").Count(),
+                Violations = _db.ReportComment.Where(x => x.Comment1.Author == id && x.Status == "a").Count(),
+                LoginRecord = _db.LoginRecord.OrderByDescending(x => x.LoginTime).FirstOrDefault(x => x.Member == id)
             };
 
             return View(vm);
@@ -88,7 +92,7 @@ namespace WebApp.Controllers.Admin
         {
             return View();
         }
-        
+
         public ActionResult CommentDetail(int id)
         {
             var target = _db.Comment.FirstOrDefault(x => x.Id == id);

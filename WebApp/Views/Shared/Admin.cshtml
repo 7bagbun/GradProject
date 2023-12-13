@@ -36,8 +36,13 @@
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="" aria-label="Search" style="display:none">
-        <ul class="navbar-nav px-3">
+        <ul class="nav navbar-nav flex-row justify-content-end px-3">
+            @if (Session["admin"] != null)
+            {
+                <li class="nav-item text-nowrap mr-4">
+                    <span class="navbar-text">您好，@Session["user"]</span>
+                </li>
+            }
             <li class="nav-item text-nowrap">
                 <a class="nav-link" href="/account/logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
             </li>

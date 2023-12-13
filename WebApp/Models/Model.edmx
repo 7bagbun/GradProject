@@ -36,6 +36,15 @@
           <Property Name="ImageContent" Type="image" Nullable="false" />
           <Property Name="LowresImage" Type="image" />
         </EntityType>
+        <EntityType Name="LoginRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Member" Type="int" Nullable="false" />
+          <Property Name="LoginTime" Type="datetime" Nullable="false" />
+          <Property Name="IP" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="Id" />
@@ -183,6 +192,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__LoginReco__Membe__23F3538A">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="LoginRecord" Type="Self.LoginRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LoginRecord">
+              <PropertyRef Name="Member" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Member__ProfileP__32767D0B">
           <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
           <End Role="Member" Type="Self.Member" Multiplicity="*" />
@@ -309,6 +330,7 @@
           <EntitySet Name="Article" EntityType="Self.Article" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LoginRecord" EntityType="Self.LoginRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PriceHistory" EntityType="Self.PriceHistory" Schema="dbo" store:Type="Tables" />
@@ -333,6 +355,10 @@
           <AssociationSet Name="FK__Comment__Product__3F115E1A" Association="Self.FK__Comment__Product__3F115E1A">
             <End Role="Product" EntitySet="Product" />
             <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LoginReco__Membe__23F3538A" Association="Self.FK__LoginReco__Membe__23F3538A">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="LoginRecord" EntitySet="LoginRecord" />
           </AssociationSet>
           <AssociationSet Name="FK__Member__ProfileP__32767D0B" Association="Self.FK__Member__ProfileP__32767D0B">
             <End Role="Image" EntitySet="Image" />
@@ -448,6 +474,11 @@
             <End Role="ProductType" EntitySet="ProductType" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
+          <EntitySet Name="LoginRecord" EntityType="TestDbModel.LoginRecord" />
+          <AssociationSet Name="FK__LoginReco__Membe__23F3538A" Association="TestDbModel.FK__LoginReco__Membe__23F3538A">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="LoginRecord" EntitySet="LoginRecord" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Comment">
           <Key>
@@ -492,6 +523,7 @@
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
           <Property Name="Suspended" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ReportComment" Relationship="TestDbModel.FK__ReportCom__Repor__047AA831" FromRole="Member" ToRole="ReportComment" />
+          <NavigationProperty Name="LoginRecord" Relationship="TestDbModel.FK__LoginReco__Membe__23F3538A" FromRole="Member" ToRole="LoginRecord" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -777,6 +809,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LoginRecord">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Member" Type="Int32" Nullable="false" />
+          <Property Name="LoginTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IP" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Member1" Relationship="TestDbModel.FK__LoginReco__Membe__23F3538A" FromRole="LoginRecord" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK__LoginReco__Membe__23F3538A">
+          <End Type="TestDbModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="TestDbModel.LoginRecord" Role="LoginRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LoginRecord">
+              <PropertyRef Name="Member" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -921,6 +975,16 @@
             <EntityTypeMapping TypeName="TestDbModel.ProductType">
               <MappingFragment StoreEntitySet="ProductType">
                 <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoginRecord">
+            <EntityTypeMapping TypeName="TestDbModel.LoginRecord">
+              <MappingFragment StoreEntitySet="LoginRecord">
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="LoginTime" ColumnName="LoginTime" />
+                <ScalarProperty Name="Member" ColumnName="Member" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

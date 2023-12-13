@@ -14,6 +14,7 @@ namespace Scraper
     internal class SellingScraper
     {
         private readonly TestDb _db = new TestDb();
+        private readonly object _locker = new object();
         private readonly IBrowsingContext _browser;
         private readonly ISellingScraper[] _scrapers;
 
@@ -24,9 +25,9 @@ namespace Scraper
             _browser = BrowsingContext.New(cfg);
             _scrapers = new ISellingScraper[]
             {
-                new PcstoreScraper(_browser, prods, _db),
-                new PchomeScraper(_browser, prods, _db),
-                new MomoScraper(prods, _db),
+                new PcstoreScraper(_browser, prods),
+                new PchomeScraper(_browser, prods),
+                new MomoScraper(prods),
             };
         }
 
@@ -37,9 +38,9 @@ namespace Scraper
             _browser = BrowsingContext.New(cfg);
             _scrapers = new ISellingScraper[]
             {
-                new PcstoreScraper(_browser, prods, _db),
-                new PchomeScraper(_browser, prods, _db),
-                new MomoScraper(prods, _db),
+                new PcstoreScraper(_browser, prods),
+                new PchomeScraper(_browser, prods),
+                new MomoScraper(prods),
             };
         }
 
@@ -49,7 +50,10 @@ namespace Scraper
             var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
             {
                 var sellings = await _scrapers[i].Scrape();
-                _db.Selling.AddRange(sellings);
+                lock (_locker)
+                {
+                    _db.Selling.AddRange(sellings);
+                }
             });
 
             await Task.WhenAll(tasks);
@@ -62,7 +66,10 @@ namespace Scraper
             var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
             {
                 var sellings = await _scrapers[i].Scrape();
-                _db.Selling.AddRange(sellings);
+                lock (_locker)
+                {
+                    _db.Selling.AddRange(sellings);
+                }
             });
 
             await Task.WhenAll(tasks);
@@ -102,7 +109,7 @@ namespace Scraper
 
             if (isCheaper)
             {
-                await HttpHelper.SendRequest("http://localhost:43369/priceHistory/checkPrice");
+                await HttpHelper.SendRequest("https://ilha.imd.pccu.edu.tw/priceHistory/checkPrice");
             }
         }
 

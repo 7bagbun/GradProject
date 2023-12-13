@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="TestDbModel.PriceHistory" Width="1.5" PointX="4.5" PointY="3.625" />
         <EntityTypeShape EntityType="TestDbModel.Product" Width="1.5" PointX="2.25" PointY="3.375" />
         <EntityTypeShape EntityType="TestDbModel.Selling" Width="1.5" PointX="6.375" PointY="3.25" />
-        <EntityTypeShape EntityType="TestDbModel.Source" Width="1.5" PointX="7.25" PointY="0.875" />
+        <EntityTypeShape EntityType="TestDbModel.Source" Width="1.5" PointX="7" PointY="0.625" />
         <AssociationConnector Association="TestDbModel.FK__Selling__Image__5CD6CB2B" />
         <AssociationConnector Association="TestDbModel.FK__PriceHist__Produ__76619304" />
         <AssociationConnector Association="TestDbModel.FK__Selling__Product__7849DB76" />

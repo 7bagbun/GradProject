@@ -21,6 +21,13 @@
     .tag {
         width: 70px;
     }
+
+    .content {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 400px;
+    }
 </style>
 
 <div>
@@ -92,14 +99,14 @@
                         <td>@(i++)</td>
                         <td><a href="/admin/editMember/@item.Member.Id">@item.Member.Username</a></td>
                         <td>@item.Rating</td>
-                        <td>@item.Content</td>
+                        <td class="content">@item.Content</td>
                         <td>@item.CreatedDate</td>
                         <td>
                             <div class="dropdown show text-right">
                                 <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="/item/list/@item.Product?tab=comment">查看評論</a>
-                                    <div class="dropdown-item text-danger cursor-pointer" onclick="deleteComment(@item.Id)">刪除評論</div>
+                                    <div class="dropdown-item text-danger cursor-pointer" onclick="hideComment(@item.Id)">隱藏評論</div>
                                 </div>
                             </div>
                         </td>

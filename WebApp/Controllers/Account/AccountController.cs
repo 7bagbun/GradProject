@@ -54,9 +54,11 @@ namespace WebApp.Controllers.Account
                 if (target.IsAdmin)
                 {
                     Session["admin"] = true;
+                    RecordLogin(target.Id, Request.UserHostAddress);
                     return Json(new { result = true, msg = "登入成功", admin = true, redirUrl = "/admin/dashboard" });
                 }
 
+                RecordLogin(target.Id, Request.UserHostAddress);
                 return Json(new { result = true, msg = "登入成功", referer });
             }
             catch (Exception)
@@ -64,6 +66,7 @@ namespace WebApp.Controllers.Account
                 return new HttpStatusCodeResult(500);
             }
         }
+
         public ActionResult Logout()
         {
             Session["userId"] = null;
@@ -176,6 +179,12 @@ namespace WebApp.Controllers.Account
             {
                 return Content("{\"isLogin\":false}", "application/json");
             }
+        }
+
+        private void RecordLogin(int id, string ip)
+        {
+            _db.LoginRecord.Add(new LoginRecord { Member = id, IP = ip, LoginTime = DateTime.Now });
+            _db.SaveChanges();
         }
     }
 }

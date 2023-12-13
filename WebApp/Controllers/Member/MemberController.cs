@@ -131,6 +131,7 @@ namespace WebApp.Controllers.Member
                 Session["userId"] = target.Id;
                 Session["user"] = target.Username;
 
+                RecordLogin(target.Id, Request.UserHostAddress);
                 return RedirectToAction("Succeed", "Redirect", new { msg = "已成功驗證信箱，" });
             }
             catch (Exception)
@@ -205,6 +206,12 @@ namespace WebApp.Controllers.Member
             _db.SaveChanges();
 
             return Content("{\"isSucceed\":true}");
+        }
+
+        private void RecordLogin(int id, string ip)
+        {
+            _db.LoginRecord.Add(new LoginRecord { Member = id, IP = ip, LoginTime = DateTime.Now });
+            _db.SaveChanges();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Scraper
             }
             catch (Exception ex)
             {
-                await Console.Out.WriteLineAsync(ex.Message);
+                await Console.Error.WriteLineAsync(ex.Message);
                 return false;
             }
         }
@@ -40,7 +40,7 @@ namespace Scraper
             }
             catch (Exception ex)
             {
-                await Console.Out.WriteLineAsync(ex.Message);
+                await Console.Error.WriteLineAsync(ex.Message);
                 return new byte[0];
             }
         }

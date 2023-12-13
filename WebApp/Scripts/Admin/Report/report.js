@@ -30,12 +30,14 @@
             let report = this.selectedReport;
 
             if (decision) {
-                $.post("/moderation/resolveReport", { commentId: report.commentId, approve: true });
+                $.post("/moderation/resolveReport", { commentId: report.commentId, approve: true }, data => {
+                    this.getReport();
+                });
             } else {
-                $.post("/moderation/resolveReport", { commentId: report.commentId, approve: false });
+                $.post("/moderation/resolveReport", { commentId: report.commentId, approve: false }, data => {
+                    this.getReport();
+                });
             }
-
-            this.getReport();
         }
     },
     computed: {

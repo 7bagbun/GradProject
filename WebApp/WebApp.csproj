@@ -168,6 +168,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DashboardViewModel.cs" />
+    <Compile Include="Models\LoginRecord.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PriceHistoryModel.cs" />
     <Compile Include="Models\MemberViewModel.cs" />
     <Compile Include="Models\ProductType.cs">

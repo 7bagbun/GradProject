@@ -17,11 +17,9 @@ namespace Scraper
 
         private readonly Product[] _prods;
         private readonly IBrowsingContext _browser;
-        private readonly TestDb _db;
 
-        public PchomeScraper(IBrowsingContext ctx, Product[] prods, TestDb db)
+        public PchomeScraper(IBrowsingContext ctx, Product[] prods)
         {
-            _db = db;
             _browser = ctx;
             _prods = prods;
         }

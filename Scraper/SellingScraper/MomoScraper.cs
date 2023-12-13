@@ -15,12 +15,10 @@ namespace Scraper
         private const int _source_id = 5;
 
         private readonly Product[] _prods;
-        private readonly TestDb _db;
         private static HttpClient _client;
 
-        public MomoScraper(Product[] prods, TestDb db)
+        public MomoScraper(Product[] prods)
         {
-            _db = db;
             _client = new HttpClient();
             _prods = prods;
         }
