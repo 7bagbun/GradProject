@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace WebApp.Controllers.Item
 {
@@ -33,7 +34,7 @@ namespace WebApp.Controllers.Item
 
             ViewBag.ProductId = product.Id;
             ViewBag.UpdatedTime = product.PriceHistory.OrderByDescending(x => x.UpdatedTime).FirstOrDefault(x => x.Product == id).UpdatedTime;
-            ViewBag.Image = product.Selling.FirstOrDefault(x => x.Product == id).Image;
+            ViewBag.Image = product.Selling.FirstOrDefault(x => x.Product == id)?.Image ?? 0;
             ViewBag.Model = product.Model;
             ViewBag.Brand = product.Brand;
             ViewBag.Type = product.ProductType;
@@ -108,33 +109,34 @@ namespace WebApp.Controllers.Item
         public ActionResult Search(string query, int cateId = 0, int page = 1)
         {
             query = query ?? "";
+            query = query.Trim();
+            var multiQuery = query.Split(' ');
             var result = Enumerable.Empty<Product>();
-            page = --page < 0 ? 0 : page * 20;
+
+            page = --page < 1 ? 1 : page * 20;
+
 
             if (cateId > 1)
             {
-                result = _db.Product.Include("Selling")
-                    .Where(x => x.Type == cateId)
-                    .Where(x => x.Selling.FirstOrDefault() != null)
-                    .Where(x =>
-                        x.Model.Contains(query) ||
-                        x.Brand.Contains(query) ||
-                        x.ProductType.Contains(query) ||
-                        x.Token.Contains(query));
+                result = _db.Product.Where(x => x.Selling.FirstOrDefault() != null && x.Type == cateId);
             }
             else
             {
-                result = _db.Product.Include("Selling")
-                    .Where(x => x.Selling.FirstOrDefault() != null)
-                    .Where(x =>
-                        x.Model.Contains(query) ||
-                        x.Brand.Contains(query) ||
-                        x.ProductType.Contains(query) ||
-                        x.Token.Contains(query));
+                result = _db.Product.Where(x => x.Selling.FirstOrDefault() != null);
+            }
+
+            foreach (var item in multiQuery)
+            {
+                result = result.Where(x =>
+                                   x.Model.Contains(item) ||
+                                   x.Brand.Contains(item) ||
+                                   x.ProductType.Contains(item) ||
+                                   (x.Token?.Contains(item) ?? false));
             }
 
             int totalPages = (int)Math.Ceiling((double)result.Count() / 20);
-            result = result.Skip(page).Take(20);
+            totalPages = totalPages < 1 ? 1 : totalPages;
+            result = result.Skip(page - 1).Take(20);
 
             var obj = result.Select(x => new
             {

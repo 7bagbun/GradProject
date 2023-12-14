@@ -239,11 +239,13 @@
     <Content Include="Assets\Images\index-bg.png" />
     <Content Include="Assets\Images\index-bg2.png" />
     <Content Include="Assets\Images\momo.png" />
+    <Content Include="Assets\Images\no-image.png" />
     <Content Include="Assets\Images\page1.jpg" />
     <Content Include="Assets\Images\page2.jpg" />
     <Content Include="Assets\Images\pchome.png" />
     <Content Include="Assets\Images\pcstore.png" />
     <Content Include="Assets\Images\ptt.png" />
+    <Content Include="Assets\Images\report.png" />
     <Content Include="Content\Admin\layout.css" />
     <Content Include="Content\Index\style.css" />
     <Content Include="Content\shared.css" />

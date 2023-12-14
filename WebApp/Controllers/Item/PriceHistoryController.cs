@@ -39,7 +39,7 @@ namespace WebApp.Controllers.Item
                 index++;
             });
 
-            var config = new JsonSerializerSettings() { DateFormatString = "yyyy/MM/dd hh:mm:ss" };
+            var config = new JsonSerializerSettings() { DateFormatString = "yyyy/MM/dd hh:mm" };
             string json = JsonConvert.SerializeObject(diff, config);
 
             return Content(json, "application/json");

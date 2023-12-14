@@ -39,11 +39,11 @@ const app = Vue.createApp({
 
             if (this.priceOrderDesc) {
                 this.list.sort((a, b) => {
-                    return a.price - b.price;
+                    return b.price - a.price;
                 });
             } else {
                 this.list.sort((a, b) => {
-                    return b.price - a.price;
+                    return a.price - b.price;
                 });
             }
 
@@ -51,7 +51,7 @@ const app = Vue.createApp({
         },
         sortByViews() {
             this.list.sort((a, b) => {
-                return a.popularity - b.popularity;
+                return b.popularity - a.popularity;
             });
 
             this.sortMethod = 1;
@@ -66,6 +66,7 @@ const app = Vue.createApp({
             this.cateId = type;
             this.resetCurrentPage();
             this.getItemData();
+
         },
         onPageNextClick() {
             if (++this.currentPage > this.totalPages) {
@@ -117,6 +118,16 @@ const app = Vue.createApp({
                 return "btn-primary";
             } else {
                 return "btn-outline-primary";
+            }
+        }
+    },
+    watch: {
+        list() {
+            if (this.sortMethod == 0) {
+                this.sortMethod = -1;
+                this.sortByPrice();
+            } else if (this.sortMethod == 1) {
+                this.sortByViews();
             }
         }
     },

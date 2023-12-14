@@ -23,7 +23,7 @@ function chartInit(data) {
         tooltip: {
             trigger: "item",
             formatter: (params) => {
-                return `售價: ${formatter.format(params.data.Price)} 日期: ${params.data.UpdatedTime}`
+                return `售價: NT$${formatter.format(params.data.Price)}<br>日期: ${params.data.UpdatedTime}`
             }
         },
         dataset: {
@@ -33,7 +33,8 @@ function chartInit(data) {
             type: "category",
         },
         yAxis: {
-            type: "value"
+            type: "value",
+            minInterval: 100,
         },
         series: [
             {

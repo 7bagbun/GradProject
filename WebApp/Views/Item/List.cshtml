@@ -37,18 +37,20 @@
 
 <div class="container item-header">
     <div class="row">
-        <div class="col">
-            <h2 id="title">@($"{ViewBag.Brand} {ViewBag.Model} {ViewBag.Type} ")價格列表</h2>
+        <div class="col-lg">
+            <div class="d-flex align-items-center">
+                <h2 id="title" class="d-inline-block mr-4">@($"{ViewBag.Brand} {ViewBag.Model} {ViewBag.Type} ")價格列表</h2>
+                <button class="btn btn-danger" onclick="track(@ViewBag.ProductId)" style="min-width:80px">
+                    <i id="follow" class="far fa-heart follow"> 追蹤</i>
+                </button>
+            </div>
             <p class="text-muted">更新於 @ViewBag.UpdatedTime</p>
-            <button class="d-block btn btn-danger mb-4" onclick="track(@ViewBag.ProductId)">
-                <i id="follow" class="far fa-heart follow"> 追蹤</i>
-            </button>
-            <a class="" href="@Url.Action("get", "image", new { id = ViewBag.Image })" target="_blank">
+            <a class="d-block text-center" href="@Url.Action("get", "image", new { id = ViewBag.Image })" target="_blank">
                 <img src="@Url.Action("get", "image", new { id = ViewBag.Image })" class="image"
-                     style="max-width:200px" />
+                     style="max-width:250px" />
             </a>
         </div>
-        <div class="col d-flex justify-content-center">
+        <div class="col-lg d-flex justify-content-center">
             <div id="main" style="width: 600px;height:400px;"></div>
         </div>
     </div>
