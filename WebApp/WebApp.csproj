@@ -238,6 +238,7 @@
     <Content Include="Assets\Images\drag-img.png" />
     <Content Include="Assets\Images\index-bg.png" />
     <Content Include="Assets\Images\index-bg2.png" />
+    <Content Include="Assets\Images\logo.png" />
     <Content Include="Assets\Images\momo.png" />
     <Content Include="Assets\Images\no-image.png" />
     <Content Include="Assets\Images\page1.jpg" />
