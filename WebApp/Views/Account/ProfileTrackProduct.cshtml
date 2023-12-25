@@ -6,6 +6,9 @@
 
 <div id="list" class="container">
     <div class="row title-row no-hl">
+        <div class="col">
+            商品縮圖
+        </div>
         <div class="col justify-content-center d-flex align-items-center">
             型號
         </div>
@@ -13,25 +16,32 @@
         </div>
     </div>
     <hr />
-    @foreach (var item in Model.TrackProduct)
+    @if (Model.TrackProduct.Count() > 0)
     {
-        <div class="row data-row align-items-center">
-            <div class="col text-left">
-                <span>
-                    <a class="align-middle" href="/item/list/@item.Product">@item.Product1.Brand @item.Product1.ProductType @item.Product1.Model</a>
-                </span>
+        foreach (var item in Model.TrackProduct)
+        {
+            <div class="row data-row align-items-center">
+                <div class="col">
+                    <img class="rounded-lg product-image" src="@Url.Action("getByModel", "image", new { model = item.Product1.Model })" alt="" />
+                </div>
+                <div class="col text-left">
+                    <span>
+                        <a class="align-middle" href="/item/list/@item.Product">@item.Product1.Brand @item.Product1.ProductType @item.Product1.Model</a>
+                    </span>
+                </div>
+                <div class="col text-right">
+                    <button class="btn btn-danger" onclick="untrackItem(@item.Product)">取消追蹤</button>
+                </div>
             </div>
-            <div class="col text-right">
-                <button class="btn btn-danger" onclick="untrackItem(@item.Product)">取消追蹤</button>
-            </div>
-        </div>
-    }
+        }
 
-    @if (Model.TrackProduct.Count() < 1)
+    }
+    else
     {
         <div class="row d-flex align-items-center">
-            <div class="col text-muted text-center">
-                <h3>沒有正在追蹤的商品，透過搜尋找出喜歡的東西吧。</h3>
+            <div class="col my-5 text-muted text-center">
+                <h3 class="mb-0">沒有正在追蹤的商品。</h3>
+                <p class="text-sm-center">透過搜尋找出喜歡的東西吧</p>
             </div>
         </div>
     }

@@ -14,32 +14,33 @@
         </div>
     </div>
     <hr />
-    @foreach (var item in Model.Comment)
+    @if (Model.Comment.Count() > 0)
     {
-        <div class="row data-row align-items-center">
-            <div class="col star-rating">@item.Rating</div>
-            <div class="col text-left">
-                @item.Content
-            </div>
-            <div class="col text-right">
-                <div class="dropdown show">
-                    <i id="dropdown" class="fas fa-ellipsis-h text-secondary dropdown" data-toggle="dropdown" style="font-size:20px"></i>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/item/list/@item.Product?tab=comment">查看留言</a>
-                        <a class="dropdown-item text-danger" onclick="deleteComment(@item.Id)">刪除留言</a>
+        foreach (var item in Model.Comment)
+        {
+            <div class="row data-row align-items-center">
+                <div class="col star-rating">@item.Rating</div>
+                <div class="col text-left">
+                    @item.Content
+                </div>
+                <div class="col text-right">
+                    <div class="dropdown show">
+                        <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer" data-toggle="dropdown"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/item/list/@item.Product?tab=comment">查看留言</a>
+                            <a class="dropdown-item cursor-pointer text-danger" onclick="deleteComment(@item.Id)">刪除留言</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     }
-
-    @if (Model.Comment.Count() < 1)
+    else
     {
         <div class="row d-flex align-items-center">
             <div class="col text-muted text-center">
-                <h3>沒有評論紀錄。</h3>
+                <h3 class="my-5">沒有評論紀錄。</h3>
             </div>
         </div>
-
     }
 </div>

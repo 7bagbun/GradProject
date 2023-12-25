@@ -7,6 +7,25 @@ namespace Scraper
 {
     internal static class HttpHelper
     {
+        public static async Task<bool> SendRequest(string url)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    var msg = new HttpRequestMessage(HttpMethod.Post, url);
+                    var resp = await client.SendAsync(msg);
+
+                    return resp.IsSuccessStatusCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                await Console.Error.WriteLineAsync(ex.Message);
+                return false;
+            }
+        }
+
         public static async Task<byte[]> DownloadImageBytesAsync(string url)
         {
             try
@@ -21,8 +40,8 @@ namespace Scraper
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                throw;
+                await Console.Error.WriteLineAsync(ex.Message);
+                return new byte[0];
             }
         }
 

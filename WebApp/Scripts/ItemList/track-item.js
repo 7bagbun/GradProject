@@ -2,8 +2,8 @@
 
 function track(pid) {
     $.ajax({
-        type: 'POST',
-        url: '/trackItem/trackAjax',
+        type: "POST",
+        url: "/trackItem/trackAjax",
         async: true,
         data: {
             productId: pid
@@ -12,7 +12,7 @@ function track(pid) {
             if (data.isSucceed) {
                 updateBtnText(pid);
             } else {
-                window.location = data.redirUrl;
+                window.location = "/account/loginPage?referer=" + data.referer;
             }
         },
         error: (err) => {
@@ -23,7 +23,7 @@ function track(pid) {
 
 function updateBtnText(pid) {
     $.ajax({
-        type: 'GET',
+        type: "GET",
         url: `/trackitem/trackstatusajax?productId=${pid}`,
         async: true,
         success: (data) => {

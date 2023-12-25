@@ -1,0 +1,124 @@
+﻿@model WebApp.Models.DashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.Active = "db";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@section scripts {
+    <script src="~/Scripts/Admin/comment-list.js"></script>
+}
+
+<style>
+    .section {
+        background-color: #ECEFF4;
+        padding: 1em;
+        border-radius: 3px;
+        box-shadow: 2px 2px 5px #999;
+    }
+
+    .tag {
+        width: 70px;
+    }
+
+    .content {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 400px;
+    }
+</style>
+
+<div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>
+    <hr />
+
+    <div class="row m-0 justify-content-around">
+        <a class="col-xl-2 col-lg-3 col-sm-5 section mb-3 text-decoration-none" href="/admin/memberList">
+            <div class="row">
+                <div class="col-xl-6 d-flex justify-content-center align-items-center">
+                    <img class="pfp" src="~/Assets/Images/default-pfp.png" alt="" />
+                </div>
+                <div class="col-xl-6">
+                    <h5>總會員數</h5>
+                    <h3>@ViewBag.MemberCount</h3>
+                </div>
+            </div>
+        </a>
+        <a class="col-xl-2 col-lg-3 col-sm-5 section mb-3 text-decoration-none" href="/admin/commentList">
+            <div class="row">
+                <div class="col-xl-6 d-flex justify-content-center align-items-center">
+                    <img class="tag" src="~/Assets/Images/comment.png" alt="" />
+                </div>
+                <div class="col-xl-6">
+                    <h5>總評論數</h5>
+                    <h3>@ViewBag.CommentCount</h3>
+                </div>
+            </div>
+        </a>
+        <a class="col-xl-2 col-lg-3 col-sm-5 section mb-3 text-decoration-none" href="/admin/reportList">
+            <div class="row">
+                <div class="col-xl-6 d-flex justify-content-center align-items-center">
+                    <img class="tag" src="~/Assets/Images/report.png" alt="" />
+                </div>
+                <div class="col-xl-6">
+                    <h5>檢舉案件</h5>
+                    <h3>@ViewBag.ReportCount</h3>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <hr />
+
+    <div>
+        <h5 class="mb-4">近期10則評論</h5>
+
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>No.</th>
+                    <th>使用者</th>
+                    <th>評分</th>
+                    <th>內容</th>
+                    <th>發布日期</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @if (Model.Comments.Count() > 0)
+            {
+                int i = 1;
+                foreach (var item in Model.Comments)
+                {
+                    <tr>
+                        <td>@(i++)</td>
+                        <td><a href="/admin/editMember/@item.Member.Id">@item.Member.Username</a></td>
+                        <td>@item.Rating</td>
+                        <td class="content">@item.Content</td>
+                        <td>@item.CreatedDate</td>
+                        <td>
+                            <div class="dropdown show text-right">
+                                <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/item/list/@item.Product?tab=comment">查看評論</a>
+                                    <div class="dropdown-item text-danger cursor-pointer" onclick="hideComment(@item.Id)">隱藏評論</div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-center text-muted" colspan="6" style="font-size:3em">尚無評論紀錄。</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

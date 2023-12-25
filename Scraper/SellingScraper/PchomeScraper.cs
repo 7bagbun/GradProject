@@ -15,27 +15,28 @@ namespace Scraper
         private const float _price_interval = 0.15f;
         private const int _source_id = 2;
 
+        private readonly Product[] _prods;
         private readonly IBrowsingContext _browser;
-        private readonly TestDb _db;
 
-        public PchomeScraper(IBrowsingContext ctx, TestDb db)
+        public PchomeScraper(IBrowsingContext ctx, Product[] prods)
         {
             _browser = ctx;
-            _db = db;
+            _prods = prods;
         }
 
         public async Task<Selling[]> Scrape()
         {
-            var prods = _db.Product.ToArray();
             var buffer = new List<Selling>();
 
-            foreach (var p in prods)
+            foreach (var p in _prods)
             {
                 //Using price gap to filter out unwanted sellings
                 int pLow = (int)(p.RetailPrice * (1 - _price_interval));
                 int pHigh = (int)(p.RetailPrice * (1 + _price_interval));
-                string json = await RequestSellingData(p.Model, pLow, pHigh);
-                buffer.AddRange(await ParseData(p.Model, json));
+                string query = p.Brand.Split(' ')[1] + " " + p.Model;
+                string json = await RequestSellingData(query, pLow, pHigh);
+                var prods = await ParseData(p.Id, json);
+                buffer.AddRange(prods);
 
                 await Task.Delay(500);
             }
@@ -54,11 +55,10 @@ namespace Scraper
             return resp;
         }
 
-        private async Task<Selling[]> ParseData(string model, string json)
+        private async Task<Selling[]> ParseData(int prodId, string json)
         {
             var obj = JsonConvert.DeserializeObject<JObject>(json);
-            int count = obj["prods"].Count();
-            var prod = _db.Product.FirstOrDefault(x => x.Model == model);
+            int count = obj["prods"] != null ? obj["prods"].Count() : 0;
             var buffer = new Selling[count];
 
             for (int i = 0; i < count; i++)
@@ -80,7 +80,7 @@ namespace Scraper
                         LowresImage = ImageHelper.DownsizeImage(await imageByte)
                     },
                     Source = _source_id,
-                    Product1 = prod,
+                    Product = prodId,
                     UpdatedTime = DateTime.Now
                 };
             }

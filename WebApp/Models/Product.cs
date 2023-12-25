@@ -21,6 +21,7 @@ namespace WebApp.Models
             this.PriceHistory = new HashSet<PriceHistory>();
             this.Selling = new HashSet<Selling>();
             this.TrackProduct = new HashSet<TrackProduct>();
+            this.Article = new HashSet<Article>();
         }
     
         public int Id { get; set; }
@@ -29,6 +30,10 @@ namespace WebApp.Models
         public string ProductType { get; set; }
         public int RetailPrice { get; set; }
         public string Token { get; set; }
+        public int Views { get; set; }
+        public int CurrentLow { get; set; }
+        public int PreviousLow { get; set; }
+        public Nullable<int> Type { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }
@@ -38,5 +43,8 @@ namespace WebApp.Models
         public virtual ICollection<Selling> Selling { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TrackProduct> TrackProduct { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Article> Article { get; set; }
+        public virtual ProductType ProductType1 { get; set; }
     }
 }

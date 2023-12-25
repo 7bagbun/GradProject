@@ -2,11 +2,8 @@
 using System.Linq;
 using System.Web.Mvc;
 using Newtonsoft.Json;
-using System.Web.UI.WebControls;
-using Microsoft.Ajax.Utilities;
-using WebApp.Models.ViewModels;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 
 namespace WebApp.Controllers.Item
 {
@@ -16,31 +13,40 @@ namespace WebApp.Controllers.Item
 
         public ActionResult List(int id, string tab)
         {
-            var vm = new ItemListViewModel();
-
-            if (Session["userId"] != null)
+            var product = _db.Product.Include("PriceHistory").Include("Selling").FirstOrDefault(x => x.Id == id);
+            if (product == null)
             {
-                int userId = (int)Session["userId"];
-                vm.Comment = _db.Comment.FirstOrDefault(x => x.Product == id && x.Author == userId);
+                return HttpNotFound();
             }
 
-            vm.Items = _db.Selling.Include("Source1")
-                            .Where(x => x.Product == id).OrderBy(x => x.Price);
+            switch (tab)
+            {
+                case "list":
+                    tab = "list";
+                    break;
+                case "comment":
+                    tab = "comment";
+                    break;
+                default:
+                    tab = "list";
+                    break;
+            }
 
-            if (vm.Items.Count() == 0) return HttpNotFound();
-
-            int modelId = vm.Items.First().Product;
-            var model = _db.Product.FirstOrDefault(x => x.Id == modelId);
-
-            ViewBag.Model = model.Model;
-            ViewBag.Brand = model.Brand;
-            ViewBag.Type = model.ProductType;
-            ViewBag.ProductId = modelId;
+            ViewBag.ProductId = product.Id;
+            ViewBag.UpdatedTime = product.PriceHistory.OrderByDescending(x => x.UpdatedTime).FirstOrDefault(x => x.Product == id).UpdatedTime;
+            ViewBag.Image = product.Selling.FirstOrDefault(x => x.Product == id)?.Image ?? 0;
+            ViewBag.Model = product.Model;
+            ViewBag.Brand = product.Brand;
+            ViewBag.Type = product.ProductType;
             ViewBag.Tab = tab;
 
-            return View(vm);
+            product.Views++;
+            _db.SaveChanges();
+
+            return View();
         }
 
+        /*
         public ActionResult Get(int typeCount, int itemCount)
         {
             var list = new SellingProductList[typeCount];
@@ -59,26 +65,94 @@ namespace WebApp.Controllers.Item
             string json = JsonConvert.SerializeObject(list, dateSettings);
             return Content(json, "application/json");
         }
-        
-        public ActionResult Search(string query)
+        */
+
+        public ActionResult Get(int id)
         {
-            if (query == null)
+            var prods = _db.Selling.Where(x => x.Product == id).OrderBy(x => x.Price).ToArray();
+            var obj = prods.Select(
+                x => new
+                {
+                    title = x.Title,
+                    source = x.Source1.DisplayName,
+                    price = x.Price,
+                    fprice = x.Price.ToString("C0"),
+                    url = x.Source1.Domain + x.Link,
+                    sourceImage = "/Assets/Images/" + x.Source1.ImageName,
+                    image = "/image/get/" + x.Image
+                });
+
+            string json = JsonConvert.SerializeObject(obj);
+            return Content(json, "application/json");
+        }
+
+        public ActionResult GetTypes()
+        {
+            var types = _db.ProductType.Select(
+                x => new
+                {
+                    id = x.Id,
+                    type = x.Type
+                }).ToArray();
+
+            string json = JsonConvert.SerializeObject(types);
+            return Content(json, "application/json");
+        }
+
+        public ActionResult SearchPage(string query = "", int cateId = 1)
+        {
+            ViewBag.Query = query;
+            ViewBag.CateId = cateId;
+            return View();
+        }
+
+        public ActionResult Search(string query, int cateId = 0, int page = 1)
+        {
+            query = query ?? "";
+            query = query.Trim();
+            var multiQuery = query.Split(' ');
+            var result = Enumerable.Empty<Product>();
+
+            page = --page < 1 ? 1 : page * 20;
+
+
+            if (cateId > 1)
             {
-                var list = _db.Product.Include("Selling").Take(12);
-                return View(list.ToList());
+                result = _db.Product.Where(x => x.Selling.FirstOrDefault() != null && x.Type == cateId);
+            }
+            else
+            {
+                result = _db.Product.Where(x => x.Selling.FirstOrDefault() != null);
             }
 
-            var result = _db.Product.Include("Selling")
-                .Where(x =>
-                    x.Model.Contains(query) ||
-                    x.Brand.Contains(query) ||
-                    x.ProductType.Contains(query) ||
-                    x.Token.Contains(query));
+            foreach (var item in multiQuery)
+            {
+                result = result.Where(x =>
+                                   x.Model.Contains(item) ||
+                                   x.Brand.Contains(item) ||
+                                   x.ProductType.Contains(item) ||
+                                   (x.Token?.Contains(item) ?? false));
+            }
 
-            //order by price
-            result.ForEach(x => x.Selling = x.Selling.OrderByDescending(t => t.Price).ToList());
+            int totalPages = (int)Math.Ceiling((double)result.Count() / 20);
+            totalPages = totalPages < 1 ? 1 : totalPages;
+            result = result.Skip(page - 1).Take(20);
 
-            return View(result.ToList());
+            var obj = result.Select(x => new
+            {
+                id = x.Id,
+                brand = x.Brand,
+                model = x.Model,
+                type = x.ProductType,
+                image = x.Selling.FirstOrDefault().Image,
+                fprice = x.Selling.FirstOrDefault().Price.ToString("C0"),
+                price = x.Selling.FirstOrDefault().Price,
+                popularity = x.Views
+            });
+
+            string json = JsonConvert.SerializeObject(new { totalPages, products = obj });
+
+            return Content(json, "application/json");
         }
     }
 }

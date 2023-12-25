@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "EditMember";
+    ViewBag.Active = "rl";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.9/vue.global.min.js"
+            integrity="sha512-01DXK8J/RTf+INWJaGSa1a8ePsny+wTV63r5e+qcW4Gx7cgYKeX7uNvJminP4WvBthCi03aWdTmGLcZk/DTKKQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="~/Scripts/Admin/Report/report.js"></script>
+}
+
+<style>
+    .reason {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .section {
+        color: #434C5E;
+        border-radius: 3px;
+        background-color: #ECEFF4;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    .pfp {
+        width: 128px;
+        height: 128px;
+    }
+
+    .form-control:disabled {
+        background-color: #fff;
+    }
+
+    .filter {
+        max-width: 130px;
+    }
+
+    .true {
+        color: #85BF53;
+    }
+
+    .false {
+        color: #BF616A;
+    }
+</style>
+
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item active">檢舉評論</li>
+    </ol>
+</nav>
+<hr />
+<div id="app">
+    <div class="row justify-content-center mb-5">
+        <div class="col-6">
+            <div class="section p-3">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h5 class="m-0">檢舉資料</h5>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <label class="form-text">評論作者</label>
+                            <div class="form-control">{{selectedReport.author}}</div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <label class="form-text">案件狀態</label>
+                            <div v-html="status(selectedReport.status)" class="form-control"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-text">完整評論內容</label>
+                            <textarea class="form-control bg-white" style="height:150px;min-height:2.4em" readonly>{{selectedReport.comment}}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="form-text">檢舉原因</label>
+                            <textarea class="form-control bg-white" style="height:150px;min-height:2.4em" readonly>{{selectedReport.reason}}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div v-if="selectedReport.status === 'p'" class="form-group text-right">
+                            <button @@click="resolve(0)" class="btn btn-primary px-5 mr-5" type="button">否決</button>
+                            <button @@click="resolve(1)" class="btn btn-danger px-5" type="button">移除</button>
+                        </div>
+                        <div v-else class="form-group text-right">
+                            <button class="btn btn-primary px-5 mr-5" type="button" disabled>否決</button>
+                            <button class="btn btn-danger px-5" type="button" disabled>移除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row justify-content-between mb-3">
+        <div class="col-md-6 d-flex align-items-center">
+            若有多個案件指向同一評論，將會一併處置。
+        </div>
+        <div class="col-md-6 d-flex align-items-center justify-content-end">
+            <span>篩選：</span>
+            <select v-model="filter" class="form-control filter">
+                <option value="p">待處理</option>
+                <option value="a">已移除</option>
+                <option value="r">已否決</option>
+                <option value="e">全部</option>
+            </select>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">檢舉者</th>
+                <th scope="col">評論作者</th>
+                <th scope="col">評論內容</th>
+                <th scope="col">檢舉原因</th>
+                <th scope="col">案件狀態</th>
+                <th scope="col">檢舉時間</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-if="filteredReport.length > 0" v-for="report in filteredReport" @@click="selected = report.id" class="cursor-pointer">
+                <td scope="col" class="text-center">
+                    <input v-model="selected" type="radio" name="selected" :value="report.id" />
+                </td>
+                <td scope="col">{{report.reportMember}}</td>
+                <td scope="col">{{report.author}}</td>
+                <td scope="col" class="reason">{{report.comment}}</td>
+                <td scope="col" class="reason">{{report.reason}}</td>
+                <td v-html="status(report.status)" scope="col"></td>
+                <td scope="col">{{report.reportTime}}</td>
+            </tr>
+            <tr v-else>
+                <td colspan="7">
+                    <h2 class="my-5 text-secondary text-center">沒有結果</h2>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

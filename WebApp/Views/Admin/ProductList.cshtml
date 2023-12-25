@@ -1,0 +1,111 @@
+﻿@model IEnumerable<WebApp.Models.Comment>
+
+@{
+    ViewBag.Title = "ProductList";
+    ViewBag.Active = "pl";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.9/vue.global.min.js"
+            integrity="sha512-01DXK8J/RTf+INWJaGSa1a8ePsny+wTV63r5e+qcW4Gx7cgYKeX7uNvJminP4WvBthCi03aWdTmGLcZk/DTKKQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="~/Scripts/Admin/Product/product-list.js"></script>
+}
+
+<nav>
+    <div class="row mb-2">
+        <div class="col">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">商品列表</li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<hr />
+<div id="app">
+    <div class="row mb-3">
+        <div class="col-lg-2">
+            <input v-model="query" id="query" class="form-control" type="text" name="query" value="" placeholder="搜尋商品型號" />
+        </div>
+        <div class="col-lg-2">
+            <select v-cloak v-model="selectedType" class="form-control">
+                <option v-for="item in type" :value="item.id">{{item.type}}</option>
+            </select>
+        </div>
+        <div class="col-lg-3 d-flex align-items-center">
+            共有{{filteredList.length}}筆結果
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">產品分類</th>
+                <th scope="col">產品類型</th>
+                <th scope="col">品牌</th>
+                <th scope="col">產品型號</th>
+                <th scope="col">Token</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in filteredList" :key="item.id" class="data-row">
+                <td>{{item.typeName}}</td>
+                <td>{{item.pType}}</td>
+                <td>{{item.brand}}</td>
+                <td>{{item.model}}</td>
+                <td>{{item.token}}</td>
+                <td class="text-right">
+                    <div class="dropdown show">
+                        <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" :href="'/item/list/' + item.id" target="_blank"><i class="fa fa-external-link-alt mr-2"></i>查看比價頁面</a>
+                            <a @@click.prevent="editProduct(item.id)" class="dropdown-item" href="#"><i class="fa fa-edit mr-2"></i>編輯產品資料</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="modal fade" id="modalEdit" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">編輯產品資料</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-edit" action="/moderation/editProduct" method="post">
+                        <input :value="selectedProduct.id" class="hidden" type="text" name="id" />
+                        <div class="form-group">
+                            <label class="form-text" for="type">商品分類</label>
+                            <select v-cloak :value="selectedProduct.type" name="type" class="form-control">
+                                <option v-for="item in editTypeList" :value="item.id">{{item.type}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-text" for="type">產品類型</label>
+                            <input class="form-control" :value="selectedProduct.pType" id="type" type="text" name="productType" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-text" for="type">商品型號</label>
+                            <input class="form-control" :value="selectedProduct.model" id="type" type="text" name="model" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-text" for="type">Token</label>
+                            <textarea class="form-control" :value="selectedProduct.token" id="type" type="text" name="token"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mr-4" data-dismiss="modal">取消</button>
+                    <button @@click="saveChanges" type="button" data-dismiss="modal" class="btn btn-primary">儲存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

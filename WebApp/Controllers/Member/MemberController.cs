@@ -6,26 +6,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Net.Mail;
 using WebApp.Misc;
+using System.Net;
 
 namespace WebApp.Controllers.Member
 {
     public class MemberController : Controller
     {
         private readonly TestDbEntities _db = new TestDbEntities();
-
-        public ActionResult List()
-        {
-            try
-            {
-                var list = _db.Member.ToArray();
-                return View(list);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return new HttpStatusCodeResult(500);
-            }
-        }
 
         public ActionResult Register()
         {
@@ -40,9 +27,9 @@ namespace WebApp.Controllers.Member
                 string msg = string.Empty;
                 bool dupeUsername = _db.Member.Any(m => m.Username == member.Username);
                 bool dupeEmail = _db.Member.Any(m => m.Email == member.Email);
-                bool noNonWordChar = System.Text.RegularExpressions.Regex.IsMatch(member.Username, @"\W");
+                bool nonWordChar = System.Text.RegularExpressions.Regex.IsMatch(member.Username, @"\W");
 
-                if (noNonWordChar || member.Username.Length < 1)
+                if (nonWordChar || member.Username.Length < 1)
                 {
                     msg = $"無效的帳號名稱，請嘗試其他名稱。";
                 }
@@ -144,6 +131,7 @@ namespace WebApp.Controllers.Member
                 Session["userId"] = target.Id;
                 Session["user"] = target.Username;
 
+                RecordLogin(target.Id, Request.UserHostAddress);
                 return RedirectToAction("Succeed", "Redirect", new { msg = "已成功驗證信箱，" });
             }
             catch (Exception)
@@ -205,10 +193,25 @@ namespace WebApp.Controllers.Member
 
             var imageBytes = new byte[pfp.InputStream.Length];
             pfp.InputStream.Read(imageBytes, 0, imageBytes.Length);
-            user.Image.ImageContent = imageBytes;
+
+            if (user.Image == null)
+            {
+                user.Image = new Models.Image { ImageContent = imageBytes };
+            }
+            else
+            {
+                user.Image.ImageContent = imageBytes;
+            }
+
             _db.SaveChanges();
 
             return Content("{\"isSucceed\":true}");
+        }
+
+        private void RecordLogin(int id, string ip)
+        {
+            _db.LoginRecord.Add(new LoginRecord { Member = id, IP = ip, LoginTime = DateTime.Now });
+            _db.SaveChanges();
         }
     }
 }

@@ -93,10 +93,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArticleScraper\ArticleScraper.cs" />
+    <Compile Include="Comparer\ProductComparer.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="ImageHelper.cs" />
+    <Compile Include="ModelScraper\FridgeMs.cs" />
+    <Compile Include="ModelScraper\PurifierMs.cs" />
+    <Compile Include="ModelScraper\TvMs.cs" />
     <Compile Include="ModelScraper\HairDryerMs.cs" />
     <Compile Include="ModelScraper\ModelScraperBase.cs" />
+    <Compile Include="ModelScraper\WashMachineMS.cs" />
+    <Compile Include="Model\Article.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Image.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -122,19 +131,22 @@
     <Compile Include="Model\Product.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\ProductType.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Selling.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Source.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Parser\ParserPtt.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SellingScraper\MomoScraper.cs" />
     <Compile Include="SellingScraper\PchomeScraper.cs" />
     <Compile Include="SellingScraper\PcstoreScraper.cs" />
     <Compile Include="SellingScraper\SellingScraper.cs" />
+    <Compile Include="Showcase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -16,7 +16,7 @@
             <div class="card">
                 <div class="card-body little-profile text-center">
                     <div class="pro-img">
-                        <img src="@Url.Action("getPfpById", "member", new { id = Model.Id })" alt="user">
+                        <img class="pfp-lg" src="@Url.Action("getPfpById", "member", new { id = Model.Id })" alt="user">
                     </div>
                     <h3 class="m-b-0" style="margin-bottom:5em">@Model.Username</h3>
                     <div class="row text-center m-t-20">
@@ -33,7 +33,7 @@
                     <div class="" style="min-height:10em;margin: 2em 0">
                         <div id="content" class="content">
                         </div>
-                        <div id="spinner" class="spinner-border text-secondary text-center" style="margin:auto"></div>
+                        <div id="spinner" class="spinner-border my-5 text-secondary text-center" style="margin:auto"></div>
                     </div>
                 </div>
             </div>

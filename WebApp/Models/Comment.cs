@@ -14,14 +14,23 @@ namespace WebApp.Models
     
     public partial class Comment
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Comment()
+        {
+            this.ReportComment = new HashSet<ReportComment>();
+        }
+    
         public int Id { get; set; }
         public int Product { get; set; }
         public int Author { get; set; }
         public short Rating { get; set; }
         public string Content { get; set; }
         public System.DateTime CreatedDate { get; set; }
+        public bool IsHidden { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual Product Product1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReportComment> ReportComment { get; set; }
     }
 }

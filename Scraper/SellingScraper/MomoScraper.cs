@@ -14,27 +14,28 @@ namespace Scraper
         private const float _price_interval = 0.15f;
         private const int _source_id = 5;
 
-        private readonly TestDb _db;
+        private readonly Product[] _prods;
         private static HttpClient _client;
 
-        public MomoScraper(TestDb db)
+        public MomoScraper(Product[] prods)
         {
-            _db = db;
             _client = new HttpClient();
+            _prods = prods;
         }
 
         public async Task<Selling[]> Scrape()
         {
-            var prods = _db.Product.ToArray();
             var buffer = new List<Selling>();
 
-            foreach (var p in prods)
+            foreach (var p in _prods)
             {
                 //Using price gap to filter out unwanted sellings
                 int pLow = (int)(p.RetailPrice * (1 - _price_interval));
                 int pHigh = (int)(p.RetailPrice * (1 + _price_interval));
-                string json = await RequestSellingData(p.Model, pLow, pHigh);
-                buffer.AddRange(await ParseData(p.Model, json));
+                string query = p.Brand.Split(' ')[1] + " " + p.Model;
+                string json = await RequestSellingData(query, pLow, pHigh);
+                var prods = await ParseData(p.Id, json);
+                buffer.AddRange(prods);
 
                 await Task.Delay(750);
             }
@@ -55,7 +56,7 @@ namespace Scraper
             return goods?.ToString() ?? "[]";
         }
 
-        private async Task<Selling[]> ParseData(string model, string json)
+        private async Task<Selling[]> ParseData(int prodId, string json)
         {
             var jsonArr = JsonConvert.DeserializeObject<JArray>(json);
             int count = jsonArr.Count();
@@ -65,34 +66,34 @@ namespace Scraper
                 return new Selling[0];
             }
 
-            var prod = _db.Product.FirstOrDefault(x => x.Model == model);
             var buffer = new Selling[count];
 
             for (int i = 0; i < count; i++)
             {
-                int price = int.Parse(jsonArr[i]["SALE_PRICE"].Value<string>());
-
-                string title = jsonArr[i].Value<string>("goodsName");
-                string imgLink = jsonArr[i].Value<string>("imgUrl");
-                var imageByte = HttpHelper.DownloadImageBytesAsync(imgLink);
-
-                buffer[i] = new Selling
+                if (int.TryParse(jsonArr[i]["SALE_PRICE"].Value<string>(), out int price))
                 {
-                    Title = title,
-                    Price = price,
-                    Link = jsonArr[i]["action"].Value<string>("actionValue"),
-                    Image1 = new Image()
+                    string title = jsonArr[i].Value<string>("goodsName");
+                    string imgLink = jsonArr[i].Value<string>("imgUrl");
+                    var imageByte = HttpHelper.DownloadImageBytesAsync(imgLink);
+
+                    buffer[i] = new Selling
                     {
-                        ImageContent = await imageByte,
-                        LowresImage = ImageHelper.DownsizeImage(await imageByte)
-                    },
-                    Source = _source_id,
-                    Product1 = prod,
-                    UpdatedTime = DateTime.Now
-                };
+                        Title = title,
+                        Price = price,
+                        Link = jsonArr[i]["action"].Value<string>("actionValue"),
+                        Image1 = new Image()
+                        {
+                            ImageContent = await imageByte,
+                            LowresImage = ImageHelper.DownsizeImage(await imageByte)
+                        },
+                        Source = _source_id,
+                        Product = prodId,
+                        UpdatedTime = DateTime.Now
+                    };
+                }
             }
 
-            return buffer;
+            return buffer.Where(x => x != null).ToArray();
         }
     }
 }

@@ -30,5 +30,7 @@ namespace Scraper.Model
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Selling> Selling { get; set; }
         public virtual DbSet<Source> Source { get; set; }
+        public virtual DbSet<Article> Article { get; set; }
+        public virtual DbSet<ProductType> ProductType { get; set; }
     }
 }

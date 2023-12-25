@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AngleSharp;
 using Scraper.Model;
@@ -12,33 +13,47 @@ namespace Scraper
 
     internal class SellingScraper
     {
-        //var urlPtt = new Url("https://www.ptt.cc/bbs/MobileComm/search?q=iphone");
-        //var doc = browser.OpenAsync(urlPtt);
-
         private readonly TestDb _db = new TestDb();
+        private readonly object _locker = new object();
         private readonly IBrowsingContext _browser;
         private readonly ISellingScraper[] _scrapers;
 
         public SellingScraper()
         {
             var cfg = Configuration.Default.WithDefaultLoader();
+            var prods = _db.Product.ToArray();
             _browser = BrowsingContext.New(cfg);
             _scrapers = new ISellingScraper[]
             {
-                new PcstoreScraper(_browser, _db),
-                new PchomeScraper(_browser, _db),
-                new MomoScraper(_db),
+                new PcstoreScraper(_browser, prods),
+                new PchomeScraper(_browser, prods),
+                new MomoScraper(prods),
             };
         }
 
-        public async Task StartScraping()
+        //for showcase purpose
+        public SellingScraper(Product[] prods)
         {
-            await ClearSellings();
+            var cfg = Configuration.Default.WithDefaultLoader();
+            _browser = BrowsingContext.New(cfg);
+            _scrapers = new ISellingScraper[]
+            {
+                new PcstoreScraper(_browser, prods),
+                new PchomeScraper(_browser, prods),
+                new MomoScraper(prods),
+            };
+        }
 
+        //for showcase purpose
+        public async Task StartShowcasing()
+        {
             var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
             {
                 var sellings = await _scrapers[i].Scrape();
-                _db.Selling.AddRange(sellings);
+                lock (_locker)
+                {
+                    _db.Selling.AddRange(sellings);
+                }
             });
 
             await Task.WhenAll(tasks);
@@ -46,26 +61,59 @@ namespace Scraper
             await UpdatePriceHistory();
         }
 
-        private async Task UpdatePriceHistory()
+        public async Task StartScraping()
         {
-            var prods = _db.Product.Include("Selling").ToList();
-            prods?.ForEach(x =>
+            var tasks = Enumerable.Range(0, _scrapers.Length).Select(async i =>
             {
-                if (x.Selling.Count() > 0)
+                var sellings = await _scrapers[i].Scrape();
+                lock (_locker)
                 {
-                    _db.PriceHistory.Add(new PriceHistory
-                    {
-                        Product = x.Id,
-                        Price = x.Selling.Min(t => t.Price),
-                        UpdatedTime = System.DateTime.Now
-                    });
+                    _db.Selling.AddRange(sellings);
                 }
             });
 
+            await Task.WhenAll(tasks);
+            await ClearSellings();
             await _db.SaveChangesAsync();
+            await UpdatePriceHistory();
         }
 
-        private async Task ClearSellings()
+        private async Task UpdatePriceHistory()
+        {
+            var prods = _db.Product.Include("Selling")
+                .Where(x => x.Selling.FirstOrDefault() != null).ToList();
+
+            bool isCheaper = false;
+
+            prods.ForEach(x =>
+            {
+                int lowest = x.Selling.Min(t => t.Price);
+
+                if (x.CurrentLow > lowest)
+                {
+                    isCheaper = true;
+                }
+
+                x.PreviousLow = x.CurrentLow;
+                x.CurrentLow = lowest;
+
+                _db.PriceHistory.Add(new PriceHistory
+                {
+                    Product = x.Id,
+                    Price = lowest,
+                    UpdatedTime = DateTime.Now
+                });
+            });
+
+            await _db.SaveChangesAsync();
+
+            if (isCheaper)
+            {
+                await HttpHelper.SendRequest("https://ilha.imd.pccu.edu.tw/priceHistory/checkPrice");
+            }
+        }
+
+        public async Task ClearSellings()
         {
             await _db.Database.ExecuteSqlCommandAsync("DELETE FROM [Image] WHERE Id IN (SELECT Image FROM Selling)");
             await _db.Database.ExecuteSqlCommandAsync("TRUNCATE TABLE Selling");

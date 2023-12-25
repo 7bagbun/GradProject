@@ -18,13 +18,14 @@ namespace WebApp.Controllers.Item
             //identify if login user is also who wrote comment
             int userId = Session["userId"] == null ? -1 : (int)Session["userId"];
 
-            var data = _db.Comment.Include("Member").Where(x => x.Product == id);
+            var data = _db.Comment.Include("Member").OrderByDescending(x => x.CreatedDate).Where(x => x.Product == id && !x.IsHidden);
             var comments = new CommentViewModel[data.Count()];
             int index = 0;
             data.ForEach(x =>
             {
                 comments[index++] = new CommentViewModel
                 {
+                    Id = x.Id,
                     Author = x.Member.Username,
                     Rating = x.Rating,
                     Content = x.Content,
@@ -64,7 +65,7 @@ namespace WebApp.Controllers.Item
             }
 
             int userId = (int)Session["userId"];
-            if (_db.Comment.Any(x => x.Product == comment.Product && x.Author == userId))
+            if (_db.Comment.Any(x => x.Product == comment.Product && x.Author == userId && !x.IsHidden))
             {
                 return RedirectToAction("Error", "Redirect", new { msg = "您已評論過此產品" });
             }
@@ -74,7 +75,7 @@ namespace WebApp.Controllers.Item
             _db.Comment.Add(comment);
             _db.SaveChanges();
 
-            return RedirectToAction("List", "Item", new { id = comment.Product, tab = "comment"});
+            return RedirectToAction("List", "Item", new { id = comment.Product, tab = "comment" });
         }
 
         [HttpPost]
@@ -86,7 +87,7 @@ namespace WebApp.Controllers.Item
             }
 
             int userId = (int)Session["userId"];
-            var target = _db.Comment.FirstOrDefault(x => x.Product == comment.Product && x.Author == userId);
+            var target = _db.Comment.FirstOrDefault(x => x.Product == comment.Product && x.Author == userId && !x.IsHidden);
 
             if (target == null)
             {
@@ -108,7 +109,7 @@ namespace WebApp.Controllers.Item
                 return new HttpStatusCodeResult(401);
             }
 
-            var comment = _db.Comment.FirstOrDefault(x => x.Id == commentId);
+            var comment = _db.Comment.FirstOrDefault(x => x.Id == commentId && !x.IsHidden);
 
             if (comment == null)
             {
@@ -123,6 +124,31 @@ namespace WebApp.Controllers.Item
             _db.SaveChanges();
 
             return Content("{\"isSucceed\":true}", "application/json");
+        }
+
+        [HttpPost]
+        public ActionResult Report(ReportComment rc, string reasonTemp)
+        {
+            try
+            {
+                if (Session["userId"] == null)
+                {
+                    return Content("{\"result\":false,\"msg\":\"no login\"}");
+                }
+
+                rc.ReportMember = (int)Session["userId"];
+                rc.ReportTime = DateTime.Now;
+                rc.Status = "p";
+                rc.ReportReason = $"[{reasonTemp}]{rc.ReportReason}";
+                _db.ReportComment.Add(rc);
+                _db.SaveChanges();
+
+                return Content("{\"result\":true}");
+            }
+            catch (Exception ex)
+            {
+                return Content($"{{\"result\":false,\"msg\":\"{ex.Message}\"}}");
+            }
         }
     }
 }

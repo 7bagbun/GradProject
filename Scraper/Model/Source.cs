@@ -18,13 +18,18 @@ namespace Scraper.Model
         public Source()
         {
             this.Selling = new HashSet<Selling>();
+            this.Article = new HashSet<Article>();
         }
     
         public int Id { get; set; }
         public string SourceName { get; set; }
         public string Domain { get; set; }
+        public string ImageName { get; set; }
+        public string DisplayName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Selling> Selling { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Article> Article { get; set; }
     }
 }

@@ -1,0 +1,263 @@
+﻿@model WebApp.Models.MemberViewModel
+
+@{
+    ViewBag.Title = "EditMember";
+    ViewBag.Active = "ml";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@section scripts {
+    <script src="~/Scripts/Admin/member-list.js"></script>
+    <script src="~/Scripts/Admin/comment-list.js"></script>
+}
+
+<style>
+    .section {
+        color: #434C5E;
+        border-radius: 3px;
+        background-color: #ECEFF4;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    .pfp {
+        width: 128px;
+        height: 128px;
+    }
+
+    .form-control:disabled {
+        background-color: #fff;
+    }
+
+    .true {
+        color: #85BF53;
+    }
+
+    .false {
+        color: #BF616A;
+    }
+</style>
+
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/admin/memberList">會員管理</a></li>
+        <li class="breadcrumb-item active" aria-current="page">會員資料 > @Model.Member.Username</li>
+    </ol>
+</nav>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="section p-3">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5 class="m-0">會員基本資料</h5>
+                </div>
+            </div>
+            <hr />
+            <div class="mt-4 mb-5 d-flex justify-content-center">
+                <img class="pfp" src="@Url.Action("GetPfpById", "Member", new { id = Model.Member.Id })" alt="" />
+            </div>
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">使用者名稱</label>
+                        <input class="form-control" type="text" name="username" disabled value="@Model.Member.Username">
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">電子信箱</label>
+                        <input class="form-control" type="text" name="username" disabled value="@Model.Member.Email" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">創建日期</label>
+                        <input class="form-control" type="text" name="username" disabled value="@Model.Member.CreatedDate">
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">會員狀態</label>
+                        @if (Model.Member.Suspended)
+                        {
+                            <div class="form-control false"><i class="fas fa-exclamation-triangle"></i> 已停權</div>
+                        }
+                        else if (Model.Member.Verified)
+                        {
+                            <div class="form-control true"><i class="far fa-check-circle"></i> 已驗證</div>
+                        }
+                        else
+                        {
+                            <div class="form-control false"><i class="far fa-times-circle"></i> 未驗證</div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-xl-6">
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        @if (Model.Member.Suspended)
+                        {
+                            <button class="form-control btn btn-danger" onclick="unsuspendMember(@Model.Member.Id)">解除停權</button>
+                        }
+                        else
+                        {
+                            <button class="form-control btn btn-danger" onclick="suspendMember(@Model.Member.Id)">停權會員</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="section p-3">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5 class="m-0">會員統計資料</h5>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">否決的檢舉數</label>
+                        @if (Model.FalseReports >= 3)
+                        {
+                            <input class="form-control false" type="text" name="username" disabled value="@Model.FalseReports" />
+                        }
+                        else
+                        {
+                            <input class="form-control" type="text" name="username" disabled value="@Model.FalseReports" />
+                        }
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">通過的檢舉數</label>
+                        <input class="form-control" type="text" name="username" disabled value="@Model.ValidReports">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">違規次數</label>
+                        @if (Model.Violations >= 3)
+                        {
+                            <input class="form-control false" type="text" name="username" disabled value="@Model.Violations">
+                        }
+                        else
+                        {
+                            <input class="form-control" type="text" name="username" disabled value="@Model.Violations">
+                        }
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="form-group">
+                        <label class="form-text">最後登入紀錄</label>
+                        @if (Model.LoginRecord != null)
+                        {
+                            <input class="form-control" type="text" name="username" disabled value="@Model.LoginRecord.LoginTime @Model.LoginRecord.IP" />
+                        }
+                        else
+                        {
+                            <input class="form-control" type="text" name="username" disabled value="目前沒有紀錄" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col">
+        <div class="section p-3">
+            <h5 class="mb-4">近期10則評論</h5>
+
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>No.</th>
+                        <th>評分</th>
+                        <th>內容</th>
+                        <th>發布日期</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @if (Model.Comments.Count() > 0)
+                {
+                    int i = 1;
+                    foreach (var item in Model.Comments)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td>@item.Rating</td>
+                            <td>@item.Content</td>
+                            <td>@item.CreatedDate</td>
+                            <td>
+                                <div class="dropdown show text-right">
+                                    <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="/item/list/@item.Product?tab=comment">查看評論</a>
+                                        <div class="dropdown-item text-danger cursor-pointer" onclick="deleteComment(@item.Id)">刪除評論</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-center text-muted" colspan="5" style="font-size:3em">尚無評論紀錄。</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col">
+        <div class="section p-3">
+            <h5 class="mb-4">近期追蹤的10則商品</h5>
+
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>No.</th>
+                        <th>商品</th>
+                        <th>追蹤日期</th>
+                    </tr>
+                </thead>
+                @if (Model.TrackProducts.Count() > 0)
+                {
+                    int i = 1;
+
+                    foreach (var item in Model.TrackProducts)
+                    {
+                        <tr>
+                            <td>@(i++)</td>
+                            <td><a href="/item/list/@item.Product">@item.Product1.Brand @item.Product1.Model @item.Product1.ProductType</a></td>
+                            <td>@item.FollowTime</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-center text-muted" colspan="3" style="font-size:3em">尚無追蹤紀錄。</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>

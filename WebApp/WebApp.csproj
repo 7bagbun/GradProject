@@ -139,8 +139,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Account\AccountController.cs" />
+    <Compile Include="Controllers\Admin\AdminApiController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs" />
-    <Compile Include="Controllers\Identity\IdentityController.cs" />
+    <Compile Include="Controllers\Admin\ModerationController.cs" />
+    <Compile Include="Controllers\Item\ArticleController.cs" />
     <Compile Include="Controllers\Redirect\RedirectController.cs" />
     <Compile Include="Controllers\Home\HomeController.cs" />
     <Compile Include="Controllers\Image\ImageController.cs" />
@@ -151,6 +153,7 @@
     <Compile Include="Controllers\Member\ForgetPasswordController.cs" />
     <Compile Include="Controllers\Member\MemberController.cs" />
     <Compile Include="Controllers\News\NewsController.cs" />
+    <Compile Include="Controllers\Showcase\ShowcaseController.cs" />
     <Compile Include="Misc\AesHelper.cs" />
     <Compile Include="Misc\EmailHelper.cs" />
     <Compile Include="Misc\ExtesionMethod.cs" />
@@ -158,11 +161,24 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Misc\SecretManager.cs" />
+    <Compile Include="Models\Article.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Comment.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DashboardViewModel.cs" />
+    <Compile Include="Models\LoginRecord.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PriceHistoryModel.cs" />
-    <Compile Include="Models\ProfileViewModel.cs" />
+    <Compile Include="Models\MemberViewModel.cs" />
+    <Compile Include="Models\ProductType.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportComment.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\Image.cs">
@@ -205,7 +221,6 @@
     <Compile Include="Models\TrackProduct.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ViewModels\ItemListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -213,12 +228,28 @@
     <Content Include="App_Data\TestDb_log.ldf">
       <DependentUpon>TestDb.mdf</DependentUpon>
     </Content>
+    <Content Include="Assets\EmailTemplates\ProductDiscount.html" />
     <Content Include="Assets\EmailTemplates\ResetPassword.html" />
     <Content Include="Assets\EmailTemplates\VerifyAccount.html" />
+    <Content Include="Assets\Images\comment.png" />
     <Content Include="Assets\Images\default-pfp.jpg" />
     <Content Include="Assets\Images\default-pfp.png" />
     <Content Include="Assets\Images\drag-img.jpg" />
     <Content Include="Assets\Images\drag-img.png" />
+    <Content Include="Assets\Images\index-bg.png" />
+    <Content Include="Assets\Images\index-bg2.png" />
+    <Content Include="Assets\Images\logo.png" />
+    <Content Include="Assets\Images\momo.png" />
+    <Content Include="Assets\Images\no-image.png" />
+    <Content Include="Assets\Images\page1.jpg" />
+    <Content Include="Assets\Images\page2.jpg" />
+    <Content Include="Assets\Images\pchome.png" />
+    <Content Include="Assets\Images\pcstore.png" />
+    <Content Include="Assets\Images\ptt.png" />
+    <Content Include="Assets\Images\report.png" />
+    <Content Include="Content\Admin\layout.css" />
+    <Content Include="Content\Index\style.css" />
+    <Content Include="Content\shared.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -230,7 +261,6 @@
     <Content Include="Content\Index\font-awesome.min.css" />
     <Content Include="Content\Index\index.css" />
     <Content Include="Content\Index\responsive.css" />
-    <Content Include="Content\Index\style.css" />
     <Content Include="Content\ItemList\comment.css" />
     <Content Include="Content\ItemList\item-list.css" />
     <Content Include="Content\ItemList\star-rating.css" />
@@ -246,7 +276,7 @@
     <Content Include="Content\OwlCarousel\owl.video.play.png" />
     <Content Include="Content\Profile\profile.css" />
     <Content Include="Content\Register\register.css" />
-    <Content Include="Content\Search\search.css" />
+    <Content Include="Content\SearchPage\search-page.css" />
     <Content Include="Content\TrackList\track-list.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -260,6 +290,15 @@
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Admin\announcement-list.js" />
+    <Content Include="Scripts\Admin\comment-detail.js" />
+    <Content Include="Scripts\Admin\comment-list.js" />
+    <Content Include="Scripts\Admin\create-announcement.js" />
+    <Content Include="Scripts\Admin\dismiss-news-alert.js" />
+    <Content Include="Scripts\Admin\edit-anncouncement.js" />
+    <Content Include="Scripts\Admin\member-list.js" />
+    <Content Include="Scripts\Admin\Product\product-list.js" />
+    <Content Include="Scripts\Admin\Report\report.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -270,8 +309,6 @@
     <Content Include="Scripts\esm\popper.min.js" />
     <Content Include="Scripts\ForgetPassword\forget-pwd.js" />
     <Content Include="Scripts\Index\index.js" />
-    <Content Include="Content\Index\style.css.map" />
-    <Content Include="Content\Index\style.scss" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
@@ -294,15 +331,23 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
     <Content Include="Connections.config" />
+    <Content Include="Content\Index\style.css.map" />
+    <Content Include="Content\Index\style.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Index\search-bar.js" />
+    <Content Include="Scripts\ItemList\comments.js" />
     <Content Include="Scripts\ItemList\image-list.js" />
+    <Content Include="Scripts\ItemList\load-article.js" />
     <Content Include="Scripts\ItemList\load-comment.js" />
     <Content Include="Scripts\ItemList\page-init.js" />
     <Content Include="Scripts\ItemList\price-chart.js" />
+    <Content Include="Scripts\ItemList\sort-list.js" />
     <Content Include="Scripts\ItemList\track-item.js" />
+    <Content Include="Scripts\Login\login.js" />
     <Content Include="Scripts\Profile\profile.js" />
     <Content Include="Scripts\Register\register.js" />
     <Content Include="Scripts\ResetPassword\reset-pwd.js" />
+    <Content Include="Scripts\SearchPage\search-page.js" />
     <Content Include="Scripts\TrackList\untrack-item.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -339,7 +384,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />
@@ -350,9 +394,8 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Member\Register.cshtml" />
-    <Content Include="Views\Member\List.cshtml" />
     <Content Include="Views\Item\List.cshtml" />
-    <Content Include="Views\Item\Search.cshtml" />
+    <Content Include="Views\Item\SearchPage.cshtml" />
     <Content Include="Views\TrackItem\TrackList.cshtml" />
     <Content Include="Views\Redirect\NoLogin.cshtml" />
     <Content Include="Views\Redirect\Error.cshtml" />
@@ -367,10 +410,25 @@
     <Content Include="Views\Account\ProfileTrackProduct.cshtml" />
     <Content Include="Views\Account\ProfileComment.cshtml" />
     <Content Include="Views\Account\ProfilePersonalData.cshtml" />
+    <Content Include="Views\Shared\Admin.cshtml" />
+    <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Admin\MemberList.cshtml" />
+    <Content Include="Views\Admin\EditMember.cshtml" />
+    <Content Include="Views\Admin\AnnouncementList.cshtml" />
+    <Content Include="Views\Admin\EditAnnouncement.cshtml" />
+    <Content Include="Views\Admin\CreateAnnouncement.cshtml" />
+    <Content Include="Views\Admin\CommentList.cshtml" />
+    <Content Include="Views\Admin\CommentDetail.cshtml" />
+    <Content Include="Views\Account\LoginPage.cshtml" />
+    <Content Include="Views\Showcase\Index.cshtml" />
+    <Content Include="Views\Admin\ReportList.cshtml" />
+    <Content Include="Views\Admin\ProductList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="fonts\" />
-    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\AdminApi\" />
+    <Folder Include="Views\Article\" />
+    <Folder Include="Views\Moderation\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

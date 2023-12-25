@@ -9,9 +9,6 @@
     <!-- slider stylesheet -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
-    <!-- Custom styles for this template -->
-    <link href="~/Content/Index/style.css" rel="stylesheet" />
-
     <!-- responsive style -->
     <link href="~/Content/Index/responsive.css" rel="stylesheet" />
     <link href="~/Content/OwlCarousel/owl.theme.default.min.css" rel="stylesheet" />
@@ -31,111 +28,98 @@
 </head>
 
 <body>
+    <!-- slider section -->
     <div class="hero_area">
-        <!-- slider section -->
         <section class="slider_section">
-            <div class="container-fluid slider_container">
-                <div class="row">
-                    <div class="col-3">
+            <div id="carousel" class="slider_container owl-carousel owl-theme carousel slide" data-ride="carousel">
+                <div class="item d-flex justify-content-center">
+                    <div>
+                        <a href="https://24h.pchome.com.tw/activity/1212">
+                            <img src="~/Assets/Images/page2.jpg" alt="pchome雙12活動" />
+                        </a>
                     </div>
-                    <div class="col-6">
-                        <div id="carousel" class="owl-carousel owl-theme carousel slide" data-ride="carousel">
-                            <div class="item">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="detail-box">
-                                                <h1>
-                                                    i家電
-                                                </h1>
-                                                <p>
-                                                    是您比價的好選擇
-                                                </p>
-                                                <a href="">
-                                                    聯絡我們
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5 ">
-                                            <div class="img-box">
-                                                <img src="~/images/pccu.png" alt="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="detail-box">
-                                                <h1>
-                                                    i家電2
-                                                </h1>
-                                                <p>
-                                                    是您比價的好選擇
-                                                </p>
-                                                <a href="">
-                                                    聯絡我們
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5 ">
-                                            <div class="img-box">
-                                                <img src="~/images/pccu.png" alt="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="item d-flex justify-content-center">
+                    <a href="https://www.momoshop.com.tw/edm/cmmedm.jsp?lpn=O6UiT1QJyFW">
+                        <img src="~/Assets/Images/page1.jpg" alt="momo雙12活動" />
+                    </a>
+                </div>
+                <div class="item d-flex justify-content-center">
+                    <div>
+                        <img src="~/Assets/Images/index-bg.png" alt="" />
                     </div>
                 </div>
             </div>
         </section>
-        <!-- end slider section -->
     </div>
+    <!-- end slider section -->
     <!-- shop section -->
-    <!-- anouncement section -->
+    <section class="shop_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>
+                    熱門商品比價
+                </h2>
+            </div>
+            <div class="row justify-content-around">
+                @foreach (var item in Model)
+                {
+                    <a href="/item/list/@item.Product" class="box d-flex flex-column shadow-sm rounded-lg p-4 m-4 flex-fill" style="width: 300px">
+                        <div class="text-center mb-3">
+                            <img class="rounded-lg" src="@Url.Action("getCached", "image", new { id = item.Image })" style="width: 200px;" />
+                        </div>
+                        <div class="flex-grow-1 d-flex flex-column">
+                            <div class="model flex-grow-1">
+                                @item.Product1.Brand @item.Product1.ProductType @item.Product1.Model
+                            </div>
+                            <div class="text-right">
+                                售價: <sapn class="text-danger">@item.Price.ToString("C0")起</sapn>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+            <div class="btn-box">
+                <a class="rounded-pill" href="/item/searchPage">
+                    瀏覽所有商品
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- shop section -->
+    <!-- news section -->
     <section>
         <div class="news">
             <h2 class="text-center">最新消息</h2>
             <div class="container">
                 <div class="row">
-                    <div id="news-list" class="col">
-                        <div class="list-group list-group-horizontal news-item news-item-empty">
-                            <div class="list-group-item color-tag"></div>
-                            <div class="list-group-item" style="width: 100%">
+                    <div id="news-list" class="col-lg-6 px-1">
+                        <div class="news-item news-item-empty">
+                            <div class="list-group-item color-tag" style="width: 100%">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">&nbsp;</h5>
                                     <small class="text-muted"></small>
                                 </div>
                                 <p class="mb-1 text-muted content">&nbsp;</p>
                             </div>
-                        </div>
-                        <div class="list-group list-group-horizontal news-item news-item-empty">
-                            <div class="list-group-item color-tag"></div>
-                            <div class="list-group-item" style="width: 100%">
+                        </div><div class="news-item news-item-empty">
+                            <div class="list-group-item color-tag" style="width: 100%">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">&nbsp;</h5>
                                     <small class="text-muted"></small>
                                 </div>
                                 <p class="mb-1 text-muted content">&nbsp;</p>
                             </div>
-                        </div>
-                        <div class="list-group list-group-horizontal news-item news-item-empty">
-                            <div class="list-group-item color-tag"></div>
-                            <div class="list-group-item" style="width: 100%">
+                        </div><div class="news-item news-item-empty">
+                            <div class="list-group-item color-tag" style="width: 100%">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">&nbsp;</h5>
                                     <small class="text-muted"></small>
                                 </div>
                                 <p class="mb-1 text-muted content">&nbsp;</p>
                             </div>
-                        </div>
-                        <div class="list-group list-group-horizontal news-item news-item-empty">
-                            <div class="list-group-item color-tag"></div>
-                            <div class="list-group-item" style="width: 100%">
+                        </div><div class="news-item news-item-empty mb-2">
+                            <div class="list-group-item color-tag" style="width: 100%">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">&nbsp;</h5>
                                     <small class="text-muted"></small>
@@ -144,13 +128,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-lg-6 px-1 mb-2">
                         <div id="news-detail" class="news-detail">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1 news-title">Title</h5>
-                                <h5 class="news-type">Type</h5>
+                                <h5 class="news-title mb-0">Title</h5>
+                                <h5 class="news-type mb-0">Type</h5>
                             </div>
-                            <hr />
+                            <hr class="my-3" />
                             <p class="mb-1 news-content">Content</p>
                             <p class="news-date">Date</p>
                         </div>
@@ -158,15 +142,15 @@
                 </div>
                 <div class="row page-nav">
                     <div class="col">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <a class="page-link">&laquo;</a>
+                        <ul id="page" class="pagination justify-content-center">
+                            <li id="prev" class="page-item disabled">
+                                <div class="page-link" onclick="changeSection(false)">&laquo;</div>
                             </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item disabled"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#">&raquo;</a>
+                            <li id="page-0" class="page-item active"><div class="page-link">1</div></li>
+                            <li id="page-1" class="page-item"><div class="page-link">2</div></li>
+                            <li id="page-2" class="page-item"><div class="page-link">3</div></li>
+                            <li id="next" class="page-item disabled">
+                                <div class="page-link" onclick="changeSection(true)">&raquo;</div>
                             </li>
                         </ul>
                     </div>
@@ -174,56 +158,13 @@
             </div>
         </div>
     </section>
-    <!-- end anouncement section -->
-
-    <section class="shop_section layout_padding">
-        <div class="container">
-            <div class="heading_container heading_center">
-                <h2>
-                    商品比價
-                </h2>
-            </div>
-            <div class="row">
-                @foreach (var item in Model)
-                {
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <div class="box">
-                            <a href="@Url.Action("list", "item", new { id = item.Product1.Id })">
-                                <div class="img-box">
-                                    <img src="@Url.Action("getcached", "image", new { id = item.Image1.Id } )" alt="">
-                                </div>
-                                <div class="detail-box">
-                                    <h6>
-                                        @item.Product1.Brand @item.Product1.ProductType @item.Product1.Model
-                                    </h6>
-                                    <h6 class="price">
-                                        售價:
-                                        <span>
-                                            @(item.Price)起
-                                        </span>
-                                    </h6>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                }
-            </div>
-            <!--<div class="btn-box">
-                <a href="">
-                    瀏覽所有商品
-                </a>
-            </div>-->
-        </div>
-    </section>
-
+    <!-- end news section -->
     <!-- info section -->
-
-    <section class="info_section  layout_padding2-top">
-
+    <section class="info_section">
         <div class="info_container ">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 col-lg-3">
+                    <div class="col">
                         <h6>
                             關於我們
                         </h6>
@@ -231,20 +172,7 @@
                             一個致力於比價家電的網站
                         </p>
                     </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="info_form ">
-                            <form action="#">
-                                <input type="email" placeholder="輸入您的email">
-                                <button>
-                                    訂閱
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-
-                    </div>
-                    <div class="col-md-6 col-lg-3">
+                    <div class="col">
                         <h6>
                             聯絡我們
                         </h6>
@@ -259,19 +187,15 @@
                             </a>
                             <a href="">
                                 <i class="fa fa-envelope" aria-hidden="true"></i>
-                                <span> 範例@ulive.pccu.edu.tw</span>
+                                <span> iiihomeappliances@gmail.com</span>
                             </a>
                         </div>
                     </div>
-                </div>
-                <div class="col-3">
-
                 </div>
             </div>
         </div>
 
     </section>
-
     <!-- end info section -->
 
 </body>

@@ -1,0 +1,43 @@
+﻿[v-cloak] {
+    display: none !important;
+}
+
+.hidden {
+    display: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.pfp-sm {
+    width: 40px;
+    height: 40px;
+    border: solid 1px #D8DEE9;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.pfp-md {
+    width: 50px;
+    height: 50px;
+    border: solid 1px #D8DEE9;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.pfp {
+    width: 70px;
+    height: 70px;
+    border: solid 1px #D8DEE9;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.pfp-lg {
+    width: 128px;
+    height: 128px;
+    border: solid 1px #D8DEE9;
+    border-radius: 50%;
+    object-fit: cover;
+}

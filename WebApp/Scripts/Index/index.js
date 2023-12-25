@@ -12,26 +12,37 @@
 })
 
 var newsJson;
+var curr = 0;
+var pages;
 
-$.ajax({
-    type: "GET",
-    url: "/news/getallnews",
-    async: false,
-    success: (data) => {
-        newsJson = data;
-        displayNews(newsJson);
-    },
-    error: (err) => {
-        console.log(err);
-    }
-});
+getNews();
 
-if (Object.keys(newsJson).length) {
-    displayNewsDetail(0);
+function getNews(page = 1) {
+    $.ajax({
+        type: "GET",
+        url: "/news/getAllNews?page=" + page,
+        success: (data) => {
+            newsJson = data;
+
+            if (Object.keys(newsJson).length) {
+                displayNewsDetail(0);
+            }
+
+            displayNews(newsJson);
+
+            $.get("/news/getPageCount", null, (data) => {
+                pages = data.pages
+                setPagination(pages);
+            });
+        },
+        error: (err) => {
+            console.log(err);
+        }
+    });
 }
 
 function displayNews(news) {
-    const newsEles = $(".news-item-empty");
+    const newsEles = $(".news-item");
 
     for (let i = 0; i < 4; i++) {
         if (i >= Object.keys(news).length) {
@@ -46,12 +57,10 @@ function displayNews(news) {
         if (days >= 365) {
             days = Math.floor(days / 365);
             days = days + "年前";
-        }
-        if (days >= 30) {
+        } else if (days >= 30) {
             days = Math.floor(days / 30);
             days = days + "個月前";
-        }
-        if (days >= 1) {
+        } else if (days >= 1) {
             days = Math.floor(days);
             days = days + "天前";
         } else {
@@ -60,12 +69,14 @@ function displayNews(news) {
 
         if (news[i].Type) {
             el.addClass("news-item-danger");
+        } else {
+            el.removeClass("news-item-danger");
         }
 
         el.attr("onclick", `displayNewsDetail(${i})`);
         el.find("small").text(days);
         el.find("h5").text(news[i].Title);
-        el.find("p").text(news[i].Content);
+        el.find("p").text(removeTag(newsJson[i].Content));
     }
 }
 
@@ -86,5 +97,82 @@ function displayNewsDetail(i) {
     el.find(".news-title").text(newsJson[i].Title);
     el.find(".news-date").text(newsJson[i].CreatedDate);
     el.find(".news-type").text(type);
-    el.find(".news-content").text(newsJson[i].Content);
+    el.find(".news-content").html(addLink(newsJson[i].Content));
+}
+
+function setPagination(pages) {
+    if (curr < 3) {
+        for (let i = 0; i < 3; i++) {
+            if (i >= pages) {
+                $(`#page-${i}`).addClass("disabled").attr("onclick", "");
+                $(`#page-${i}>div`).text(i + 1);
+            } else {
+                $(`#page-${i}`).removeClass("disabled").attr("onclick", `changePage(${i})`);
+                $(`#page-${i}>div`).text(i + 1).addClass("cursor-pointer");
+            }
+        }
+    } else {
+        let offset = Math.floor(curr / 3) * 3;
+        for (let i = 0; i < 3; i++) {
+            if (i + offset >= pages) {
+                $(`#page-${i}`).addClass("disabled").attr("onclick", "");
+                $(`#page-${i}>div`).text(i + 1 + offset);
+            } else {
+                $(`#page-${i}`).removeClass("disabled").attr("onclick", `changePage(${i + offset})`);
+                $(`#page-${i}>div`).text(i + 1 + offset).addClass("cursor-pointer");
+            }
+        }
+    }
+
+    for (let i = 0; i < 3; i++) {
+        $(`#page-${i}`).removeClass("active");
+    }
+    $(`#page-${curr % 3}`).addClass("active");
+
+    if (pages > 3 && !(Math.ceil((curr + 1) / 3) === Math.ceil(pages / 3))) {
+        $("#next").removeClass("disabled");
+        $("#next>div").addClass("cursor-pointer");
+    } else {
+        $("#next").addClass("disabled");
+        $("#next>div").removeClass("cursor-pointer");
+    }
+
+    if (curr < 3) {
+        $("#prev").addClass("disabled");
+        $("#prev>div").removeClass("cursor-pointer");
+    } else {
+        $("#prev").removeClass("disabled");
+        $("#prev>div").addClass("cursor-pointer");
+    }
+}
+
+function changeSection(direction) {
+    if (direction) {
+        curr = curr + 3;
+        if (curr >= pages) {
+            curr = pages - 1;
+        }
+    } else {
+        curr = curr - 3;
+        if (curr < 0) {
+            curr = 0;
+        }
+    }
+
+    getNews(curr + 1);
+}
+
+function changePage(pageNum) {
+    curr = pageNum;
+    getNews(curr + 1);
+}
+
+function addLink(news) {
+    const re = /\[(.+)\]\((https:\/\/.+)\)/;
+    return news.replace(re, "<a href='$2'>$1</a>").replace("\n", "<br>");
+}
+
+function removeTag(news) {
+    const re = /\[(.+)\]\(https:\/\/.+\)/;
+    return news.replace(re, "$1").replace("\n", " ");
 }

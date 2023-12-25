@@ -19,7 +19,7 @@ namespace WebApp.Controllers.Item
 
             if (Session["userId"] == null)
             {
-                json = "{\"isSucceed\":false,\"redirUrl\":\"/redirect/nologin\"}";
+                json = $"{{\"isSucceed\":false,\"referer\":\"/item/list/{productId}\"}}";
                 return Content(json, "application/json");
             }
 
@@ -42,7 +42,7 @@ namespace WebApp.Controllers.Item
                 return Content(json, "application/json");
             }
 
-            _db.TrackProduct.Add(new TrackProduct { Product = productId, Follower = mid });
+            _db.TrackProduct.Add(new TrackProduct { Product = productId, Follower = mid, FollowTime = DateTime.Now });
             _db.SaveChanges();
 
             json = "{\"isSucceed\":true}";

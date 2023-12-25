@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>專題展示頁面</title>
+
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="d-flex justify-content-center" style="margin:12em 0">
+        <div class="card mr-5" style="width: 25em;">
+            <div class="card-body">
+                <h3 class="card-title text-center">爬蟲展示</h3>
+                <div class="text-center my-5">
+                    <i class="fa fa-microscope fa-2x text-black-50" style="font-size:10em"></i>
+                </div>
+                <h5 class="card-text mb-4">更新資料庫中前10筆產品型號的價格資料。</h5>
+                <textarea id="output1" class="form-control mb-4" readonly></textarea>
+                <button id="btn-scraper" class="btn btn-primary form-control" onclick="runScraper()">開始執行</button>
+            </div>
+        </div>
+        <div class="card mr-5" style="width: 25em;">
+            <div class="card-body">
+                <h3 class="card-title text-center">優惠Email展示</h3>
+                <div class="text-center my-5">
+                    <i class="fa fa-paper-plane fa-2x text-black-50" style="font-size:10em"></i>
+                </div>
+                <h5 class="card-text mb-4">於資料庫中前10筆商品添加假的優惠價格，寄送email給追蹤該商品的使用者。</h5>
+                <textarea id="output2" class="form-control mb-4" readonly></textarea>
+                <button id="btn-email" class="btn btn-primary form-control" onclick="runEmail()">開始執行</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    <script>
+        function runScraper() {
+            $("#btn-scraper").attr("disabled", true).text("處理中")
+
+            $.get("/showcase/startRunning", data => {
+                $("#output1").val(data.msg);
+                $("#btn-scraper").attr("disabled", false).text("開始執行")
+            });
+        }
+
+        function runEmail() {
+            $("#btn-email").attr("disabled", true).text("處理中")
+
+            $.get("/showcase/fakeEmail", data => {
+                $("#output2").val(data.msg);
+                $("#btn-email").attr("disabled", false).text("開始執行")
+            });
+        }
+    </script>
+</body>
+</html>

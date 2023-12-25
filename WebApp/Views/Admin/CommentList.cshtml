@@ -1,0 +1,87 @@
+﻿@model IEnumerable<WebApp.Models.Comment>
+
+@{
+    ViewBag.Title = "CommentList";
+    ViewBag.Active = "cl";
+    Layout = "~/Views/Shared/Admin.cshtml";
+}
+
+@section scripts {
+    <script src="~/Scripts/Admin/comment-list.js"></script>
+}
+
+<nav>
+    <div class="row mb-2">
+        <div class="col">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">評論列表</li>
+            </ol>
+        </div>
+    </div>
+</nav>
+<hr />
+<div class="row">
+    <div class="col-lg-3">
+        <div class="form-group">
+            <input id="query" class="form-control" type="text" name="query" value="" placeholder="搜尋評論" onkeyup="searchComment()" />
+        </div>
+    </div>
+</div>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">產品型號</th>
+            <th scope="col">使用者</th>
+            <th class="text-center" scope="col">評分</th>
+            <th scope="col">內容</th>
+            <th scope="col">發布時間</th>
+            <th class="text-center" scope="col">狀態</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+
+            foreach (var item in Model)
+            {
+                <tr class="data-row">
+                    <th>@(i++)</th>
+                    <td><a class="product" href="/item/list/@item.Product">@item.Product1.Brand @item.Product1.Model @item.Product1.ProductType</a></td>
+                    <td><a class="username" href="/admin/editMember/@item.Author">@item.Member.Username</a></td>
+                    <td class="text-center">@item.Rating</td>
+                    <td class="overflow-hidden">@item.Content</td>
+                    <td>@item.CreatedDate</td>
+
+                    @if (item.IsHidden)
+                    {
+                        <td class="text-center text-secondary"><i class="fa fa-eye-slash"></i></td>
+                    }
+                    else
+                    {
+                        <td class="text-center"><i class="fa fa-eye"></i></td>
+                    }
+
+                    <td class="text-right">
+                        <div class="dropdown show">
+                            <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer dropdown" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/admin/commentDetail/@item.Id">詳細資料</a>
+                                @if (item.IsHidden)
+                                {
+                                    <div class="dropdown-item text-danger cursor-pointer" onclick="showComment(@item.Id)">解除隱藏評論</div>
+                                }
+                                else
+                                {
+                                    <div class="dropdown-item text-danger cursor-pointer" onclick="hideComment(@item.Id)">隱藏評論</div>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

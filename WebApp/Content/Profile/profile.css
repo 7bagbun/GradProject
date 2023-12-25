@@ -4,17 +4,18 @@
 
 .card {
     margin-top: 5em;
+    background-color: #eceff4;
 }
 
 .tab {
     height: 4em;
-    border-bottom: solid #ffb7c7 4px;
+    border-bottom: solid #2E3440 4px;
     cursor: pointer
 }
 
 .tab-active {
-    border-bottom: solid #DB4566 4px;
-    background-image: linear-gradient(to top, rgba(255,0,0,0.5) 0%, rgba(255,0,0,0) 20%);
+    border-bottom: solid #88C0D0 4px;
+    background-image: linear-gradient(to top, #D8DEE9 0%, rgba( 0, 0, 0, 0)  30%);
 }
 
 .card-no-border .card {
@@ -102,10 +103,6 @@ p {
     margin-bottom: 1rem
 }
 
-.dropdown {
-    cursor: pointer;
-}
-
 .data-row {
     padding: 1.4em 0;
 }
@@ -154,3 +151,8 @@ p {
     width: 120px;
 }
 
+.product-image {
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+}

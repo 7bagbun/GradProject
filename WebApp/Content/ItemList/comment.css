@@ -1,14 +1,5 @@
-﻿#content-area {
-}
-
-#comments .list-group-item .col {
-    padding-right: 0;
-    padding-left: 0;
-}
-
-#comments .list-group-item {
-    margin-right: 0;
-    margin-left: 0;
+﻿#comments {
+    margin-bottom: 4em;
 }
 
 .text-counter {
@@ -47,7 +38,6 @@
     border: 1px solid #AAA;
     border-radius: 50%;
     display: block;
-    margin: auto;
     object-fit: cover;
 }
 
@@ -58,7 +48,11 @@
 
 .comment-owner {
     color: #007bff;
-    margin-left: 0.7em
+}
+
+.comment-container {
+    max-width: 900px;
+    margin: auto;
 }
 
 .tool-btn {

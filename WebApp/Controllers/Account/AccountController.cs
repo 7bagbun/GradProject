@@ -1,8 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Remoting;
 using System.Web.Mvc;
 using WebApp.Models;
-using WebApp.Models.ViewModels;
 
 namespace WebApp.Controllers.Account
 {
@@ -10,7 +11,24 @@ namespace WebApp.Controllers.Account
     {
         private readonly TestDbEntities _db = new TestDbEntities();
 
-        public ActionResult Login(string username, string passwd)
+        public ActionResult LoginPage(string referer)
+        {
+            if (Session["userId"] != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            //prevent redirect to another domain
+            if (referer.Contains("https://") || referer.Contains("http://"))
+            {
+                referer = "";
+            }
+
+            ViewBag.Referer = referer;
+            return View();
+        }
+
+        public ActionResult Login(string username, string passwd, string referer)
         {
             try
             {
@@ -25,25 +43,30 @@ namespace WebApp.Controllers.Account
                 {
                     return Json(new { result = false, msg = "請先完成信箱驗證後再登入" });
                 }
-
-                if (target.IsAdmin)
+                else if (target.Suspended)
                 {
-                    Session["admin"] = true;
-                }
-                else
-                {
-                    Session["admin"] = false;
+                    return Json(new { result = false, msg = "此帳號已被停權" });
                 }
 
                 Session["user"] = target.Username;
                 Session["userId"] = target.Id;
-                return Json(new { result = true, msg = "登入成功" });
+
+                if (target.IsAdmin)
+                {
+                    Session["admin"] = true;
+                    RecordLogin(target.Id, Request.UserHostAddress);
+                    return Json(new { result = true, msg = "登入成功", admin = true, redirUrl = "/admin/dashboard" });
+                }
+
+                RecordLogin(target.Id, Request.UserHostAddress);
+                return Json(new { result = true, msg = "登入成功", referer });
             }
             catch (Exception)
             {
                 return new HttpStatusCodeResult(500);
             }
         }
+
         public ActionResult Logout()
         {
             Session["userId"] = null;
@@ -144,6 +167,24 @@ namespace WebApp.Controllers.Account
             var target = _db.Member.FirstOrDefault(x => x.Id == id);
 
             return View(target);
+        }
+
+        public ActionResult IsLogin()
+        {
+            if (Session["userId"] != null)
+            {
+                return Content("{\"isLogin\":true}", "application/json");
+            }
+            else
+            {
+                return Content("{\"isLogin\":false}", "application/json");
+            }
+        }
+
+        private void RecordLogin(int id, string ip)
+        {
+            _db.LoginRecord.Add(new LoginRecord { Member = id, IP = ip, LoginTime = DateTime.Now });
+            _db.SaveChanges();
         }
     }
 }

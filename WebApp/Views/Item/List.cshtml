@@ -1,6 +1,4 @@
-﻿@model WebApp.Models.ViewModels.ItemListViewModel
-
-@{
+﻿@{
     ViewBag.Title = "List";
 }
 
@@ -10,15 +8,28 @@
         var tab = "@ViewBag.Tab";
     </script>
 
-    <script src="~/Scripts/ItemList/image-list.js"></script>
-    <script src="~/Scripts/ItemList/load-comment.js"></script>
-    <script src="~/Scripts/ItemList/track-item.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.9/vue.global.min.js"
+            integrity="sha512-01DXK8J/RTf+INWJaGSa1a8ePsny+wTV63r5e+qcW4Gx7cgYKeX7uNvJminP4WvBthCi03aWdTmGLcZk/DTKKQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/ItemList/comments.js"></script>
+    <script src="~/Scripts/ItemList/image-list.js"></script>
+    <script src="~/Scripts/ItemList/track-item.js"></script>
     <script src="~/Scripts/ItemList/price-chart.js"></script>
     <script src="~/Scripts/ItemList/page-init.js"></script>
+    <script src="~/Scripts/ItemList/sort-list.js"></script>
+
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.9/vue.global.prod.min.js"
+            integrity="sha512-pe96gClqJEgPDqobJ8ksfdPtRLU08afWRzJQO08/YSNvSQ5yBNcTWyEV2kViRAUis83JgOKI20jH7FiIwFepcw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    -->
 }
 
 @section css {
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/ItemList/item-list.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/ItemList/star-rating.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/ItemList/comment.css" />
@@ -26,17 +37,20 @@
 
 <div class="container item-header">
     <div class="row">
-        <div class="col-2">
-            <img src="@Url.Action("get", "image", new { id = Model.Items.First().Image })" class="image"
-                 style="max-width:150px" />
+        <div class="col-lg">
+            <div class="d-flex align-items-center">
+                <h2 id="title" class="d-inline-block mr-4">@($"{ViewBag.Brand} {ViewBag.Model} {ViewBag.Type} ")價格列表</h2>
+                <button class="btn btn-danger" onclick="track(@ViewBag.ProductId)" style="min-width:80px">
+                    <i id="follow" class="far fa-heart follow"> 追蹤</i>
+                </button>
+            </div>
+            <p class="text-muted">更新於 @ViewBag.UpdatedTime</p>
+            <a class="d-block text-center" href="@Url.Action("get", "image", new { id = ViewBag.Image })" target="_blank">
+                <img src="@Url.Action("get", "image", new { id = ViewBag.Image })" class="image"
+                     style="max-width:250px" />
+            </a>
         </div>
-        <div class="col">
-            <h2 id="title">@($"{ViewBag.Brand} {ViewBag.Model} {ViewBag.Type} ")價格列表</h2>
-            <button class="btn btn-danger" onclick="track(@ViewBag.ProductId)">
-                <i id="follow" class="far fa-heart follow"> 追蹤</i>
-            </button>
-        </div>
-        <div class="col">
+        <div class="col-lg d-flex justify-content-center">
             <div id="main" style="width: 600px;height:400px;"></div>
         </div>
     </div>
@@ -52,107 +66,197 @@
     </ul>
     <div class="tab-content" id="tabContent">
         <div class="tab-pane fade show active" id="list-section" role="tabpanel">
-            <div class="row title-bar">
-                <div class="col-5 offset-2">
-                    賣場標題
+            <div class="filter d-flex justify-content-between p-3 mb-3 rounded-lg">
+                <div class="d-flex align-items-center">
+                    <button @@click="sortByPrice" class="btn btn-primary mr-4">依價格排序 <i :class="{'rotate-180': priceOrderDesc}" class="fa fa-arrow-down rotate"></i></button>
+                    <span class="mx-3">賣場來源：</span>
+                    <select v-model="source" class="d-inline form-control w-auto">
+                        <option value="all">全部</option>
+                        <option value="PChome24H購物網">PChome24H</option>
+                        <option value="PChome商店街">PChome商店街</option>
+                        <option value="momo購物網">momo購物網</option>
+                    </select>
                 </div>
-                <div class="col-1">
-                    來源
+                <div v-cloak class="d-flex align-items-center">
+                    共有{{items.length}}筆結果
                 </div>
-                <div class="col-1">
-                    售價
-                </div>
-                <div class="col-2">
-                    更新時間
-                </div>
-                <div class="col-1">
-                    <a href="top"></a>
+                <div class="d-flex align-items-center">
+                    <span class="mx-3">價格範圍：</span>
+                    <input @@change="onInputLow" class="form-control" type="text" name="low" value="" />
+                    <span class="mx-3">~</span>
+                    <input @@change="onInputHigh" class="form-control" type="text" name="high" value="" />
                 </div>
             </div>
-            @foreach (var item in Model.Items)
-            {
-                <div class="row align-items-center">
-                    <div class="col-2">
-                        <img src="@Url.Action("get", "image", new { id = item.Image })" id="img-@(item.Image)" class="image"
-                             style="max-width:150px" onclick="displayImage(@item.Image)" />
-                    </div>
-                    <div class="col-5">
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </div>
-                    <div class="col-1">
-                        @item.Source1.SourceName
-                    </div>
-                    <div class="col-1">
-                        @item.Price.ToString("C0")
-                    </div>
-                    <div class="col-2">
-                        @Html.DisplayFor(modelItem => item.UpdatedTime)
-                    </div>
-                    <div class="col-1">
-                        <a href="@(item.Source1.Domain + item.Link)" class="btn btn-info" target="_blank">前往購買</a>
+            <div class="gallery">
+                <div v-cloak class="item" v-for="item in filteredList">
+                    <div class="d-flex rounded-lg p-3 mb-3" style="background-color:#eee;">
+                        <div class="mr-4">
+                            <a :href="item.image" target="_blank">
+                                <img :src="item.image" id="img-" class="image rounded-lg"
+                                     style="max-width:150px" />
+                            </a>
+                        </div>
+                        <div class="d-flex flex-column justify-content-between" style="flex:1;">
+                            <div class="d-flex">
+                                <div class="mr-3">
+                                    <img class="pfp-md" :src="item.sourceImage" />
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">{{item.title}}</h5>
+                                    <p class="text-secondary">{{item.source}}</p>
+                                    <span id="price" class="hidden">{{item.price}}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0 text-success font-weight-bold">{{item.fprice}}</h3>
+                                <a :href="item.url" class="btn btn-info" target="_blank">前往購買 <i class="fa fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            }
+            </div>
         </div>
-        <div class="tab-pane fade" id="comment-section" role="tabpanel" aria-labelledby="profile-tab">
-            <div>
-                <div class="container">
-                    @using (Html.BeginForm(Model.Comment == null ? "create" : "edit", "comment", FormMethod.Post, new { id = "post-form" }))
-                    {
+        <div class="tab-pane fade comment-container" id="comment-section" role="tabpanel" aria-labelledby="profile-tab">
+            <div id="app-comment">
+                <div v-if="articles.length === 0 && comments.length === 0" class="my-5">
+                    <h2 class="text-secondary text-center m-0 mb-2">目前沒有評論或相關討論文章</h2>
+                    <p class="text-center text-secondary">於下方撰寫第一個評論</p>
+                </div>
+                <div class="article-container">
+                    <div v-cloak v-for="item in articles" id="temp-article" class="container comment">
+                        <div class="d-flex justify-content-center">
+                            <img :src="item.image" class="profile-picture mr-4" />
+                            <div class="list-group">
+                                <div class="row list-group-item comment-header mx-0">
+                                    <div class="col px-0">
+                                        <a class="comment-author" :href="item.link" target="_blank">{{item.title}}</a>
+                                    </div>
+                                </div>
+                                <div class="row list-group-item comment-body mx-0">
+                                    <div class="col comment-content px-0">
+                                        {{item.content}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="comment-container">
+                    <div v-cloak v-for="item in comments" id="comment-template" class="container comment">
+                        <div class="d-flex justify-content-center">
+                            <img :src="'/member/getPfpByUsername?username=' + item.Author" class="profile-picture mr-4" />
+                            <div class="list-group flex-grow-1">
+                                <div class="row list-group-item comment-header mx-0">
+                                    <div class="col-md px-0">
+                                        <span :class="{'comment-owner': item.IsAuthor}" class="comment-author">{{item.Author}}</span>
+                                        <span class="comment-date">{{getDaysFromToday(item.CreatedAt)}}</span>
+                                    </div>
+                                    <div v-html="getStars(item.Rating)" class="col-md-3 comment-stars px-0"></div>
+                                    <div class="col-md comment-btn px-0">
+                                        <div class="dropdown">
+                                            <i class="fas fa-ellipsis-h fa-lg text-secondary cursor-pointer" data-toggle="dropdown"></i>
+                                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(214px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                <a v-if="item.IsAuthor" @@click="deleteComment(item.Id)" class="dropdown-item cursor-pointer text-danger text-center">刪除留言</a>
+                                                <a v-else @@click="selectReport(item.Id)" class="dropdown-item cursor-pointer text-danger text-center">檢舉留言</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group-item comment-body flex-fill mx-0">
+                                    <div class="col-lg comment-content px-0">
+                                        {{item.Content}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-5" />
+                <div class="edit-container container">
+                    <form @@submit="submitComment" id="comment-form" action="/comment/@(ViewBag.Comment == null ? "create" : "edit")" method="post">
                         @Html.AntiForgeryToken()
-                        <div class="row">
-                            <div class="col">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
                                 <div class="star-rating">
                                     <div class="star-input">
-                                        <input type="radio" name="rating" id="rating-5" value="5" required @(Model.Comment?.Rating == 5 ? "checked" : "")>
+                                        <input v-model="myComment.Rating" :disabled="!isLogin" type="radio" name="rating" id="rating-5" value="5">
                                         <label for="rating-5" class="fa fa-star"> </label>
 
-                                        <input type="radio" name="rating" id="rating-4" value="4" @(Model.Comment?.Rating == 4 ? "checked" : "")>
+                                        <input v-model="myComment.Rating" :disabled="!isLogin" type="radio" name="rating" id="rating-4" value="4">
                                         <label for="rating-4" class="fa fa-star"> </label>
 
-                                        <input type="radio" name="rating" id="rating-3" value="3" @(Model.Comment?.Rating == 3 ? "checked" : "")>
+                                        <input v-model="myComment.Rating" :disabled="!isLogin" type="radio" name="rating" id="rating-3" value="3">
                                         <label for="rating-3" class="fa fa-star"> </label>
 
-                                        <input type="radio" name="rating" id="rating-2" value="2" @(Model.Comment?.Rating == 2 ? "checked" : "")>
+                                        <input v-model="myComment.Rating" :disabled="!isLogin" type="radio" name="rating" id="rating-2" value="2">
                                         <label for="rating-2" class="fa fa-star"> </label>
 
-                                        <input type="radio" name="rating" id="rating-1" value="1" @(Model.Comment?.Rating == 1 ? "checked" : "")>
+                                        <input v-model="myComment.Rating" :disabled="!isLogin" type="radio" name="rating" id="rating-1" value="1">
                                         <label for="rating-1" class="fa fa-star"> </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
+                        <div class="row justify-content-center">
+                            <div class="col-8">
                                 <input type="text" name="product" class="hidden" value="@ViewBag.ProductId" />
-                                <textarea type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。" required
-                                          onkeyup="updateCount(this)" style="height: 250px" disabled>@(Model.Comment?.Content)</textarea>
-                                <p class="text-counter"><span id="text-count">@(Model.Comment?.Content.Length ?? 0)</span>/500</p>
-                                @if (Session["userId"] == null)
-                                {
-                                    <input type="submit" id="btn-post" class="btn btn-info form-control" value="登入後即可發布評論" disabled />
-                                }
-                                else if (Model.Comment != null)
-                                {
-                                    <input type="submit" id="btn-post" class="btn btn-info form-control" value="編輯並儲存" />
-                                }
-                                else
-                                {
-                                    <input type="submit" id="btn-post" class="btn btn-info form-control" value="發布" />
-                                }
+                                <textarea v-model="myComment.Content" :disabled="!isLogin" type="text" name="content" id="content-area" class="form-control" placeholder="評論內容，限500字。"
+                                          style="height: 250px" :value="myComment.Content"></textarea>
+                                <p class="text-counter"><span id="text-count" :class="warningLength">{{textCount}}</span>/500</p>
+                                <input :disabled="!validateMyComment" type="submit" id="btn-post" class="btn btn-info form-control" :value="saveButtonText" />
                             </div>
                         </div>
-                    }
+                    </form>
+                </div>
+                <div class="modal-container">
+                    <div id="report-modal" class="modal fade">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">檢舉評論</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form @@submit="submitReport" id="form-report" action="/comment/report" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="target">由 {{getReportComment.Author}} 撰寫：</label>
+                                            <input :value="getReportComment.Content" id="target" class="form-control bg-white" type="text" name="target" disabled />
+                                        </div>
+                                        <hr class="my-4" />
+                                        <input id="comment" name="comment" class="hidden" type="text" :value="getReportComment.Id" />
+                                        <div class="form-group">
+                                            <label for="reasonTemp">檢舉原因範本：</label>
+                                            <select v-model="report.temp" id="reasonTemp" name="reasonTemp" class="form-control">
+                                                <option value="0" disabled selected>選擇項目</option>
+                                                <option value="無關或是離題的評論">無關或是離題的評論</option>
+                                                <option value="評論內容有明顯的廣告嫌疑">評論內容有明顯的廣告嫌疑</option>
+                                                <option value="評論內容有不恰當的用詞">評論內容有不恰當的用詞（性暗示、髒話、辱罵等）</option>
+                                                <option value="其他">其他（請撰寫於詳細原因中）</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reportReason">詳細原因：</label>
+                                            <textarea v-model="report.reason" id="reportReason" name="reportReason" class="form-control" placeholder="最多500字" style="min-height:2.3em;height:200px"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary mr-4" data-dismiss="modal">取消</button>
+                                        <button :disabled="!validateReport" type="submit" class="btn btn-danger">檢舉</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div id="comments"></div>
-
         </div>
     </div>
+</div>
 
-    <div class="top">
-        <a href="#top">&lt;回到最上方&gt;</a>
-    </div>
+<div class="top">
+    <a href="#top">&lt;回到最上方&gt;</a>
 </div>
 
 <div id="image-modal" class="display-modal">
@@ -160,5 +264,3 @@
     <img class="modal-content" id="display">
     <div id="caption"></div>
 </div>
-
-@Scripts.Render("~/bundles/jquery")

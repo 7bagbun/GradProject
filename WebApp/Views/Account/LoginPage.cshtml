@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "LoginPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts {
+    <script src="~/Scripts/Login/login.js"></script>
+}
+
+@section css {
+    <link href="~/Content/Register/register.css" rel="stylesheet" />
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">登入會員</h2>
+
+                    @using (Html.BeginForm("login", "account", FormMethod.Post, new { id = "page-login" }))
+                    {
+                        <div class="form-horizontal">
+                            <input id="referer" class="hidden" type="text" name="referer" value="@ViewBag.Referer" />
+
+                            <div class="form-group mb-5">
+                                <label class="control-label"><i class="fa fa-user" style="font-size:20px;"></i> 帳號</label>
+                                <input id="username-page" class="form-control" type="text" name="username" value="" />
+                            </div>
+
+                            <div class="form-group mb-5">
+                                <label class="control-label"><i class="fa fa-lock" style="font-size:20px;"></i> 密碼</label>
+                                <input id="passwd-page" class="form-control" type="password" name="passwd" value="" />
+                            </div>
+
+                            <div class="form-group">
+                                <button id="submit-page" class="btn btn-primary form-control">登入</button>
+                            </div>
+
+                            <p class="text-danger mb-0"></p>
+                        </div>
+                    }
+
+                    <p id="msg">@ViewBag.Message</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")

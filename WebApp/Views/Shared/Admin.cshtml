@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>愛家電</title>
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap.css" />
+    <!-- Custom styles for this template -->
+    <link href="~/Content/Index/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="~/Content/Index/responsive.css" rel="stylesheet" />
+
+    <!-- global style -->
+    <link href="~/Content/global.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Login/login-modal.css" />
+
+    <!-- Site Metas -->
+    <link rel="shortcut icon" href="~/images/favicon.png" type="~/image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"
+          integrity="sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- admin -->
+    <link rel="stylesheet" type="text/css" href="~/Content/Admin/layout.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/shared.css" />
+
+
+    @RenderSection("css", required: false)
+
+</head>
+<body>
+    <nav class="navbar navbar-dark sticky-top bg-dark p-0 flex-md-nowrap shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="/admin/dashboard">愛家電管理員後台</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="nav navbar-nav flex-row justify-content-end px-3">
+            @if (Session["admin"] != null)
+            {
+                <li class="nav-item text-nowrap mr-4">
+                    <span class="navbar-text">您好，@Session["user"]</span>
+                </li>
+            }
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="/account/logout"><i class="fas fa-sign-out-alt"></i> 登出</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-2 sidebar">
+                <div class="sidebar-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a id="db" class="nav-link" href="/admin/dashboard"><i class="mr-2 fas fa-tachometer-alt"></i>Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="ml" class="nav-link" href="/admin/memberList"><i class="mr-2 fas fa-users"></i>會員管理</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="al" class="nav-link" href="/admin/announcementList"><i class="mr-2 fas fa-bullhorn"></i>公告列表</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="cl" class="nav-link" href="/admin/commentList"><i class="mr-2 far fa-comment-dots"></i>評論列表</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="rl" class="nav-link" href="/admin/reportList"><i class="mr-2 fa fa-exclamation-triangle"></i>檢舉案件</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="pl" class="nav-link" href="/admin/productList"><i class="mr-2 fa fa-list"></i>產品列表</a>
+                        </li>
+                    </ul>
+                    <hr />
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/account/showProfile" target="_blank"><i class="mr-2 fas fa-user-circle"></i>個人資料</a>
+                        </li>
+                        <li>
+                            <a class="nav-link active" href="/" target="_blank"><i class="mr-2 fas fa-external-link-alt"></i>回到前台</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <main class="col-10 p-4 ml-auto">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/Login/login-modal.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>$("#@ViewBag.Active").addClass(["active", "active-tab"]);</script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
